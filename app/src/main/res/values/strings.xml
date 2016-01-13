@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">SistemasDinamicos</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_boleta">Número de boleta</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Iniciar Sesión</string>
+    <string name="error_invalid_email">Número de boleta incorrecto</string>
+    <string name="error_incorrect_password">El password es incorrecto</string>
+    <string name="error_invalid_password">Password invalido</string>
+    <string name="error_field_required">Campo requerido</string>
+    <string name="navigation_drawer_open">Abrir </string>
+    <string name="navigation_drawer_close">Cerrar</string>
+    <string name="action_settings">Opciones</string>
+    <string name= "produccion">Producción</string>
+    <string name="selecciona">Selecciona el valor Maximo y el Minimo para tu almacen</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="inversion">Invertir en Materia Prima</string>
+    <string name="max">Maximo:</string>
+    <string name="min">Minimo:</string>
+</resources>
