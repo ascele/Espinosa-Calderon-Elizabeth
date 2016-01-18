@@ -24,32 +24,23 @@
     <EditText
         android:id="@+id/edt_producto"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:inputType="number"
-        android:background="@drawable/underline"
         android:layout_below="@+id/txtvwextra"
         />
-    <TextView
-        android:id="@+id/aux"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_producto"
-        android:layout_centerHorizontal="true"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn_aceptar1"
         android:text="@string/aceptar"
-        android:layout_below="@+id/aux"
-        android:layout_toLeftOf="@+id/aux"
-        android:layout_toStartOf="@+id/aux" />
+        android:layout_below="@+id/edt_producto"
+        android:layout_centerHorizontal="true"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn_cancelar1"
         android:text="@string/cancelar"
-        android:layout_below="@+id/aux"
-        android:layout_toRightOf="@+id/aux"
-        android:layout_toEndOf="@+id/aux" />
+        android:layout_below="@+id/btn_aceptar1"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

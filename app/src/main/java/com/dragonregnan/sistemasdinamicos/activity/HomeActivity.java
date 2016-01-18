@@ -477,13 +477,13 @@ public class HomeActivity extends AppCompatActivity
                 dialog.setTitle("Producción");
                 dialog.show();
                 TextView explica = (TextView) dialog.findViewById(R.id.txtvw_explica);
-                String exp = "Tu capacidad de producciones de "+ maxProduccion+" piezas por dia";
+                String exp = "Tu capacidad de produccion es de "+ maxProduccion+" piezas por dia";
                 explica.setText(exp);
                 Button dialogAceptar = (Button) dialog.findViewById(R.id.btn_aceptar1);
                 dialogAceptar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EditText producto = (EditText) dialog.findViewById(R.id.producto);
+                        EditText producto = (EditText) dialog.findViewById(R.id.edt_producto);
                         int  produciraux = Integer.parseInt(producto.getText().toString());
                         if( produciraux < maxProduccion){
                             producir = produciraux;
