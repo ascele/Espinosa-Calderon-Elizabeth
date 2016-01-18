@@ -13,6 +13,8 @@ public class nivelesVariablesModel {
 
     private int actual;
 
+    private int minimoDeseado;
+
     public int getIdEmpresa(){
         return idEmpresa;
     }
@@ -29,6 +31,10 @@ public class nivelesVariablesModel {
         return actual;
     }
 
+    public int getMinimoDeseado(){
+        return minimoDeseado;
+    }
+
     public void setIdEmpresa( int idEs){
         idEmpresa= idEs;
     }
@@ -43,5 +49,9 @@ public class nivelesVariablesModel {
 
     public void setActual( int at){
         actual = at;
+    }
+
+    public void setMinimoDeseado( int minDS ){
+        minimoDeseado = minDS;
     }
 }

@@ -21,4 +21,5 @@ public class nivelesVariablesDAO {
     public static final String IDALMACEN = "idalmacen";
     public static final String DESEADO = "deseado";
     public static final String ACTUAL = "actual";
+    public static final String MINIMODESEADO = "minimodeseado";
 }

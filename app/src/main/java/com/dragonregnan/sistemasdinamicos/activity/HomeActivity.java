@@ -1,6 +1,7 @@
 package com.dragonregnan.sistemasdinamicos.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dragonregnan.sistemasdinamicos.R;
 
@@ -24,10 +29,21 @@ import com.dragonregnan.sistemasdinamicos.R;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private int int_mat1_nvl_max= 10;
-    private int int_mat1_nvl_min= 10;
+    private int int_mat1_nvl_max = 10;
+    private int int_mat1_nvl_min = 0;
     private View nvl_max_1 ;
     private View nvl_min_1 ;
+    private int int_mat2_nvl_max = 10;
+    private int int_mat2_nvl_min = 0;
+    private View nvl_max_2 ;
+    private View nvl_min_2 ;
+    private int int_mat3_nvl_max = 10;
+    private int int_mat3_nvl_min = 0;
+    private View nvl_max_3 ;
+    private View nvl_min_3 ;
+    private int producir = 0;
+    private int produciendo = 0;
+    private int maxProduccion = 20;
 
 
     @Override
@@ -54,12 +70,25 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        final TextView material1_superior = (TextView) findViewById(R.id.material1_superior);
-        final TextView material1_inferior = (TextView) findViewById(R.id.material1_inferior);
-        nvl_max_1 =  findViewById(R.id.nvl_max_1);
+
+        final LinearLayout material1 = (LinearLayout) findViewById(R.id.material1);
+
+        final LinearLayout material2 = (LinearLayout) findViewById(R.id.material2);
+
+        final LinearLayout producto = (LinearLayout) findViewById(R.id.producto);
+
+        final ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
+
+        nvl_max_1 = findViewById(R.id.nvl_max_1);
         nvl_min_1 = findViewById(R.id.nvl_min_1);
 
-        material1_superior.setOnClickListener(new View.OnClickListener() {
+        nvl_max_2 = findViewById(R.id.nvl_max_2);
+        nvl_min_2 = findViewById(R.id.nvl_min_2);
+
+        nvl_max_3 = findViewById(R.id.nvl_max_3);
+        nvl_min_3 = findViewById(R.id.nvl_min_3);
+
+        material1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Dialog dialog = new Dialog(HomeActivity.this);
@@ -67,6 +96,7 @@ public class HomeActivity extends AppCompatActivity
                 dialog.setTitle("Almacen");
                 dialog.show();
                 SeekBar seekBar =(SeekBar) dialog.findViewById(R.id.seekBar);
+                seekBar.setProgress(int_mat1_nvl_max);
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     int progressChanged = 0;
 
@@ -85,6 +115,7 @@ public class HomeActivity extends AppCompatActivity
                     }
                 });
                 SeekBar seekBar2 =(SeekBar) dialog.findViewById(R.id.seekBar2);
+                seekBar2.setProgress(int_mat1_nvl_min);
                 seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     int progressChanged = 0;
 
@@ -102,39 +133,45 @@ public class HomeActivity extends AppCompatActivity
                         int_mat1_nvl_min = seekBar2.getProgress();
                     }
                 });
-
-                //Log.d("mat1", String.valueOf(int_mat1));
                 Button dialogAceptar = (Button) dialog.findViewById(R.id.btn_aceptar);
                 dialogAceptar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        if(int_mat1_nvl_max>0){
-                        int margin = int_mat1_nvl_max * 10;
+                        if(int_mat1_nvl_max>int_mat1_nvl_min){
 
-                        RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_max_1.getLayoutParams();
-                        relativeParams.setMargins(0, margin, 0, 0);
-                        nvl_max_1.setLayoutParams(relativeParams);
+                        if(int_mat1_nvl_max>0){
+                            int margin = ((100-(int_mat1_nvl_max * 10))*2)-5;
+                            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_max_1.getLayoutParams();
+                            relativeParams.setMargins(0, margin, 0, 0);
+                            nvl_max_1.setLayoutParams(relativeParams);
                         }
                         if(int_mat1_nvl_max==0){
                             RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_max_1.getLayoutParams();
-                            relativeParams.setMargins(0, 95, 0, 0);
+                            relativeParams.setMargins(0, 190, 0, 0);
                             nvl_max_1.setLayoutParams(relativeParams);
                         }
 
                         if(int_mat1_nvl_min>0){
-                            int margin1 =100-(int_mat1_nvl_min * 10);
-
+                            int margin1 = ((100-( int_mat1_nvl_min * 10))*2)-5;
                             RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_min_1.getLayoutParams();
                             relativeParams.setMargins(0, margin1, 0, 0);
                             nvl_min_1.setLayoutParams(relativeParams);}
                         if(int_mat1_nvl_min==0){
                             RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_min_1.getLayoutParams();
-                            relativeParams.setMargins(0, 0, 0, 0);
+                            relativeParams.setMargins(0,190, 0, 0);
                             nvl_min_1.setLayoutParams(relativeParams);
                         }
+                            dialog.dismiss();
+                        }
+                        else{
+                            Context context = getApplicationContext();
+                            CharSequence text = "El nivel mínimo no puede ser mayor al nivel maximo";
+                            int duration = Toast.LENGTH_SHORT;
 
-                        dialog.dismiss();
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
+                        }
                     }
                 });
                 Button dialogCancelar = (Button) dialog.findViewById(R.id.btn_cancelar);
@@ -144,12 +181,337 @@ public class HomeActivity extends AppCompatActivity
                         dialog.dismiss();
                     }
                 });
-
             }
         });
+        material2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(HomeActivity.this);
+                dialog.setContentView(R.layout.dialog);
+                dialog.setTitle("Almacen");
+                dialog.show();
+                SeekBar seekBar =(SeekBar) dialog.findViewById(R.id.seekBar);
+                seekBar.setProgress(int_mat2_nvl_max);
+                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    int progressChanged = 0;
 
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        progressChanged = progress;
+                    }
 
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        // TODO Auto-generated method stub
+                    }
 
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        TextView textView = (TextView) dialog.findViewById(R.id.txtvw_estado);
+                        textView.setText(String.valueOf(seekBar.getProgress()));
+                        int_mat2_nvl_max = seekBar.getProgress();
+                    }
+                });
+                SeekBar seekBar2 =(SeekBar) dialog.findViewById(R.id.seekBar2);
+                seekBar2.setProgress(int_mat2_nvl_min);
+                seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    int progressChanged = 0;
+
+                    public void onProgressChanged(SeekBar seekBar2, int progress, boolean fromUser) {
+                        progressChanged = progress;
+                    }
+
+                    public void onStartTrackingTouch(SeekBar seekBar2) {
+                        // TODO Auto-generated method stub
+                    }
+
+                    public void onStopTrackingTouch(SeekBar seekBar2) {
+                        TextView textView2 = (TextView) dialog.findViewById(R.id.txtvw_estado2);
+                        textView2.setText(String.valueOf(seekBar2.getProgress()));
+                        int_mat2_nvl_min = seekBar2.getProgress();
+                    }
+                });
+                Button dialogAceptar = (Button) dialog.findViewById(R.id.btn_aceptar);
+                dialogAceptar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if(int_mat2_nvl_max>int_mat2_nvl_min){
+
+                            if(int_mat2_nvl_max>0){
+                                int margin = ((100-(int_mat2_nvl_max * 10))*2)-5;
+                                RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_max_2.getLayoutParams();
+                                relativeParams.setMargins(0, margin, 0, 0);
+                                nvl_max_2.setLayoutParams(relativeParams);
+                            }
+                            if(int_mat2_nvl_max==0){
+                                RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_max_2.getLayoutParams();
+                                relativeParams.setMargins(0, 190, 0, 0);
+                                nvl_max_2.setLayoutParams(relativeParams);
+                            }
+
+                            if(int_mat2_nvl_min>0){
+                                int margin1 = ((100-( int_mat2_nvl_min * 10))*2)-5;
+                                RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_min_2.getLayoutParams();
+                                relativeParams.setMargins(0, margin1, 0, 0);
+                                nvl_min_2.setLayoutParams(relativeParams);}
+                            if(int_mat2_nvl_min==0){
+                                RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_min_2.getLayoutParams();
+                                relativeParams.setMargins(0,190, 0, 0);
+                                nvl_min_2.setLayoutParams(relativeParams);
+                            }
+                            dialog.dismiss();
+                        }
+                        else{
+                            Context context = getApplicationContext();
+                            CharSequence text = "El nivel mínimo no puede ser mayor al nivel maximo";
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
+                        }
+                    }
+                });
+                Button dialogCancelar = (Button) dialog.findViewById(R.id.btn_cancelar);
+                dialogCancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+        material1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(HomeActivity.this);
+                dialog.setContentView(R.layout.dialog);
+                dialog.setTitle("Almacen");
+                dialog.show();
+                SeekBar seekBar =(SeekBar) dialog.findViewById(R.id.seekBar);
+                seekBar.setProgress(int_mat1_nvl_max);
+                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    int progressChanged = 0;
+
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        progressChanged = progress;
+                    }
+
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        // TODO Auto-generated method stub
+                    }
+
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        TextView textView = (TextView) dialog.findViewById(R.id.txtvw_estado);
+                        textView.setText(String.valueOf(seekBar.getProgress()));
+                        int_mat1_nvl_max = seekBar.getProgress();
+                    }
+                });
+                SeekBar seekBar2 =(SeekBar) dialog.findViewById(R.id.seekBar2);
+                seekBar2.setProgress(int_mat1_nvl_min);
+                seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    int progressChanged = 0;
+
+                    public void onProgressChanged(SeekBar seekBar2, int progress, boolean fromUser) {
+                        progressChanged = progress;
+                    }
+
+                    public void onStartTrackingTouch(SeekBar seekBar2) {
+                        // TODO Auto-generated method stub
+                    }
+
+                    public void onStopTrackingTouch(SeekBar seekBar2) {
+                        TextView textView2 = (TextView) dialog.findViewById(R.id.txtvw_estado2);
+                        textView2.setText(String.valueOf(seekBar2.getProgress()));
+                        int_mat1_nvl_min = seekBar2.getProgress();
+                    }
+                });
+                Button dialogAceptar = (Button) dialog.findViewById(R.id.btn_aceptar);
+                dialogAceptar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if(int_mat1_nvl_max>int_mat1_nvl_min){
+
+                            if(int_mat1_nvl_max>0){
+                                int margin = ((100-(int_mat1_nvl_max * 10))*2)-5;
+                                RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_max_1.getLayoutParams();
+                                relativeParams.setMargins(0, margin, 0, 0);
+                                nvl_max_1.setLayoutParams(relativeParams);
+                            }
+                            if(int_mat1_nvl_max==0){
+                                RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_max_1.getLayoutParams();
+                                relativeParams.setMargins(0, 190, 0, 0);
+                                nvl_max_1.setLayoutParams(relativeParams);
+                            }
+
+                            if(int_mat1_nvl_min>0){
+                                int margin1 = ((100-( int_mat1_nvl_min * 10))*2)-5;
+                                RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_min_1.getLayoutParams();
+                                relativeParams.setMargins(0, margin1, 0, 0);
+                                nvl_min_1.setLayoutParams(relativeParams);}
+                            if(int_mat1_nvl_min==0){
+                                RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_min_1.getLayoutParams();
+                                relativeParams.setMargins(0,190, 0, 0);
+                                nvl_min_1.setLayoutParams(relativeParams);
+                            }
+                            dialog.dismiss();
+                        }
+                        else{
+                            Context context = getApplicationContext();
+                            CharSequence text = "El nivel mínimo no puede ser mayor al nivel maximo";
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
+                        }
+                    }
+                });
+                Button dialogCancelar = (Button) dialog.findViewById(R.id.btn_cancelar);
+                dialogCancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+        producto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(HomeActivity.this);
+                dialog.setContentView(R.layout.dialog);
+                dialog.setTitle("Almacen");
+                dialog.show();
+                SeekBar seekBar = (SeekBar) dialog.findViewById(R.id.seekBar);
+                seekBar.setProgress(int_mat3_nvl_max);
+                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    int progressChanged = 0;
+
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        progressChanged = progress;
+                    }
+
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        // TODO Auto-generated method stub
+                    }
+
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        TextView textView = (TextView) dialog.findViewById(R.id.txtvw_estado);
+                        textView.setText(String.valueOf(seekBar.getProgress()));
+                        int_mat3_nvl_max = seekBar.getProgress();
+                    }
+                });
+                SeekBar seekBar2 = (SeekBar) dialog.findViewById(R.id.seekBar2);
+                seekBar2.setProgress(int_mat3_nvl_min);
+                seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    int progressChanged = 0;
+
+                    public void onProgressChanged(SeekBar seekBar2, int progress, boolean fromUser) {
+                        progressChanged = progress;
+                    }
+
+                    public void onStartTrackingTouch(SeekBar seekBar2) {
+                        // TODO Auto-generated method stub
+                    }
+
+                    public void onStopTrackingTouch(SeekBar seekBar2) {
+                        TextView textView2 = (TextView) dialog.findViewById(R.id.txtvw_estado2);
+                        textView2.setText(String.valueOf(seekBar2.getProgress()));
+                        int_mat3_nvl_min = seekBar2.getProgress();
+                    }
+                });
+                Button dialogAceptar = (Button) dialog.findViewById(R.id.btn_aceptar);
+                dialogAceptar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (int_mat3_nvl_max > int_mat3_nvl_min) {
+
+                            if (int_mat3_nvl_max > 0) {
+                                int margin = ((100 - (int_mat3_nvl_max * 10)) * 2) - 5;
+                                RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_max_3.getLayoutParams();
+                                relativeParams.setMargins(0, margin, 0, 0);
+                                nvl_max_3.setLayoutParams(relativeParams);
+                            }
+                            if (int_mat3_nvl_max == 0) {
+                                RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_max_3.getLayoutParams();
+                                relativeParams.setMargins(0, 190, 0, 0);
+                                nvl_max_3.setLayoutParams(relativeParams);
+                            }
+
+                            if (int_mat3_nvl_min > 0) {
+                                int margin1 = ((100 - (int_mat2_nvl_min * 10)) * 2) - 5;
+                                RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_min_3.getLayoutParams();
+                                relativeParams.setMargins(0, margin1, 0, 0);
+                                nvl_min_3.setLayoutParams(relativeParams);
+                            }
+                            if (int_mat3_nvl_min == 0) {
+                                RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) nvl_min_3.getLayoutParams();
+                                relativeParams.setMargins(0, 190, 0, 0);
+                                nvl_min_3.setLayoutParams(relativeParams);
+                            }
+                            dialog.dismiss();
+                        } else {
+                            Context context = getApplicationContext();
+                            CharSequence text = "El nivel mínimo no puede ser mayor al nivel maximo";
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
+                        }
+                    }
+                });
+                Button dialogCancelar = (Button) dialog.findViewById(R.id.btn_cancelar);
+                dialogCancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+        progress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final Dialog dialog = new Dialog(HomeActivity.this);
+                dialog.setContentView(R.layout.dialog_production);
+                dialog.setTitle("Producción");
+                dialog.show();
+                TextView explica = (TextView) dialog.findViewById(R.id.txtvw_explica);
+                String exp = "Tu capacidad de producciones de "+ maxProduccion+" piezas por dia";
+                explica.setText(exp);
+                Button dialogAceptar = (Button) dialog.findViewById(R.id.btn_aceptar1);
+                dialogAceptar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText producto = (EditText) dialog.findViewById(R.id.producto);
+                        int  produciraux = Integer.parseInt(producto.getText().toString());
+                        if( produciraux < maxProduccion){
+                            producir = produciraux;
+                            TextView progProd = (TextView) findViewById(R.id.progresoproduccion);
+                            String texto = "0/"+producir;
+                            progProd.setText(texto);
+                            dialog.dismiss();
+                        }
+                        else {
+                            Context context = getApplicationContext();
+                            CharSequence text = "La producion no puede ser mayor a tu capacidad maxima";
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
+                        }
+
+                    }
+                });
+                Button dialogCancelar = (Button) dialog.findViewById(R.id.btn_cancelar1);
+                dialogCancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
     }
 
     @Override

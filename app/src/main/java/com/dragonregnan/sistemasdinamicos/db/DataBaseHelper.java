@@ -128,6 +128,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     + nivelesVariablesDAO.IDALMACEN + " INTEGER, "
                     + nivelesVariablesDAO.DESEADO + " INTEGER, "
                     + nivelesVariablesDAO.ACTUAL + " INTEGER, "
+                    + nivelesVariablesDAO.MINIMODESEADO + " INTEGER, "
                     + "FOREIGN KEY " + "("+nivelesVariablesDAO.IDEMPRESA+") REFERENCES " + empresasDAO.TABLE_EMPRESAS + "("+ empresasDAO.IDEMPRESA +"),"
                     + "FOREIGN KEY " + "("+nivelesVariablesDAO.IDALMACEN+") REFERENCES " + almacenesDAO.TABLE_ALMACENES + "("+ almacenesDAO.IDALMACEN +"));";
     private static final String CREATE_TABLE_ASIENTOS =

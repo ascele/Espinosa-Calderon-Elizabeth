@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <include
+  <!-- <include
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -20,10 +20,10 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer" />-->
 <ScrollView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                          <TextView
                              android:layout_width="match_parent"
                              android:layout_height="match_parent"
-                             android:background="@color/orange"
+                             android:background="@color/blueGrey"
                              android:layout_weight="0"
                              android:id="@+id/material1_superior"
                              />
@@ -99,7 +99,7 @@
                          <View
                              android:layout_width="match_parent"
                              android:layout_height="5dp"
-                             android:background="@color/red"
+                             android:background="@color/deepOrange"
                              android:layout_marginTop="95dp"
                              android:id="@+id/nvl_min_1"/>
                      </RelativeLayout>
@@ -141,13 +141,13 @@
                              <TextView
                                  android:layout_width="match_parent"
                                  android:layout_height="match_parent"
-                                 android:background="@color/colorAccent"
+                                 android:background="@color/blueGrey"
                                  android:layout_weight="0"
                                  android:id="@+id/material2_superior"/>
                              <TextView
                                  android:layout_width="match_parent"
                                  android:layout_height="match_parent"
-                                 android:background="@color/indigo"
+                                 android:background="@color/pink"
                                  android:layout_weight="1"
                                  android:id="@+id/material2_inferior"/>
 
@@ -162,7 +162,7 @@
                          <View
                              android:layout_width="match_parent"
                              android:layout_height="5dp"
-                             android:background="@color/red"
+                             android:background="@color/deepOrange"
                              android:layout_marginTop="95dp"
                              android:id="@+id/nvl_min_2"/>
                      </RelativeLayout>
@@ -184,9 +184,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/empresa"
+                android:layout_gravity="center_horizontal"
+                android:textStyle="bold"
+                android:padding="2dp"
+                android:textSize="22dp"
+                android:textColor="@color/amber"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/produccion"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="10dp"
                 android:padding="5dp"
                 android:textSize="16dp"/>
 
@@ -201,6 +211,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/progresoproduccion"
                 android:text="10/20"
                 android:layout_gravity="center_horizontal"
                 android:padding="5dp"
@@ -274,14 +285,14 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@color/green"
+                            android:background="@color/blueGrey"
                             android:layout_weight="0"
                             android:id="@+id/producto_superior"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@color/purple"
+                            android:background="@color/blue"
                             android:layout_weight="1"
                             android:id="@+id/producto_inferior"/>
                         </LinearLayout>
@@ -295,7 +306,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="5dp"
-                            android:background="@color/red"
+                            android:background="@color/deepOrange"
                             android:layout_marginTop="95dp"
                             android:id="@+id/nvl_min_3"/>
                     </RelativeLayout>
@@ -332,7 +343,7 @@
                         android:layout_height="match_parent"
                         android:id="@+id/dinero_superior"
                         android:layout_weight="0"
-                        android:background="@color/blue"/>
+                        android:background="@color/blueGrey"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
