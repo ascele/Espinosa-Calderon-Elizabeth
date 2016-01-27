@@ -26,10 +26,11 @@ import com.dragonregnan.sistemasdinamicos.R;
 /**
  * Created by laura on 07/12/2015.
  */
-public class HomeActivity extends AppCompatActivity
+public class HomeActivity  extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private int int_mat1_nvl_max = 10;
+
+private int int_mat1_nvl_max = 10;
     private int int_mat1_nvl_min = 0;
     private View nvl_max_1 ;
     private View nvl_min_1 ;

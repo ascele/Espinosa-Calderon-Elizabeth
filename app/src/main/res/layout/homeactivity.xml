@@ -23,7 +23,8 @@
         app:menu="@menu/activity_main_drawer" />
 <ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginTop="60dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -38,7 +39,7 @@
              android:id="@+id/hijo1"
              android:orientation="vertical"
              android:layout_weight="0.50"
-             android:layout_marginTop="45dp">
+             android:layout_marginTop="50dp">
 
              <LinearLayout
                  android:layout_width="match_parent"

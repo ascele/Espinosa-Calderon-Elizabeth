@@ -13,7 +13,7 @@
     <string name="navigation_drawer_close">Cerrar</string>
     <string name="action_settings">Opciones</string>
     <string name= "produccion">Producción</string>
-    <string name="selecciona">Selecciona el limite Maximo y el Minimo deseado para abastecer tu almacen</string>
+    <string name="selecciona">Selecciona el límite Máximo y el Mínmo deseado para abastecer tu almacen</string>
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
     <string name="inversion">Inverción de Materia Prima</string>
@@ -21,6 +21,6 @@
     <string name="min">Minimo:</string>
     <string name="empresa">Mi Empresa</string>
     <string name="explicacion">Tu capacidad de produccion es de n piezas por dia.</string>
-    <string name="elige_produccion">Elige la cantidad a producir:</string>
+    <string name="elige_produccion">Configura la cantidad a producir diaria se aplicará el dia siguiente</string>
     <string name="capacidad">La capacidad total de tu alamacen es de : N</string>
 </resources>
