@@ -238,9 +238,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:textSize="16dp"
-                android:textAlignment="center"/>
-
-
+                android:textAlignment="center"
+                android:id="@+id/invercion"/>
 
         </LinearLayout>
 
@@ -354,13 +353,9 @@
 
                 </LinearLayout>
 
-
             </LinearLayout>
 
-
-
         </LinearLayout>
-
 
     </LinearLayout>
 </ScrollView>
