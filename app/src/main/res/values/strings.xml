@@ -23,4 +23,5 @@
     <string name="explicacion">Tu capacidad de produccion es de n piezas por dia.</string>
     <string name="elige_produccion">Configura la cantidad a producir diaria se aplicará el dia siguiente</string>
     <string name="capacidad">La capacidad total de tu alamacen es de : N</string>
+    <string name="cotizar">Enviar cotizacion a la empresa solicitante</string>
 </resources>
