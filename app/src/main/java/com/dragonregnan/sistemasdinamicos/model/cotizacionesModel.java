@@ -19,6 +19,8 @@ public class cotizacionesModel {
 
     private Date fecEntrega;
 
+    private int estado;
+
     private int idEmpresaVendedora;
 
     public int getIdCotizacion(){
@@ -43,6 +45,10 @@ public class cotizacionesModel {
 
     public Date getFecEntrega(){
         return fecEntrega;
+    }
+
+    public int getEstado(){
+        return estado;
     }
 
     public int getIdEmpresaVendedora(){
@@ -71,6 +77,10 @@ public class cotizacionesModel {
 
     public void setFecEntrega( Date fcEn){
         fecEntrega = fcEn;
+    }
+
+    public void setEstado( int ed){
+        estado=ed;
     }
 
     public void setIdEmpresaVendedora( int idEmVn){

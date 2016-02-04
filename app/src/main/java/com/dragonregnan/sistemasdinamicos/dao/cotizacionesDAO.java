@@ -22,6 +22,7 @@ public class cotizacionesDAO {
     public static final String PRECIO = "precio";
     public static final String FECEXPIRACION = "fecexpiracion";
     public static final String FECENTREGA = "fecentrega";
+    public static final String ESTADO = "estado";
     public static final String IDEMPRESAVENDEDORA = "idempresavendedora";
 
 }

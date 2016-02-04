@@ -2,6 +2,7 @@ package com.dragonregnan.sistemasdinamicos.activity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -553,13 +554,19 @@ private int int_mat1_nvl_max = 10;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_home) {
 
-        } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_mercado) {
+            Toast toast = Toast.makeText(this, "Elegiste Mercado", Toast.LENGTH_LONG);
+            toast.show();
+            Intent i = new Intent(this,MercadoActivity.class);
+            startActivity(i);
+            finish();
+
+
+        } else if (id == R.id.nav_balance) {
 
         }
 

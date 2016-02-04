@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/empresavendedora"
+        android:id="@+id/empresavendedoramicot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Empresa cotizadora: NNNNNNNNN"
@@ -24,23 +24,23 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/txtvw_cantidadcot"
+            android:id="@+id/txtvw_cantidadmicot"
             android:textSize="18dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColor="@color/green"
-            android:text="Cantidad Ofrecida: "
+            android:text="Cantidad Ofrecida: 20 piezas"
             android:layout_weight="1"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/txtvw_preciocot"
+            android:id="@+id/txtvw_preciomicot"
             android:textSize="18dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColor="@color/green"
-            android:text="Precio:"
+            android:text="Precio: $100.00 x Pieza"
             android:layout_weight="1"/>
     </LinearLayout>
 
@@ -52,13 +52,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/txtvw_totalcot"
+            android:id="@+id/txtvw_totalmicot"
             android:textSize="24dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColor="@color/brown"
             android:layout_weight="1"
-            android:text="Total:"
+            android:text="Total: $ 20,000.00"
             android:textAlignment="center"
             />
     </LinearLayout>
@@ -76,41 +76,22 @@
             android:paddingRight="10dp"
             android:textColor="@color/green"
             android:layout_weight="1"
-            android:text="Fecha de entrega ofrecida:"/>
+            android:text="Fecha de entrega ofrecida: 4/02/2016"/>
     </LinearLayout>
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/botones">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cotizacion_aceptar"
-            android:text="Aceptar"
-            android:layout_weight="1"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cotizacion_rechazar"
-            android:text="Rechazar"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
-    <LinearLayout
+        android:id="@+id/estado_cotizacion"
+        android:text="Estado: Aceptada"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:textColor="@color/green"
+        android:textAlignment="center"/>
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:visibility="invisible"
+        android:text="Enviar Pedido"
+        />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cotizacion_pagar"
-            android:text="Pagar"
-            android:layout_weight="1"
-            android:visibility="invisible"/>
-
-    </LinearLayout>
 </LinearLayout>

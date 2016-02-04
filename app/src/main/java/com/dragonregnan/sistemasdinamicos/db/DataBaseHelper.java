@@ -83,6 +83,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     + cotizacionesDAO.PRECIO + " REAL, "
                     + cotizacionesDAO.FECEXPIRACION + " TEXT, "
                     + cotizacionesDAO.FECENTREGA + " TEXT, "
+                    + cotizacionesDAO.ESTADO + "INTEGER, "
                     + cotizacionesDAO.IDEMPRESAVENDEDORA + " INTEGER, "
                     + "FOREIGN KEY " + "("+cotizacionesDAO.IDSOLICITUD+") REFERENCES " + solicitudesDAO.TABLE_SOLICITUDES + "("+ solicitudesDAO.IDSOLICITUD +"),"
                     + "FOREIGN KEY " + "("+cotizacionesDAO.IDEMPRESAVENDEDORA+") REFERENCES " + empresasDAO.TABLE_EMPRESAS + "("+ empresasDAO.IDEMPRESA +"));";

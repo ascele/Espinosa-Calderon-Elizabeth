@@ -81,7 +81,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/txtvw_fechaofre"
+                    android:id="@+id/txtvw_precioofre"
                     android:textSize="18dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
@@ -107,7 +107,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/edtxt_fechaofre"
+                    android:id="@+id/edtxt_precioofre"
                     android:textSize="18dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
