@@ -13,7 +13,9 @@ public class solicitudesModel {
 
     private Date fecEntregaSol;
 
-    private int idEmpresCompradora;
+    private int idEmpresaCompradora;
+
+    private int cantSolicitada;
 
     public int getIdSolicitud(){
         return idSolicitud;
@@ -27,8 +29,12 @@ public class solicitudesModel {
         return fecEntregaSol;
     }
 
-    public int getIdEmpresCompradora(){
-        return idEmpresCompradora;
+    public int getIdEmpresaCompradora(){
+        return idEmpresaCompradora;
+    }
+
+    public int getCantSolicitada(){
+        return cantSolicitada;
     }
 
     public void setIdSolicitud( int idS){
@@ -43,8 +49,12 @@ public class solicitudesModel {
         fecEntregaSol = fecES;
     }
 
-    public void setIdEmpresCompradora( int idEC){
-        idEmpresCompradora = idEC;
+    public void setIdEmpresaCompradora( int idEC){
+        idEmpresaCompradora = idEC;
+    }
+
+    public void setCantSolicitada( int ctSd){
+        cantSolicitada=ctSd;
     }
 
 }

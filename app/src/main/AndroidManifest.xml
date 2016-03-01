@@ -38,6 +38,52 @@
             android:label="@string/app_name">
 
         </activity>
+
+        <activity
+            android:name=".detalles.DetalleSolicitudesActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.dragonregnan.sistemasdinamicos.activity.MercadoActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dragonregnan.sistemasdinamicos.activity.MercadoActivity" />
+
+        </activity>
+        <activity
+            android:name=".detalles.DetalleMisSolicitudesActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.dragonregnan.sistemasdinamicos.activity.MercadoActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dragonregnan.sistemasdinamicos.activity.MercadoActivity" />
+
+        </activity>
+        <activity
+            android:name=".detalles.DetalleCotizacionActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.dragonregnan.sistemasdinamicos.detalles.DetalleMisSolicitudesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dragonregnan.sistemasdinamicos.detalles.DetalleMisSolicitudesActivity" />
+
+        </activity>
+        <activity
+            android:name=".detalles.DetalleMiCotizacionActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.dragonregnan.sistemasdinamicos.activity.MercadoActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dragonregnan.sistemasdinamicos.activity.MercadoActivity" />
+
+        </activity>
+        <activity
+            android:name=".detalles.DetalleVenta"
+            android:label="@string/app_name"
+            android:parentActivityName="com.dragonregnan.sistemasdinamicos.activity.MercadoActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dragonregnan.sistemasdinamicos.activity.MercadoActivity" />
+
+        </activity>
     </application>
 
 </manifest>

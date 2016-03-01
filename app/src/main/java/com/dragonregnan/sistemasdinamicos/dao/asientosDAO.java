@@ -18,7 +18,7 @@ public class asientosDAO {
     public static final String TABLE_ASIENTOS = "asientos";
     public static final String IDASIENTO = "idasiento";
     public static final String IDEMPRESA = "idempresa";
-    public static final String IDOPERACION = "idempresa";
+    public static final String IDOPERACION = "idoperacion";
     public static final String IDCARGO = "idcargo";
     public static final String IDABONO = "idabono";
 

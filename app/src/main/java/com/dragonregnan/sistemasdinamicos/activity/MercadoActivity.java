@@ -54,7 +54,7 @@ public class MercadoActivity extends AppCompatActivity
                 mTabHost.newTabSpec("misolicitud").setIndicator("Mis Solicitudes", null),
                 FragmentMisSolicitudes.class, null);
         mTabHost.addTab(
-                mTabHost.newTabSpec("micotizacion").setIndicator("Cotizaciones", null),
+                mTabHost.newTabSpec("micotizacion").setIndicator("Mis Cotizaciones", null),
                 FragmentMisCotizaciones.class, null);
         mTabHost.addTab(
                 mTabHost.newTabSpec("hitorial").setIndicator("Historial", null),

@@ -22,6 +22,17 @@
                 android:paddingBottom="10dp"
                 android:textColor="@color/amber"
                 android:textStyle="bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtvw_empresasolrep"
+                android:text="Penalizaciones recibidas: N"
+                android:textSize="16dp"
+                android:textAlignment="center"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/red"
+                android:textStyle="bold"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -103,6 +114,7 @@
                     android:paddingRight="10dp"
                     android:textColor="@color/colorAccent"
                     android:layout_weight="1"
+                    android:inputType="number"
                     />
                 <EditText
                     android:layout_width="match_parent"
@@ -112,7 +124,8 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:textColor="@color/brown"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:inputType="numberDecimal"/>
             </LinearLayout>
 
             <LinearLayout
@@ -140,7 +153,8 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:textColor="@color/brown"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:inputType="numberDecimal"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -165,7 +179,36 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:textColor="@color/brown"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:inputType="date"
+                    android:hint="2016-01-01"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/txtvw_fechavencimiento"
+                    android:textSize="16dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/colorAccent"
+                    android:layout_weight="1"
+                    android:text="Fecha de validez de la oferta:"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/edtxt_fechavencimiento"
+                    android:textSize="18dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/brown"
+                    android:layout_weight="1"
+                    android:inputType="date"
+                    android:hint="2016-01-01"/>
             </LinearLayout>
 
             <Button

@@ -39,7 +39,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     + almacenesDAO.IDEMPRESA + " INTEGER, "
                     + almacenesDAO.NBALMACEN + " TEXT, "
                     + almacenesDAO.MAXALMACEN + " INTEGER, "
-                    + almacenesDAO.IDTIPOALMACEN + "INTEGER, "
+                    + almacenesDAO.IDTIPOALMACEN + " INTEGER, "
                     + "FOREIGN KEY " + "("+almacenesDAO.IDEMPRESA+") REFERENCES " + empresasDAO.TABLE_EMPRESAS + "("+ empresasDAO.IDEMPRESA +"),"
                     + "FOREIGN KEY " + "("+almacenesDAO.IDTIPOALMACEN+") REFERENCES " + tipoAlmacenDAO.TABLE_TIPOALMACEN + "("+ tipoAlmacenDAO.IDTIPOALMACEN +"));";
     private static final String CREATE_TABLE_TIPOALMACEN =
@@ -48,7 +48,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     + tipoAlmacenDAO.NBTIPOALMACEN + " TEXT);";
     private static final String CREATE_TABLE_ENCADENAMIENTOS =
             "CREATE TABLE " + encadenamientosDAO.TABLE_ENCADENAMIENTOS + " ("
-                    + encadenamientosDAO.IDINDUSTRIACOMPRADORA + "INTEGER, "
+                    + encadenamientosDAO.IDINDUSTRIACOMPRADORA + " INTEGER, "
                     + encadenamientosDAO.IDINDUSTRIAVENDEDORA + " INTEGER, "
                     + encadenamientosDAO.COEFICIENTE + " INTEGER, "
                     + "FOREIGN KEY " + "("+encadenamientosDAO.IDINDUSTRIACOMPRADORA+") REFERENCES " + empresasDAO.TABLE_EMPRESAS + "("+ empresasDAO.IDEMPRESA +"),"
@@ -63,7 +63,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     + "FOREIGN KEY " + "("+balancesDAO.IDCUENTA+") REFERENCES " + cuentasDAO.TABLE_CUENTAS + "("+ cuentasDAO.IDCUENTA +"));";
     private static final String CREATE_TABLE_CUENTAS =
             "CREATE TABLE " + cuentasDAO.TABLE_CUENTAS + " ("
-                    + cuentasDAO.IDCUENTA + "INTEGER PRIMARY KEY AUTOINCREMENT,  "
+                    + cuentasDAO.IDCUENTA + " INTEGER PRIMARY KEY AUTOINCREMENT,  "
                     + cuentasDAO.NBCUENTA + " TEXT, "
                     + cuentasDAO.ACREEDORA + " INTEGER);";
     private static final String CREATE_TABLE_SOLICITUDES =
@@ -77,19 +77,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     + "FOREIGN KEY " + "("+solicitudesDAO.IDEMPRESACOMPRADORA+") REFERENCES " + empresasDAO.TABLE_EMPRESAS + "("+ empresasDAO.IDEMPRESA +"));";
     private static final String CREATE_TABLE_COTIZACIONES =
             "CREATE TABLE " + cotizacionesDAO.TABLE_COTIZACIONES + " ("
-                    + cotizacionesDAO.IDCOTIZACION + "INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + cotizacionesDAO.IDSOLICITUD + "INTEGER, "
+                    + cotizacionesDAO.IDCOTIZACION + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + cotizacionesDAO.IDSOLICITUD + " INTEGER, "
                     + cotizacionesDAO.CANTOFRECIDA + " INTEGER, "
                     + cotizacionesDAO.PRECIO + " REAL, "
                     + cotizacionesDAO.FECEXPIRACION + " TEXT, "
                     + cotizacionesDAO.FECENTREGA + " TEXT, "
-                    + cotizacionesDAO.ESTADO + "INTEGER, "
+                    + cotizacionesDAO.ESTADO + " INTEGER, "
                     + cotizacionesDAO.IDEMPRESAVENDEDORA + " INTEGER, "
                     + "FOREIGN KEY " + "("+cotizacionesDAO.IDSOLICITUD+") REFERENCES " + solicitudesDAO.TABLE_SOLICITUDES + "("+ solicitudesDAO.IDSOLICITUD +"),"
                     + "FOREIGN KEY " + "("+cotizacionesDAO.IDEMPRESAVENDEDORA+") REFERENCES " + empresasDAO.TABLE_EMPRESAS + "("+ empresasDAO.IDEMPRESA +"));";
     private static final String CREATE_TABLE_COMPRAS =
             "CREATE TABLE " + comprasDAO.TABLE_COMPRAS + " ("
-                    + comprasDAO.IDCOMPRA + " INTEGER PRIMARY KEY AUTOINCREMENT"
+                    + comprasDAO.IDCOMPRA + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + comprasDAO.IDCOTIZACION + " INTEGER, "
                     + comprasDAO.FECCOMPRA + " TEXT, "
                     + comprasDAO.LIQUIDADA + " INTEGER, "
@@ -98,7 +98,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_COMPRASOPERACIONES =
             "CREATE TABLE " + comprasOperacionesDAO.TABLE_COMPRASOPERACIONES + " ("
                     + comprasOperacionesDAO.IDOPERACION + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + comprasOperacionesDAO.IDTIPOOPERACION + "INTEGER, "
+                    + comprasOperacionesDAO.IDTIPOOPERACION + " INTEGER, "
                     + comprasOperacionesDAO.IDCOMPRA + " INTEGER, "
                     + comprasOperacionesDAO.IDEMPRESACOMPRADORA + " INTEGER, "
                     + comprasOperacionesDAO.IDEMPRESAVENDEDORA + " INTEGER, "
@@ -125,7 +125,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     + tiposOperacionesDAO.NBTIPOOPERACION + " TEXT);";
     private static final String CREATE_TABLE_NIVELESVARIABLES =
             "CREATE TABLE " + nivelesVariablesDAO.TABLE_NIVELESVARIABLES + " ("
-                    + nivelesVariablesDAO.IDEMPRESA + " INTEGER "
+                    + nivelesVariablesDAO.IDEMPRESA + " INTEGER, "
                     + nivelesVariablesDAO.IDALMACEN + " INTEGER, "
                     + nivelesVariablesDAO.DESEADO + " INTEGER, "
                     + nivelesVariablesDAO.ACTUAL + " INTEGER, "
@@ -143,7 +143,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     + "FOREIGN KEY " + "("+asientosDAO.IDOPERACION+") REFERENCES " + comprasOperacionesDAO.TABLE_COMPRASOPERACIONES + "("+ comprasOperacionesDAO.IDOPERACION +"));";
     private static final String CREATE_TABLE_USUARIOS =
             "CREATE TABLE " + usuariosDAO.TABLE_UDUARIOS + " ("
-                    + usuariosDAO.IDUSUARIO + "INTEGER PRIMARY KEY AUTOINCREMENT,  "
+                    + usuariosDAO.IDUSUARIO + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + usuariosDAO.NOBOLETA + " TEXT, "
                     + usuariosDAO.CONTRASENA + " TEXT, "
                     + usuariosDAO.NOMBRE + " TEXT, "
@@ -160,7 +160,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     + "FOREIGN KEY " + "("+sesionDAO.IDUSUARIO+") REFERENCES " + usuariosDAO.TABLE_UDUARIOS + "("+ usuariosDAO.IDUSUARIO +"));";
     private static final String CREATE_TABLE_CONFIGURACION =
             "CREATE TABLE " + configuracionDAO.TABLE_CONFIGURACION + " ("
-                    + configuracionDAO.IDUSUARIO + " INTEGER "
+                    + configuracionDAO.IDUSUARIO + " INTEGER, "
                     + configuracionDAO.IDTIPOCONFIGURACION + " INTEGER, "
                     + configuracionDAO.VALOR + " INTEGER, "
                     + configuracionDAO.FECMODIFICACION + " TEXT, "
@@ -172,10 +172,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     + tipoConfiguracionDAO.NBTIPOCONFIGURACION + " TEXT);";
     private static final String CREATE_TABLE_USUARIOSEMPRESAS =
             "CREATE TABLE " + usuariosEmpresasDAO.TABLE_UDUARIOSEMPRESAS + " ("
-                    + usuariosEmpresasDAO.IDUSUARIO + " INTEGER "
+                    + usuariosEmpresasDAO.IDUSUARIO + " INTEGER, "
                     + usuariosEmpresasDAO.IDEMPRESA + " TEXT, "
                     + "FOREIGN KEY " + "("+usuariosEmpresasDAO.IDUSUARIO+") REFERENCES " + usuariosDAO.TABLE_UDUARIOS + "("+ usuariosDAO.IDUSUARIO +"),"
                     + "FOREIGN KEY " + "("+usuariosEmpresasDAO.IDEMPRESA+") REFERENCES " + empresasDAO.TABLE_EMPRESAS + "("+ empresasDAO.IDEMPRESA +"));";
+    private static final String CREATE_TABLE_REGLASCOMPENSACION =
+            "CREATE TABLE " + reglascompensacionDAO.TABLEREGLASCOMPENSACION + " ("
+            + reglascompensacionDAO.IDREGLA + " INTEGER, "
+            + reglascompensacionDAO.NBREGLA + " TEXT );";
+    private static final String CREATE_TABLE_EMPRESASPENALIZADAS =
+            "CREATE TABLE " + empresasPenalizadasDAO.TABLEEMPRESASPENALIZADAS + " ("
+            + empresasPenalizadasDAO.IDEMPRESA + " INTEGER, "
+            + empresasPenalizadasDAO.IDREGLA + " INTEGER, "
+            + empresasPenalizadasDAO.IDEMPRESAVICTIMA + " INTEGER, "
+                    + "FOREIGN KEY " + "("+empresasPenalizadasDAO.IDEMPRESA+") REFERENCES " + empresasDAO.TABLE_EMPRESAS + "("+ empresasDAO.IDEMPRESA +"),"
+                    + "FOREIGN KEY " + "("+empresasPenalizadasDAO.IDREGLA+") REFERENCES " + reglascompensacionDAO.TABLEREGLASCOMPENSACION + "("+ reglascompensacionDAO.IDREGLA +"),"
+                    + "FOREIGN KEY " + "("+empresasPenalizadasDAO.IDEMPRESAVICTIMA+") REFERENCES " + empresasDAO.TABLE_EMPRESAS + "("+ empresasDAO.IDEMPRESA +"));";
+
 
     private DataBaseHelper(Context context) {
         super(context, dataBaseName, null, dataBaseVersion);
@@ -206,8 +219,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CONFIGURACION);
         db.execSQL(CREATE_TABLE_TIPOCONFIGURACION);
         db.execSQL(CREATE_TABLE_USUARIOSEMPRESAS);
-
-
+        db.execSQL(CREATE_TABLE_REGLASCOMPENSACION);
+        db.execSQL(CREATE_TABLE_EMPRESASPENALIZADAS);
 
     }
 

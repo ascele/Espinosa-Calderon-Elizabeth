@@ -559,8 +559,6 @@ private int int_mat1_nvl_max = 10;
 
 
         } else if (id == R.id.nav_mercado) {
-            Toast toast = Toast.makeText(this, "Elegiste Mercado", Toast.LENGTH_LONG);
-            toast.show();
             Intent i = new Intent(this,MercadoActivity.class);
             startActivity(i);
             finish();

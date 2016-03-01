@@ -76,22 +76,25 @@
             android:paddingRight="10dp"
             android:textColor="@color/green"
             android:layout_weight="1"
-            android:text="Fecha de entrega ofrecida: 4/02/2016"/>
+            android:text="Fecha de entrega y pago ofrecida: 4/02/2016"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/txtvw_fechacotvencida"
+            android:textSize="16dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/green"
+            android:layout_weight="1"
+            android:text="Fecha de expiracion de oferta : 4/02/2016"/>
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/estado_cotizacion"
-        android:text="Estado: Aceptada"
-        android:padding="10dp"
-        android:textSize="20dp"
-        android:textColor="@color/green"
-        android:textAlignment="center"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:text="Enviar Pedido"
+        android:id="@+id/micotEnviarPedido"
         />
 
 </LinearLayout>
