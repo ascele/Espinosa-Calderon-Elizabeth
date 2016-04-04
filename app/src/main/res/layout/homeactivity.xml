@@ -21,8 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:id="@+id/padre"
-                android:baselineAligned="false">
+                android:id="@+id/padre">
 
                  <LinearLayout
                      android:layout_width="wrap_content"
@@ -35,8 +34,7 @@
                          android:layout_width="match_parent"
                          android:layout_height="wrap_content"
                          android:id="@+id/hijo1.1"
-                         android:orientation="vertical"
-                         >
+                         android:orientation="vertical">
 
                          <TextView
                              android:layout_width="wrap_content"
@@ -85,13 +83,15 @@
                                      android:layout_width="match_parent"
                                      android:layout_height="5dp"
                                      android:background="@color/red"
-                                     android:layout_marginTop="0dp"
+                                     android:layout_marginBottom="95dp"
+                                     android:layout_alignParentBottom="true"
                                      android:id="@+id/nvl_max_1"/>
                                  <View
                                      android:layout_width="match_parent"
                                      android:layout_height="5dp"
                                      android:background="@color/deepOrange"
-                                     android:layout_marginTop="95dp"
+                                     android:layout_marginBottom="0dp"
+                                     android:layout_alignParentBottom="true"
                                      android:id="@+id/nvl_min_1"/>
                              </RelativeLayout>
                          </LinearLayout>
@@ -100,9 +100,7 @@
                          android:layout_width="match_parent"
                          android:layout_height="wrap_content"
                          android:id="@+id/hijo1.2"
-                         android:orientation="vertical"
-                         >
-
+                         android:orientation="vertical">
                          <TextView
                              android:layout_width="wrap_content"
                              android:layout_height="wrap_content"
@@ -121,9 +119,8 @@
                              android:layout_gravity="center_horizontal"
                              android:layout_marginTop="5dp">
                              <RelativeLayout
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content">
-
+                                 android:layout_width="match_parent"
+                                 android:layout_height="match_parent">
                                  <LinearLayout
                                      android:layout_width="match_parent"
                                      android:layout_height="match_parent"
@@ -148,13 +145,15 @@
                                      android:layout_width="match_parent"
                                      android:layout_height="5dp"
                                      android:background="@color/red"
-                                     android:layout_marginTop="0dp"
-                                     android:id="@+id/nvl_max_2"/>
+                                     android:layout_marginBottom="95dp"
+                                     android:id="@+id/nvl_max_2"
+                                     android:layout_alignParentBottom="true" />
                                  <View
                                      android:layout_width="match_parent"
                                      android:layout_height="5dp"
                                      android:background="@color/deepOrange"
-                                     android:layout_marginTop="95dp"
+                                     android:layout_marginBottom="0dp"
+                                     android:layout_alignParentBottom="true"
                                      android:id="@+id/nvl_min_2"/>
                              </RelativeLayout>
 
@@ -248,7 +247,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/txtvw2.1.1"
-                            android:text="Producto C"
+                            android:text="Mercancia C"
                             android:textAlignment="center"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="5dp"
@@ -262,40 +261,42 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="5dp">
                             <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:orientation="vertical">
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@color/blueGrey"
-                                    android:layout_weight="0"
-                                    android:id="@+id/producto_superior"/>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/blueGrey"
+                                        android:layout_weight="0"
+                                        android:id="@+id/producto_superior"/>
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@color/blue"
-                                    android:layout_weight="1"
-                                    android:id="@+id/producto_inferior"/>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/blue"
+                                        android:layout_weight="1"
+                                        android:id="@+id/producto_inferior"/>
                                 </LinearLayout>
 
                                 <View
                                     android:layout_width="match_parent"
                                     android:layout_height="5dp"
                                     android:background="@color/red"
-                                    android:layout_marginTop="0dp"
+                                    android:layout_marginBottom="95dp"
+                                    android:layout_alignParentBottom="true"
                                     android:id="@+id/nvl_max_3"/>
                                 <View
                                     android:layout_width="match_parent"
                                     android:layout_height="5dp"
                                     android:background="@color/deepOrange"
-                                    android:layout_marginTop="95dp"
+                                    android:layout_marginBottom="0dp"
+                                    android:layout_alignParentBottom="true"
                                     android:id="@+id/nvl_min_3"/>
                             </RelativeLayout>
 
@@ -348,7 +349,7 @@
             </LinearLayout>
         </ScrollView>
     </FrameLayout>
-    <include
+   <!-- <include
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -359,6 +360,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer" />-->
 </android.support.v4.widget.DrawerLayout>
 

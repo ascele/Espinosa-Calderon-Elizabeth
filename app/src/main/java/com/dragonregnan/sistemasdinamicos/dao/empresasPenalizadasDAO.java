@@ -1,11 +1,14 @@
 package com.dragonregnan.sistemasdinamicos.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.location.Address;
 
 import com.dragonregnan.sistemasdinamicos.db.DataBaseSource;
 import com.dragonregnan.sistemasdinamicos.model.comprasModel;
+import com.dragonregnan.sistemasdinamicos.model.empresasModel;
+import com.dragonregnan.sistemasdinamicos.model.empresasPenalizadasModel;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -27,6 +30,21 @@ public class empresasPenalizadasDAO {
     public empresasPenalizadasDAO (Context context) {
         this.context = context;
         db = new DataBaseSource(context);
+    }
+
+    public void insertEmpresaPenalizada (empresasPenalizadasModel empresa) {
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ContentValues cv = new ContentValues();
+        cv.put(IDEMPRESA,empresa.getIdEmpresa());
+        cv.put(IDREGLA, empresa.getIdRegla());
+        cv.put(IDEMPRESAVICTIMA, empresa.getIdEmpresaVictima());
+        db.insert(TABLEEMPRESASPENALIZADAS, cv);
+        db.close();
+
     }
 
     public int getPenalizaciones( int idEmp){

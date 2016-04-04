@@ -24,7 +24,7 @@ public class comprasDAO {
     private ArrayList<Address> addresses;
 
     public static final String TABLE_COMPRAS = "compras";
-    public static final String IDCOMPRA = "idcompa";
+    public static final String IDCOMPRA = "idcompra";
     public static final String IDCOTIZACION = "idcotizacion";
     public static final String FECCOMPRA = "feccompra";
     public static final String LIQUIDADA = "liquidada";
@@ -36,8 +36,14 @@ public class comprasDAO {
     }
 
     public void insertCompras(comprasModel compra) {
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         ContentValues cv = new ContentValues();
 
+        cv.put(IDCOMPRA, compra.getIdCompra());
         cv.put(IDCOTIZACION, compra.getIdCotizacion());
         cv.put(FECCOMPRA, compra.getFecCompra().getTime());
         int liq = 0;
@@ -51,9 +57,6 @@ public class comprasDAO {
         }
         cv.put(ENTREGADA, ent);
         db.insert(TABLE_COMPRAS, cv);
-
-        Toast toast = Toast.makeText(context, "Cotizacion Enviada con Exito", Toast.LENGTH_LONG);
-        toast.show();
         db.close();
 
     }
@@ -149,13 +152,29 @@ public class comprasDAO {
 
         db.update(TABLE_COMPRAS, cv, condition);
 
-        Toast toast = Toast.makeText(context, "Cotizacion ", Toast.LENGTH_LONG);
-        toast.show();
 
         db.close();
     }
 
-    public boolean existsCuenta( int idCoti ){
+    public void UpdateEntregada( int idCom, int ent) {
+        ContentValues cv = new ContentValues();
+
+        cv.put(ENTREGADA, ent);
+        String condition = IDCOMPRA + " = " + idCom;
+
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        db.update(TABLE_COMPRAS, cv, condition);
+
+
+        db.close();
+    }
+
+    public boolean existsCompra( int idCoti ){
         boolean exist = false;
         String[] fields = {IDCOMPRA,FECCOMPRA};
         String condition = IDCOTIZACION + " = " + IDCOTIZACION ;

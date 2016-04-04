@@ -9,6 +9,7 @@ import com.dragonregnan.sistemasdinamicos.db.DataBaseSource;
 import com.dragonregnan.sistemasdinamicos.model.comprasOperacionesModel;
 import com.dragonregnan.sistemasdinamicos.model.pagosModel;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -31,6 +32,11 @@ public class pagosDAO {
         db = new DataBaseSource(context);
     }
     public int insertPago(pagosModel pago) {
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         ContentValues cv = new ContentValues();
 
         cv.put(IDOPERACION, pago.getIdOperacion());
@@ -38,8 +44,7 @@ public class pagosDAO {
         cv.put(FECPAGO,pago.getFecPago().getTime() );
         int id = (int) db.insert(TABLE_PAGOS, cv);
 
-        Toast toast = Toast.makeText(context, "Pago registrado con Exito", Toast.LENGTH_LONG);
-        toast.show();
+
         db.close();
         return id;
 

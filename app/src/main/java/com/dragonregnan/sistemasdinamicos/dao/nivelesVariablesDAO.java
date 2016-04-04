@@ -34,6 +34,11 @@ public class nivelesVariablesDAO {
         db = new DataBaseSource(context);
     }
     public void insertNivel(nivelesVariablesModel nivel) {
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         ContentValues cv = new ContentValues();
 
         if(!existsNivel(nivel.getIdEmpresa(), nivel.getIdAlmacen())){
@@ -52,7 +57,7 @@ public class nivelesVariablesDAO {
             cv.put(MINIMODESEADO, nivel.getMinimoDeseado());
             String condition = IDEMPRESA + " = " + nivel.getIdEmpresa() + " AND " + IDALMACEN + " = " + nivel.getIdAlmacen();
             db.update(TABLE_NIVELESVARIABLES, cv, condition);
-            Toast toast = Toast.makeText(context, "Nivel  actualizado", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(context, "Nivel  creado exitosamente", Toast.LENGTH_LONG);
             toast.show();
             db.close();
         }

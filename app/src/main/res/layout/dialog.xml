@@ -18,9 +18,21 @@
             android:id="@+id/txtvw_inf"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:textAlignment="center"
             android:padding="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cantidad almacenada: N"
+            android:id="@+id/txtvw_inf2"
+            android:layout_centerHorizontal="true"
+            android:textSize="16dp"
+            android:textAlignment="center"
+            android:padding="5dp"
+            android:layout_below="@+id/txtvw_inf"/>
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,7 +43,7 @@
             android:textSize="16dp"
             android:textAlignment="center"
             android:padding="5dp"
-            android:layout_below="@+id/txtvw_inf"/>
+            android:layout_below="@+id/txtvw_inf2"/>
 
         <TextView
             android:layout_width="wrap_content"

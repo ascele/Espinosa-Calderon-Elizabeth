@@ -2,6 +2,7 @@ package com.dragonregnan.sistemasdinamicos.detalles;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.net.ParseException;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ public class DetalleSolicitudesActivity extends ActionBarActivity {
         setContentView(R.layout.detalle_solicitudes);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+    //OBTENER EXTRAS DEL ACTIVITY PADRE
         Bundle extras = getIntent().getExtras();
         idSolicitud = extras.getInt("idSol");
         idEmpresaCompradora = extras.getInt("idEmpCompradora");
@@ -50,6 +51,8 @@ public class DetalleSolicitudesActivity extends ActionBarActivity {
 
         empresaDAO = new empresasDAO(this);
         empPena = new empresasPenalizadasDAO(this);
+
+    //MOSTRAR DATOS DE LA SOLICITUD
 
         TextView empresaSol = (TextView) findViewById(R.id.txtvw_empresasol);
         TextView cantidadSolicitada = (TextView) findViewById(R.id.txtvw_cantidad);
@@ -74,10 +77,14 @@ public class DetalleSolicitudesActivity extends ActionBarActivity {
             }
         });
 
+    //ENVIAR DATOS DE LA NUEVA COTIZACION
+
         Button bt = (Button) findViewById(R.id.enviar_cotizacion);
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+                int idEmpresa = pref.getInt("idEmpresa", 0);
 
                 cotizacionesModel cotizacion = new cotizacionesModel();
                 cotizacion.setIdSolicitud(idSolicitud);
@@ -105,7 +112,7 @@ public class DetalleSolicitudesActivity extends ActionBarActivity {
                     e.printStackTrace();
                 }
                 cotizacion.setEstado(1);
-                cotizacion.setIdEmpresaVendedora(1);
+                cotizacion.setIdEmpresaVendedora(idEmpresa);
                 cotizacionesDAO cotizar = new cotizacionesDAO(getApplicationContext());
                 cotizar.insertCotizacion(cotizacion);
 

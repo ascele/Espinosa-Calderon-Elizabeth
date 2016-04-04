@@ -121,7 +121,7 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
             bt.setVisibility(View.VISIBLE);
             bt2.setVisibility(View.VISIBLE);
             bt3.setVisibility(View.INVISIBLE);
-        }else if(Estado == 2 ||comDAO.existsCuenta(idCotizacion)== true ){
+        }else if(Estado == 2 ||comDAO.existsCompra(idCotizacion)== true ){
             bt.setVisibility(View.INVISIBLE);
             bt2.setVisibility(View.INVISIBLE);
             bt3.setVisibility(View.VISIBLE);
@@ -241,7 +241,7 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
                     balancesModel bancos2 = new balancesModel();
                     balancesModel proveedores = new balancesModel();
 
-             //Movimiento en cuentas del balance empresa vendedora
+                //Movimiento en cuentas del balance empresa vendedora
                     bancos.setIdEmpresa(idEmpresaVendedora);
                     bancos.setIdCuenta(5);
                     try {
@@ -274,7 +274,7 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
 
                     balDAO.insertCuentaBalance(clientes);
 
-            //Movimiento en cuentas del balance empresa compradora
+                //Movimiento en cuentas del balance empresa compradora
                     bancos2.setIdEmpresa(idEmpresaCompradora);
                     bancos2.setIdCuenta(5);
                     try {
@@ -371,18 +371,18 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
 
                         }
                     }
-             // CAMBIAR ESTADO DE LA COMPRA A LIQUIDADA
+                //CAMBIAR ESTADO DE LA COMPRA A LIQUIDADA
                     comprasModel compraModificar= new comprasModel();
                     compraModificar = comDAO.getCompra(idCotizacion);
                     comDAO.UpdateLiquidacion(compraModificar.getIdCompra(),1);
                     comprasModel compraComprobar= new comprasModel();
                     compraComprobar = comDAO.getCompra(idCotizacion);
-             //VERIFICAR SI LA COMPRA SE PUEDE DAR POR TERMINADA
+                //VERIFICAR SI LA COMPRA SE PUEDE DAR POR TERMINADA
                     if(compraComprobar.getLiquidada()== true && compraComprobar.getEntregada() == true){
                         int estadonuevo = 4;
                         cotDAO.updateCotizacion(idCotizacion,estadonuevo);
                     }
-            //DESAPARAECER LOS BOTONES PARA IMPEDIR ACCIONES
+                //DESAPARAECER LOS BOTONES PARA IMPEDIR ACCIONES
                     bt.setVisibility(View.INVISIBLE);
                     bt2.setVisibility(View.INVISIBLE);
                     bt3.setVisibility(View.INVISIBLE);

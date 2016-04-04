@@ -45,8 +45,7 @@ public class cotizacionesDAO {
             e.printStackTrace();
         }
         ContentValues cv = new ContentValues();
-
-
+        cv.put(IDCOTIZACION, cotizacion.getIdCotizacion());
         cv.put(IDSOLICITUD, cotizacion.getIdSolicitud());
         cv.put(CANTOFRECIDA, cotizacion.getCantOfrecida());
         cv.put(PRECIO, cotizacion.getPrecio());
@@ -54,10 +53,8 @@ public class cotizacionesDAO {
         cv.put(FECENTREGA, cotizacion.getFecEntrega().getTime());
         cv.put(ESTADO, cotizacion.getEstado());
         cv.put(IDEMPRESAVENDEDORA, cotizacion.getIdEmpresaVendedora());
-            db.insert(TABLE_COTIZACIONES, cv);
+        db.insert(TABLE_COTIZACIONES, cv);
 
-        Toast toast = Toast.makeText(context, "Cotizacion Enviada con Exito", Toast.LENGTH_LONG);
-        toast.show();
         db.close();
 
     }
@@ -73,8 +70,6 @@ public class cotizacionesDAO {
         String condition = IDCOTIZACION + " = " + idCotizacion;
         db.update(TABLE_COTIZACIONES, cv, condition);
 
-        Toast toast = Toast.makeText(context, "Cotizacion ", Toast.LENGTH_LONG);
-        toast.show();
         db.close();
     }
     public static ArrayList<cotizacionesModel> getCotizaciones( int IdEmpresa){
@@ -213,6 +208,7 @@ public class cotizacionesDAO {
         db.close();
         return cot;
     }
+
     public int getIdSolicitud( int IdCotizacion ){
         int idSolicitud = 0;
         try {

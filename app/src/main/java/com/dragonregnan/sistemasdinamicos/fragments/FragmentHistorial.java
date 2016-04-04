@@ -32,6 +32,7 @@ public class FragmentHistorial extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+    //INSTANCIAS DE LAS CLASES DAOS
         comDAO = new comprasDAO(this.getContext());
     }
 
@@ -42,9 +43,11 @@ public class FragmentHistorial extends Fragment {
 
         compras.clear();
         compras = comDAO.getcompras();
+    //LLENAR EL LISTVIEW
         final HistorialAdapter adapter = new HistorialAdapter(this.getContext(), compras);
         ListView listView = (ListView) rootView.findViewById(R.id.listViewHistorial);
         listView.setAdapter(adapter);
+    //MOSTRAR DETALLE DE LA POSICION SELECCONADA
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
 

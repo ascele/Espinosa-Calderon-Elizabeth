@@ -11,10 +11,6 @@ public class sesionModel {
 
     private int idUsuario;
 
-    private String ubicacion;
-
-    private Date fecSesion;
-
     private Boolean activa;
 
     public int getIdSesion(){
@@ -23,14 +19,6 @@ public class sesionModel {
 
     public int getIdUsuario(){
         return idUsuario;
-    }
-
-    public String getUbicacion(){
-        return ubicacion;
-    }
-
-    public Date getFecSesion(){
-        return fecSesion;
     }
 
     public Boolean getActiva(){
@@ -43,14 +31,6 @@ public class sesionModel {
 
     public void setIdUsuario( int idUr){
         idUsuario = idUr;
-    }
-
-    public void setUbicacion( String un){
-        ubicacion = un;
-    }
-
-    public void setFecSesion( Date fecSn){
-        fecSesion = fecSn;
     }
 
     public void setActiva( Boolean av){

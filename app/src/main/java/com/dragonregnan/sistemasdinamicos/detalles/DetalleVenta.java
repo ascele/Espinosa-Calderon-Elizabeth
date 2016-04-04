@@ -27,12 +27,16 @@ public class DetalleVenta extends ActionBarActivity {
         setContentView(R.layout.detalle_venta);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+     //OBTENER EXTRAS DEL ACTIVITY PADRE
+
         Bundle extras = getIntent().getExtras();
         nombreComp = extras.getString("NombreCompradora");
         nombreVend = extras.getString("NombreVendedora");
         cantidad = extras.getInt("Cantidad");
         precio = extras.getFloat("Precio");
         total = extras.getFloat("Total");
+
+    //MOSTRAR DATOS DE LA VENTA
 
         TextView comprador = (TextView) findViewById(R.id.empresacompradora_historial);
         TextView vendedor = (TextView) findViewById(R.id.empresavendedora_historial);

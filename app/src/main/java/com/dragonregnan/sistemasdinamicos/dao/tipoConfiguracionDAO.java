@@ -19,4 +19,6 @@ public class tipoConfiguracionDAO {
     public static final String  TABLE_TIPOCONFIGURACION = "tipoconfiguracion";
     public static final String  IDTIPOCONFIGURACION= "idtipoconfiguracion";
     public static final String  NBTIPOCONFIGURACION= "nbtipoconfiguracion";
+
+
 }

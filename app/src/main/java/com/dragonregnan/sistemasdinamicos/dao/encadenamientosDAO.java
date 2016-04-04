@@ -1,10 +1,13 @@
 package com.dragonregnan.sistemasdinamicos.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.location.Address;
 
 import com.dragonregnan.sistemasdinamicos.db.DataBaseSource;
+import com.dragonregnan.sistemasdinamicos.model.empresasModel;
+import com.dragonregnan.sistemasdinamicos.model.encadenamientosModel;
 import com.dragonregnan.sistemasdinamicos.model.solicitudesModel;
 
 import java.sql.Date;
@@ -27,6 +30,20 @@ public class encadenamientosDAO {
     public encadenamientosDAO(Context context) {
         this.context = context;
         db = new DataBaseSource(context);
+    }
+
+    public void insertEncadenamiento (encadenamientosModel encad) {
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ContentValues cv = new ContentValues();
+        cv.put(IDINDUSTRIACOMPRADORA,encad.getIdIndustriaCompradora());
+        cv.put(IDINDUSTRIAVENDEDORA, encad.getIdIndustriaVendedora());
+        cv.put(COEFICIENTE, encad.getCoeficiente());
+        db.insert(TABLE_ENCADENAMIENTOS, cv);
+        db.close();
     }
 
     public static ArrayList<Integer> getIndustriasVenden( int idIndustriaCompradora){
@@ -53,5 +70,25 @@ public class encadenamientosDAO {
         }
         db.close();
         return vendedoras;
+    }
+    public static int getCoeficiente( int idIndustriaCompradora, int idIndustriaVendedora){
+        int row_idsolicitud =0;
+        String[] fields = {COEFICIENTE};
+        String condition = IDINDUSTRIACOMPRADORA + " = " + idIndustriaCompradora + "AND" + IDINDUSTRIAVENDEDORA + "=" + idIndustriaVendedora;
+
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Cursor cursor = db.getDataRaw(condition, null);
+        if (cursor != null && cursor.getCount() > 0){
+            while(cursor.moveToNext()){
+                row_idsolicitud = cursor.getColumnIndex(COEFICIENTE);
+            }
+        }
+        db.close();
+        return cursor.getInt(row_idsolicitud);
     }
 }

@@ -1,6 +1,7 @@
 package com.dragonregnan.sistemasdinamicos.fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ public class FragmentMisCotizaciones extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+    //INSTANCIAS DE LAS CLASES DAOS
         cotDAO = new cotizacionesDAO(this.getContext());
     }
     @Override
@@ -38,11 +40,16 @@ public class FragmentMisCotizaciones extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_miscotizaciones, container, false);
         ListView listcotizaciones = (ListView) rootView.findViewById(R.id.listViewMiCotizacion);
+    //OBTENER EL ID DEL USUARIO LOGEADO POR MEDIO DE LAS PREFERENCIAS COMPARTIDAS
+        SharedPreferences pref = getContext().getSharedPreferences("MisPreferencias", getContext().MODE_PRIVATE);
+        int idEmpresa = pref.getInt("idEmpresa", 0);
 
         cotizaciones.clear();
-        cotizaciones= cotDAO.getCotizaciones(1);
+        cotizaciones= cotDAO.getCotizaciones(idEmpresa);
+    //LLENAR EL LISTVIEW
         final MisCotizacionesAdapter adapter = new MisCotizacionesAdapter(getContext(), cotizaciones);
         listcotizaciones.setAdapter(adapter);
+    //MOSTRAR DETALLE DE LA POSICION SELECCONADA
         listcotizaciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override

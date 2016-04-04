@@ -74,6 +74,9 @@ public class DetalleMiCotizacionActivity extends ActionBarActivity {
         nivelesDAO = new nivelesVariablesDAO(this);
         empDAO = new empresasDAO(this);
         balDAO = new balancesDAO(this);
+        encadenamientoDAO = new encadenamientosDAO(this);
+
+    //OBTENER EXTRAS DEL ACTIVITY PADRE
 
         Bundle extras = getIntent().getExtras();
         idEmpresaCompradora = extras.getInt("IdEmpCompradora");
@@ -86,7 +89,7 @@ public class DetalleMiCotizacionActivity extends ActionBarActivity {
         Estado = extras.getInt("Estado");
         Precio = extras.getFloat("Precio");
 
-
+    //MOSTRAR DATOS DE LA COTIZACION
         TextView empresaVen = (TextView) findViewById(R.id.empresavendedoramicot);
         final TextView cantOfrecida = (TextView) findViewById(R.id.txtvw_cantidadmicot);
         TextView precio = (TextView) findViewById(R.id.txtvw_preciomicot);
@@ -105,9 +108,9 @@ public class DetalleMiCotizacionActivity extends ActionBarActivity {
         comprasModel compra = new comprasModel();
         compra = comDAO.getCompra(idCotizacion);
 
-
+    //CAMBIAR VISIBILIDAD DEL BOTON
         final Button bt = (Button) findViewById(R.id.micotEnviarPedido);
-        if(comDAO.existsCuenta(idCotizacion) == false || compra.getEntregada()== true){
+        if(comDAO.existsCompra(idCotizacion) == false || compra.getEntregada()== true){
             bt.setVisibility(View.INVISIBLE);
         }
 
@@ -118,10 +121,6 @@ public class DetalleMiCotizacionActivity extends ActionBarActivity {
                 comprasModel compra1 = new comprasModel();
                 compra1 = comDAO.getCompra(idCotizacion);
 
-                if(compra1.getEntregada()==true && compra1.getLiquidada()==true){
-                    int estadonuevo = 4;
-                    cotDAO.updateCotizacion(idCotizacion, estadonuevo);
-                }
 
                 int idMercancias = almaDAO.getIdAlmacen(idEmpresaVendedora, 4);
                 if( nivelesDAO.getActual(idEmpresaVendedora,idMercancias) >= CantidadOfrecida ){
@@ -140,7 +139,7 @@ public class DetalleMiCotizacionActivity extends ActionBarActivity {
                     embarque.setCantidadEmbarcada(CantidadOfrecida);
                     embDAO.insertEmbarque(embarque);
 
-                // ACTUALIZAR EL ACTUAL DE lAS MERCANCIAS DEL VENDEDOR Y CUENTA DEL BALANCE DE MERCANCIAS A VENDIDAS
+                // ACTUALIZAR EL ACTUAL DE lAS MERCANCIAS DEL VENDEDOR Y CUENTA DEL BALANCE DE MERCANCIAS A CLIENTES
                     int idalmacenMercancias = almaDAO.getIdAlmacen(idEmpresaVendedora, 4);
                     float coeficiente = (balDAO.getSaldo(idEmpresaVendedora,4)/nivelesDAO.getActual(idEmpresaVendedora,idalmacenMercancias));
                     balancesModel mercanciasCuenta = new balancesModel();
@@ -160,20 +159,20 @@ public class DetalleMiCotizacionActivity extends ActionBarActivity {
                     }
                     balDAO.insertCuentaBalance(mercanciasCuenta);
 
-                    balancesModel ventasCuenta = new balancesModel();
-                    ventasCuenta.setIdCuenta(10);
-                    ventasCuenta.setIdEmpresa(idEmpresaVendedora);
-                    ventasCuenta.setSaldo(balDAO.getSaldo(idEmpresaVendedora, 4) - (CantidadOfrecida * coeficiente));
+                    balancesModel clientesCuenta = new balancesModel();
+                    clientesCuenta.setIdCuenta(7);
+                    clientesCuenta.setIdEmpresa(idEmpresaVendedora);
+                    clientesCuenta.setSaldo(balDAO.getSaldo(idEmpresaVendedora, 7) + (CantidadOfrecida * coeficiente));
                     try {
                         Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                        ventasCuenta.setFecBalance(date);
+                        clientesCuenta.setFecBalance(date);
                     } catch (ParseException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     } catch (java.text.ParseException e) {
                         e.printStackTrace();
                     }
-                    balDAO.insertCuentaBalance(ventasCuenta);
+                    balDAO.insertCuentaBalance(clientesCuenta);
 
                     nivelesVariablesModel nivelcambiar = new nivelesVariablesModel();
                     nivelcambiar = nivelesDAO.getNivel(idEmpresaVendedora,4);
@@ -205,6 +204,17 @@ public class DetalleMiCotizacionActivity extends ActionBarActivity {
                             actualizarNivel.setActual(nuevo);
                             nivelesDAO.insertNivel(actualizarNivel);
                         }
+                    }
+
+                // ACTUALIZAR LA COMPRA A ENTREGADA
+
+                    comDAO.UpdateEntregada(compra1.getIdCompra(),1);
+                    comprasModel compraComprobar= new comprasModel();
+                    compraComprobar = comDAO.getCompra(idCotizacion);
+                    //VERIFICAR SI LA COMPRA SE PUEDE DAR POR TERMINADA
+                    if(compraComprobar.getLiquidada()== true && compraComprobar.getEntregada() == true){
+                        int estadonuevo = 4;
+                        cotDAO.updateCotizacion(idCotizacion,estadonuevo);
                     }
 
                     bt.setVisibility(View.INVISIBLE);

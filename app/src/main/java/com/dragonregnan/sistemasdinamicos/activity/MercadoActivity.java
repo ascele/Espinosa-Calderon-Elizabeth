@@ -44,8 +44,12 @@ public class MercadoActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+    // INSTANCIAR EL LAYOUT DE TABS PARA LOS FRAGMENTS
+
         mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+
+    // ASIGNAR UN NOMBRE A CADA TAB E INSERTAR SU FRAGMENT
 
         mTabHost.addTab(
                 mTabHost.newTabSpec("solicitud").setIndicator(" Solicitudes", null),
@@ -109,6 +113,9 @@ public class MercadoActivity extends AppCompatActivity
         } else if (id == R.id.nav_mercado) {
 
         } else if (id == R.id.nav_balance) {
+            Intent i = new Intent(this,BalanceActivity.class);
+            startActivity(i);
+            finish();
 
         }
 

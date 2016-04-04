@@ -9,6 +9,7 @@ import com.dragonregnan.sistemasdinamicos.db.DataBaseSource;
 import com.dragonregnan.sistemasdinamicos.model.embarquesModel;
 import com.dragonregnan.sistemasdinamicos.model.pagosModel;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -30,18 +31,19 @@ public class embarquesDAO {
         db = new DataBaseSource(context);
     }
 
-    public int insertEmbarque(embarquesModel emb) {
+    public void insertEmbarque(embarquesModel emb) {
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         ContentValues cv = new ContentValues();
-
+        cv.put(IDEMBARQUE,emb.getIdEmbarque());
         cv.put(IDOPERACION, emb.getIdOperacion());
         cv.put(CANTIDADEMBARCADA, emb.getCantidadEmbarcada());
         cv.put(FECEMBARQUE,emb.getFecEmbarque().getTime() );
-        int id = (int) db.insert(TABLE_EMBARQUES, cv);
-
-        Toast toast = Toast.makeText(context, "Embarque registrado con Exito", Toast.LENGTH_LONG);
-        toast.show();
+        db.insert(TABLE_EMBARQUES, cv);
         db.close();
-        return id;
 
     }
 }

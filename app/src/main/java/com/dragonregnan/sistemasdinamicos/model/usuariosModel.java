@@ -7,7 +7,7 @@ public class usuariosModel {
 
     private int idUsuario;
 
-    private long noBoleta;
+    private String noBoleta;
 
     private String contrasena;
 
@@ -23,7 +23,7 @@ public class usuariosModel {
         return idUsuario;
     }
 
-    public long getNoBoleta(){
+    public String getNoBoleta(){
         return noBoleta;
     }
 
@@ -51,7 +51,7 @@ public class usuariosModel {
         idUsuario = idUr;
     }
 
-    public void setNoBoleta( long noBt){
+    public void setNoBoleta( String noBt){
         noBoleta = noBt;
     }
 

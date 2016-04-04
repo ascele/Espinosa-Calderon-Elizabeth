@@ -48,12 +48,14 @@ public class DetalleMisSolicitudesActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         cotDAO = new cotizacionesDAO(this);
 
-
+    //  OBTENER EXTRAS DEL ACTIVITY PADRE
         Bundle extras = getIntent().getExtras();
         idSolicitud = extras.getInt("idSol");
         idEmpresaCompradora = extras.getInt("idEmpCompradora");
         CantidadSolicitada = extras.getInt("Cantidad");
         fechaSolicitada = extras.getString("Fecha");
+
+    //MOSTRAR DATOS DE LA SOLICITUD
 
         TextView empresaSol = (TextView) findViewById(R.id.txtvw_Miempresa);
         TextView cantidadSolicitada = (TextView) findViewById(R.id.txtvw_Micantidad);
@@ -63,6 +65,8 @@ public class DetalleMisSolicitudesActivity extends ActionBarActivity {
         cantidadSolicitada.setText("Cantidad Solicitada: "+ String.valueOf(CantidadSolicitada));
         fecha.setText("Fecha de Entrega: " + fechaSolicitada);
         cotizaciones= cotDAO.getCotizacionesSolicitud(idSolicitud);
+
+    // SE MUESTRA EL DETALLE DE LA COTIZACION
         final DetalleMiSolicitudAdapter adapter = new DetalleMiSolicitudAdapter(this, cotizaciones);
         listcotizaciones.setAdapter(adapter);
         listcotizaciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {

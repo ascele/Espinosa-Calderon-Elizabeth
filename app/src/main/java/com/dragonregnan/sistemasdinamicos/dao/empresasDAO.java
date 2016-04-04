@@ -1,10 +1,13 @@
 package com.dragonregnan.sistemasdinamicos.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.location.Address;
 
 import com.dragonregnan.sistemasdinamicos.db.DataBaseSource;
+import com.dragonregnan.sistemasdinamicos.model.embarquesModel;
+import com.dragonregnan.sistemasdinamicos.model.empresasModel;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,13 +22,28 @@ public class empresasDAO {
     private ArrayList<Address> addresses;
 
     public static final String TABLE_EMPRESAS = "empresas";
-    public static final String IDEMPRESA = "empresa";
+    public static final String IDEMPRESA = "idempresa";
     public static final String NBEMPRESA = "nbempresa";
     public static final String IDINDUSTRIA = "idindustria";
 
     public empresasDAO(Context context) {
         this.context = context;
         db = new DataBaseSource(context);
+    }
+
+    public void insertEmpresa (empresasModel empresa) {
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ContentValues cv = new ContentValues();
+        cv.put(IDEMPRESA,empresa.getIdEmpresa());
+        cv.put(NBEMPRESA, empresa.getNbEmpresa());
+        cv.put(IDINDUSTRIA, empresa.getIdIndustria());
+        db.insert(TABLE_EMPRESAS, cv);
+        db.close();
+
     }
 
     public static String getNombreEmpresa( int idEs) {
@@ -48,8 +66,6 @@ public class empresasDAO {
             db.close();
            return null;
         }
-
-
     }
 
     public static int getIndustriaEmpresa( int idEs) {

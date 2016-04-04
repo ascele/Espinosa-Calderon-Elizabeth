@@ -1,10 +1,13 @@
 package com.dragonregnan.sistemasdinamicos.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.location.Address;
+import android.widget.Toast;
 
 import com.dragonregnan.sistemasdinamicos.db.DataBaseSource;
+import com.dragonregnan.sistemasdinamicos.model.cotizacionesModel;
 import com.dragonregnan.sistemasdinamicos.model.solicitudesModel;
 
 import java.sql.Date;
@@ -61,7 +64,6 @@ public class solicitudesDAO {
 
                 solicitud.setIdSolicitud(cursor.getInt(row_idsolicitud));
                 solicitud.setIdIndustria(cursor.getInt(row_idindustria));
-                int dateColumn = cursor.getColumnIndex("date");
                 Date d = new Date(Long.parseLong(cursor.getString(row_fecentregasol)));
                 solicitud.setFecEntregaSol(d);
                 solicitud.setIdEmpresaCompradora(cursor.getInt(row_idempresacompradora));
@@ -158,6 +160,24 @@ public class solicitudesDAO {
             db.close();
             return 0;
         }
+
+    }
+    public void insertSolicitud(solicitudesModel solicitud) {
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ContentValues cv = new ContentValues();
+
+        cv.put(IDSOLICITUD, solicitud.getIdSolicitud());
+        cv.put(IDINDUSTRIA, solicitud.getIdIndustria());
+        cv.put(FECENTREGASOL, solicitud.getFecEntregaSol().getTime());
+        cv.put(IDEMPRESACOMPRADORA, solicitud.getIdEmpresaCompradora());
+        cv.put(CANTSOLICITADA, solicitud.getCantSolicitada());
+        db.insert(TABLE_SOLICITUDES, cv);
+
+        db.close();
 
     }
 

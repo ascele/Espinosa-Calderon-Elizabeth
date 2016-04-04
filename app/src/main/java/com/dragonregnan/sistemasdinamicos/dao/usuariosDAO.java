@@ -1,10 +1,16 @@
 package com.dragonregnan.sistemasdinamicos.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.location.Address;
+import android.widget.Toast;
 
 import com.dragonregnan.sistemasdinamicos.db.DataBaseSource;
+import com.dragonregnan.sistemasdinamicos.model.solicitudesModel;
+import com.dragonregnan.sistemasdinamicos.model.usuariosModel;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -23,4 +29,55 @@ public class usuariosDAO {
     public static final String APEPATERNO = "apepaterno";
     public static final String APEMATERNO = "apematerno";
     public static final String GRUPO = "grupo";
+
+    public usuariosDAO(Context context) {
+        this.context = context;
+        db = new DataBaseSource(context);
+    }
+
+    public void insertUsuario(usuariosModel usuario) {
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ContentValues cv = new ContentValues();
+
+        cv.put(IDUSUARIO, usuario.getIdUsuario());
+        cv.put(NOBOLETA, usuario.getNoBoleta());
+        cv.put(CONTRASENA, usuario.getContrasena());
+        cv.put(NOMBRE, usuario.getNombre());
+        cv.put(APEPATERNO, usuario.getApePaterno());
+        cv.put(APEMATERNO, usuario.getApeMaterno());
+        cv.put(GRUPO, usuario.getGrupo());
+        db.insert(TABLE_UDUARIOS, cv);
+
+        Toast toast = Toast.makeText(context, "Usuario insertado con exito", Toast.LENGTH_LONG);
+        toast.show();
+        db.close();
+
+    }
+
+    public String getContraseña (String boleta){
+        String[] fields = {CONTRASENA};
+        String condition = NOBOLETA + " = " + boleta ;
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Cursor cursor = db.getData(TABLE_UDUARIOS, fields, condition);
+        if(cursor.getCount() >0){
+            cursor.moveToFirst();
+            int row_id_empresa = cursor.getColumnIndex(CONTRASENA);
+            db.close();
+            return cursor.getString(row_id_empresa);
+        }else{
+            db.close();
+            return null;
+        }
+
+    }
+
 }
