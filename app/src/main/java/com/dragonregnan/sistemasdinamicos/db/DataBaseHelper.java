@@ -177,7 +177,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     + "FOREIGN KEY " + "("+empresasPenalizadasDAO.IDEMPRESA+") REFERENCES " + empresasDAO.TABLE_EMPRESAS + "("+ empresasDAO.IDEMPRESA +"),"
                     + "FOREIGN KEY " + "("+empresasPenalizadasDAO.IDREGLA+") REFERENCES " + reglascompensacionDAO.TABLEREGLASCOMPENSACION + "("+ reglascompensacionDAO.IDREGLA +"),"
                     + "FOREIGN KEY " + "("+empresasPenalizadasDAO.IDEMPRESAVICTIMA+") REFERENCES " + empresasDAO.TABLE_EMPRESAS + "("+ empresasDAO.IDEMPRESA +"));";
-
+    private static final String CREATE_TABLE_ULTIMASINCRONIZACION=
+            "CREATE TABLE " + ultimasincronizacionDAO.TABLE_UDUARIOSEMPRESAS + " ("
+                    + ultimasincronizacionDAO.ID + " INTEGER, "
+                    + ultimasincronizacionDAO.FECHA_SINCRONIZACION + " INTEGER );";
 
     private DataBaseHelper(Context context) {
         super(context, dataBaseName, null, dataBaseVersion);
@@ -209,6 +212,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_USUARIOSEMPRESAS);
         db.execSQL(CREATE_TABLE_REGLASCOMPENSACION);
         db.execSQL(CREATE_TABLE_EMPRESASPENALIZADAS);
+        db.execSQL(CREATE_TABLE_ULTIMASINCRONIZACION);
 
     }
 

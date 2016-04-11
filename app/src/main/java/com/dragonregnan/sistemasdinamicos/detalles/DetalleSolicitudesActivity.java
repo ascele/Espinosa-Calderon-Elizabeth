@@ -14,14 +14,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.dragonregnan.sistemasdinamicos.JSON.JSONParser;
 import com.dragonregnan.sistemasdinamicos.R;
 import com.dragonregnan.sistemasdinamicos.dao.cotizacionesDAO;
 import com.dragonregnan.sistemasdinamicos.dao.empresasDAO;
 import com.dragonregnan.sistemasdinamicos.dao.empresasPenalizadasDAO;
 import com.dragonregnan.sistemasdinamicos.model.cotizacionesModel;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by laura on 16/02/2016.
@@ -34,6 +42,9 @@ public class DetalleSolicitudesActivity extends ActionBarActivity {
     private String fechaSolicitada;
     private empresasDAO empresaDAO;
     private empresasPenalizadasDAO empPena;
+    JSONParser jsonParser = new JSONParser();
+    private static String url = "http://ultragalaxia.com/android/insertcotizacion.php";
+    private static final String TAG_SUCCESS = "success";
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -93,8 +104,9 @@ public class DetalleSolicitudesActivity extends ActionBarActivity {
                 String dia = fechaCaduca.getText().toString();
                 String dia2 = fechaOfre.getText().toString();
                 SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd");
+                Date date =null;
                 try {
-                    Date date = new Date( format.parse(dia).getDate());
+                    date = new Date( format.parse(dia).getDate());
                     cotizacion.setFecExpiracion(date);
                 } catch (ParseException e) {
                     // TODO Auto-generated catch block
@@ -102,8 +114,9 @@ public class DetalleSolicitudesActivity extends ActionBarActivity {
                 } catch (java.text.ParseException e) {
                     e.printStackTrace();
                 }
+                Date date2=null;
                 try {
-                    Date date2 = new Date(format.parse(dia2).getDate());
+                     date2= new Date(format.parse(dia2).getDate());
                     cotizacion.setFecEntrega(date2);
                 } catch (ParseException e) {
                     // TODO Auto-generated catch block
@@ -113,8 +126,25 @@ public class DetalleSolicitudesActivity extends ActionBarActivity {
                 }
                 cotizacion.setEstado(1);
                 cotizacion.setIdEmpresaVendedora(idEmpresa);
-                cotizacionesDAO cotizar = new cotizacionesDAO(getApplicationContext());
-                cotizar.insertCotizacion(cotizacion);
+                List<NameValuePair> cotizacionenviar = new ArrayList<NameValuePair>();
+                cotizacionenviar.add(new BasicNameValuePair("idsolicitud",String.valueOf(idSolicitud)));
+                cotizacionenviar.add(new BasicNameValuePair("cantofrecida",String.valueOf(Integer.valueOf(cantOfre.getText().toString()))));
+                cotizacionenviar.add(new BasicNameValuePair("precio",precOfre.getText().toString()));
+                cotizacionenviar.add(new BasicNameValuePair("fecexpiracion",String.valueOf(date)));
+                cotizacionenviar.add(new BasicNameValuePair("estado",String.valueOf(1)));
+                cotizacionenviar.add(new BasicNameValuePair("idempresavendedora",String.valueOf(idEmpresa)));
+
+                JSONObject json = jsonParser.makeHttpRequest(url, "POST", cotizacionenviar);
+                try {
+                    int success = json.getInt(TAG_SUCCESS);
+                    int idcotizacion = json.getInt("id");
+                    cotizacion.setIdCotizacion(idcotizacion);
+                    cotizacionesDAO cotizar = new cotizacionesDAO(getApplicationContext());
+                    cotizar.insertCotizacion(cotizacion);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
 
                 finish();
 

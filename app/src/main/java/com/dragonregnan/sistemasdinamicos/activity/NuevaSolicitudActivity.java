@@ -10,15 +10,23 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.dragonregnan.sistemasdinamicos.JSON.JSONParser;
 import com.dragonregnan.sistemasdinamicos.R;
+import com.dragonregnan.sistemasdinamicos.dao.cotizacionesDAO;
 import com.dragonregnan.sistemasdinamicos.dao.empresasDAO;
 import com.dragonregnan.sistemasdinamicos.dao.encadenamientosDAO;
 import com.dragonregnan.sistemasdinamicos.dao.solicitudesDAO;
 import com.dragonregnan.sistemasdinamicos.model.solicitudesModel;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by laura on 03/03/2016.
@@ -32,6 +40,10 @@ public class NuevaSolicitudActivity extends Activity {
     private int menoralmacen;
     private String letraMayoralmacen;
     private String letraMenoralmacen;
+
+    JSONParser jsonParser = new JSONParser();
+    private static String url = "http://ultragalaxia.com/android/insertsolicitud.php";
+    private static final String TAG_SUCCESS = "success";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,8 +160,9 @@ public class NuevaSolicitudActivity extends Activity {
                 solicitud.setCantSolicitada(Integer.valueOf(edtnuevacantidad.getText().toString()));
                 String dia = edtnuevafecha.getText().toString();
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date date =null;
                 try {
-                    Date date = new Date( format.parse(dia).getDate());
+                   date = new Date( format.parse(dia).getDate());
                     solicitud.setFecEntregaSol(date);
                 } catch (ParseException e) {
                     // TODO Auto-generated catch block
@@ -162,7 +175,26 @@ public class NuevaSolicitudActivity extends Activity {
                 else if(mayor.isChecked()){
                     solicitud.setIdIndustria(menoralmacen);}
 
-                solDAO.insertSolicitud(solicitud);
+                List<NameValuePair> solienviar = new ArrayList<NameValuePair>();
+                if(menor.isChecked()){
+                    solienviar.add(new BasicNameValuePair("idindustria", String.valueOf(menoralmacen)));}
+                else if(mayor.isChecked()){
+                    solienviar.add(new BasicNameValuePair("idindustria", String.valueOf(mayoralmacen)));}
+                solienviar.add(new BasicNameValuePair("fecentregasol",String.valueOf(date)));
+                solienviar.add(new BasicNameValuePair("idempresacompradora",String.valueOf(idEmpresa)));
+                solienviar.add(new BasicNameValuePair("cantsolicitada",edtnuevacantidad.getText().toString()));
+
+                JSONObject json = jsonParser.makeHttpRequest(url, "POST", solienviar);
+                try {
+                    int success = json.getInt(TAG_SUCCESS);
+                    int idsoli = json.getInt("id");
+                    solicitud.setIdSolicitud(idsoli);
+                    solDAO.insertSolicitud(solicitud);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
                 finish();
             }
         });

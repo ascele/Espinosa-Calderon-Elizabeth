@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.location.Address;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.dragonregnan.sistemasdinamicos.db.DataBaseSource;
@@ -33,6 +34,7 @@ public class ultimasincronizacionDAO {
 
 
     public void registrarSincronizacion( String fecha) {
+        Log.d("registar sincro",fecha);
         try {
             db.open();
         } catch (SQLException e) {

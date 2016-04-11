@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dragonregnan.sistemasdinamicos.JSON.JSONParser;
 import com.dragonregnan.sistemasdinamicos.R;
 import com.dragonregnan.sistemasdinamicos.dao.balancesDAO;
 import com.dragonregnan.sistemasdinamicos.dao.comprasDAO;
@@ -29,10 +30,16 @@ import com.dragonregnan.sistemasdinamicos.model.comprasOperacionesModel;
 import com.dragonregnan.sistemasdinamicos.model.cotizacionesModel;
 import com.dragonregnan.sistemasdinamicos.model.pagosModel;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by laura on 17/02/2016.
@@ -56,6 +63,13 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
     private empresasDAO empresaDAO;
     private encadenamientosDAO encadenamientoDAO;
     private empresasPenalizadasDAO empPena;
+    JSONParser jsonParser = new JSONParser();
+    private static String url = "http://ultragalaxia.com/android/insertoperaciones.php";
+    private static String url2 = "http://ultragalaxia.com/android/insertembarque.php";
+    private static String url3 = "http://ultragalaxia.com/android/updateCompra.php";
+    private static String url4 = "http://ultragalaxia.com/android/updateCotizacion.php";
+    private static final String TAG_SUCCESS = "success";
+
 
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -138,6 +152,16 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
 
                 int estadonuevo = 2;
                 cotDAO.updateCotizacion(idCotizacion, estadonuevo);
+                List<NameValuePair> cotUpdate = new ArrayList<NameValuePair>();
+                cotUpdate.add(new BasicNameValuePair("idCotizacion",String.valueOf(idCotizacion)));
+                cotUpdate.add(new BasicNameValuePair("estado",String.valueOf(estadonuevo)));
+
+                JSONObject jsoncot = jsonParser.makeHttpRequest(url4, "POST", cotUpdate);
+                try {
+                    int success = jsoncot.getInt(TAG_SUCCESS);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 comprasModel compra = new comprasModel();
                 compra.setIdCotizacion(idCotizacion);
                 compra.setEntregada(false);
@@ -187,6 +211,16 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
 
                 int estadonuevo = 3;
                 cotDAO.updateCotizacion(idCotizacion,estadonuevo);
+                List<NameValuePair> cotUpdate = new ArrayList<NameValuePair>();
+                cotUpdate.add(new BasicNameValuePair("idCotizacion",String.valueOf(idCotizacion)));
+                cotUpdate.add(new BasicNameValuePair("estado",String.valueOf(estadonuevo)));
+
+                JSONObject jsoncot = jsonParser.makeHttpRequest(url4, "POST", cotUpdate);
+                try {
+                    int success = jsoncot.getInt(TAG_SUCCESS);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 bt.setVisibility(View.INVISIBLE);
                 bt2.setVisibility(View.INVISIBLE);
                 bt3.setVisibility(View.INVISIBLE);
@@ -207,7 +241,22 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
                 operacion.setIdEmpresaVendedora(idEmpresaVendedora);
                 operacion.setIdEmpresaCompradora(idEmpresaCompradora);
 
-                int idOperacion = comOpeDAO.insertCompraOperacion(operacion);
+                List<NameValuePair> operaciones = new ArrayList<NameValuePair>();
+                operaciones.add(new BasicNameValuePair("idtipooperacion",String.valueOf(2)));
+                operaciones.add(new BasicNameValuePair("idcompra",String.valueOf(compra.getIdCompra())));
+                operaciones.add(new BasicNameValuePair("idempresacompradora",String.valueOf(idEmpresaVendedora)));
+                operaciones.add(new BasicNameValuePair("idempresavendedora",String.valueOf(idEmpresaCompradora)));
+                int idOperacion=0;
+
+                JSONObject json = jsonParser.makeHttpRequest(url, "POST", operaciones);
+                try {
+                    int success = json.getInt(TAG_SUCCESS);
+                    int idoperacion = json.getInt("id");
+                    operacion.setIdOperacion(idoperacion);
+                    idOperacion = idOperacion = comOpeDAO.insertCompraOperacion(operacion);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 Float salBan = balDAO.getSaldo(idEmpresaCompradora, 5);
                 Float salCli = balDAO.getSaldo(idEmpresaVendedora, 7);
@@ -225,16 +274,31 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
                     pago.setCantidadPagada(Float.valueOf(total.getText().toString()));
                     SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd");
                     Calendar cal = Calendar.getInstance();
+                    Date date1= null;
                     try {
-                        Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                         pago.setFecPago(date);
+                         date1= new Date( format.parse(String.valueOf(cal.getTime())).getDate());
+                         pago.setFecPago(date1);
                     } catch (ParseException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     } catch (java.text.ParseException e) {
                         e.printStackTrace();
                     }
-                    pagoDAO.insertPago(pago);
+                    List<NameValuePair> pagos = new ArrayList<NameValuePair>();
+                    pagos.add(new BasicNameValuePair("idoperacion",String.valueOf(idOperacion)));
+                    pagos.add(new BasicNameValuePair("cantidadpagada", String.valueOf(Float.valueOf(total.getText().toString()))));
+                    pagos.add(new BasicNameValuePair("fecpago", String.valueOf(date1)));
+
+                    JSONObject json2 = jsonParser.makeHttpRequest(url2, "POST", pagos);
+                    try {
+                        int success = json2.getInt(TAG_SUCCESS);
+                        int idembarque = json2.getInt("id");
+                        pago.setIdPago(idembarque);
+                        pagoDAO.insertPago(pago);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
 
                     balancesModel bancos = new balancesModel();
                     balancesModel clientes = new balancesModel();
@@ -375,12 +439,33 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
                     comprasModel compraModificar= new comprasModel();
                     compraModificar = comDAO.getCompra(idCotizacion);
                     comDAO.UpdateLiquidacion(compraModificar.getIdCompra(),1);
+                    List<NameValuePair> compraupdate = new ArrayList<NameValuePair>();
+                    compraupdate.add(new BasicNameValuePair("idCompra",String.valueOf(compraModificar.getIdCompra())));
+                    compraupdate.add(new BasicNameValuePair("opcion",String.valueOf(2)));
+                    compraupdate.add(new BasicNameValuePair("valor",String.valueOf(1)));
+
+                    JSONObject jsoncompra = jsonParser.makeHttpRequest(url3, "POST", compraupdate);
+                    try {
+                        int success = jsoncompra.getInt(TAG_SUCCESS);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     comprasModel compraComprobar= new comprasModel();
                     compraComprobar = comDAO.getCompra(idCotizacion);
                 //VERIFICAR SI LA COMPRA SE PUEDE DAR POR TERMINADA
                     if(compraComprobar.getLiquidada()== true && compraComprobar.getEntregada() == true){
                         int estadonuevo = 4;
                         cotDAO.updateCotizacion(idCotizacion,estadonuevo);
+                        List<NameValuePair> cotUpdate = new ArrayList<NameValuePair>();
+                        cotUpdate.add(new BasicNameValuePair("idCotizacion",String.valueOf(idCotizacion)));
+                        cotUpdate.add(new BasicNameValuePair("estado",String.valueOf(estadonuevo)));
+
+                        JSONObject jsoncot = jsonParser.makeHttpRequest(url4, "POST", cotUpdate);
+                        try {
+                            int success = jsoncot.getInt(TAG_SUCCESS);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 //DESAPARAECER LOS BOTONES PARA IMPEDIR ACCIONES
                     bt.setVisibility(View.INVISIBLE);

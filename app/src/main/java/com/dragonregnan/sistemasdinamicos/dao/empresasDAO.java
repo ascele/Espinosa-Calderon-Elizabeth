@@ -81,7 +81,7 @@ public class empresasDAO {
         Cursor cursor = db.getData(TABLE_EMPRESAS, fields, condition);
         if(cursor.getCount() >0){
             cursor.moveToFirst();
-            int row_id_address = cursor.getColumnIndex(NBEMPRESA);
+            int row_id_address = cursor.getColumnIndex(IDINDUSTRIA);
             db.close();
             return cursor.getInt(row_id_address);
         }else{

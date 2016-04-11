@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ParseException;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,9 +31,13 @@ import com.dragonregnan.sistemasdinamicos.dao.balancesDAO;
 import com.dragonregnan.sistemasdinamicos.dao.empresasDAO;
 import com.dragonregnan.sistemasdinamicos.dao.encadenamientosDAO;
 import com.dragonregnan.sistemasdinamicos.dao.nivelesVariablesDAO;
+import com.dragonregnan.sistemasdinamicos.model.balancesModel;
 import com.dragonregnan.sistemasdinamicos.model.nivelesVariablesModel;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by laura on 07/12/2015.
@@ -43,6 +49,7 @@ public class HomeActivity  extends AppCompatActivity
     private nivelesVariablesDAO nivVariableDAO;
     private empresasDAO empDAO;
     private encadenamientosDAO encDAO;
+    private balancesDAO balDAO;
 
     private int idalmacen1;
     private int idalmacen2;
@@ -89,7 +96,6 @@ public class HomeActivity  extends AppCompatActivity
         setContentView(R.layout.homeactivity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -100,11 +106,14 @@ public class HomeActivity  extends AppCompatActivity
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MisPreferencias", MODE_PRIVATE);
         final int idEmpresa = pref.getInt("idEmpresa", 0);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         almaDAO = new almacenesDAO(this);
         nivVariableDAO = new nivelesVariablesDAO(this);
         encDAO= new encadenamientosDAO(this);
         empDAO = new empresasDAO(this);
+        balDAO = new balancesDAO(this);
 
     //OBTENER LOS ALMACENES
 
@@ -113,7 +122,9 @@ public class HomeActivity  extends AppCompatActivity
         produccion = almaDAO.getIdAlmacen( idEmpresa,3 );
         mercancias = almaDAO.getIdAlmacen(idEmpresa, 4);
 
+        Log.d("idEmpresa",String.valueOf(idEmpresa));
         final int idIndustria = empDAO.getIndustriaEmpresa(idEmpresa);
+        Log.d("idIndustria",String.valueOf(idIndustria));
         if(idIndustria == 1){
             letramercancia="A";
         }
@@ -206,9 +217,6 @@ public class HomeActivity  extends AppCompatActivity
         almacen2maximo = almaDAO.getMaximo(idEmpresa, idalmacen2);
         mercanciasmaximo = almaDAO.getMaximo(idEmpresa, mercancias);
         produccionmaximo = almaDAO.getMaximo(idEmpresa, produccion);
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         final LinearLayout material1 = (LinearLayout) findViewById(R.id.material1);
 
@@ -593,11 +601,96 @@ public class HomeActivity  extends AppCompatActivity
                                 nivelesVariablesModel nivModel = new nivelesVariablesModel();
                                 nivModel.setIdAlmacen(produccion);
                                 nivModel.setIdEmpresa(idEmpresa);
-                                nivModel.setActual(nivVariableDAO.getActual(idEmpresa,produccion));
+                                nivModel.setActual(nivVariableDAO.getActual(idEmpresa, produccion));
                                 nivModel.setDeseado(producirDeseado);
                                 nivModel.setMinimoDeseado(0);
 
+                                balancesModel alma1 = new balancesModel();
+                                balancesModel alma2 = new balancesModel();
+                                balancesModel merca = new balancesModel();
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                Calendar cal = Calendar.getInstance();
+
+                                alma1.setIdEmpresa(idEmpresa);
+                                alma1.setIdCuenta(1);
+                                try {
+                                    Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
+                                    alma1.setFecBalance(date);
+                                } catch (ParseException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                } catch (java.text.ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                float saldoactualalma1 = balDAO.getSaldo(idEmpresa,1);
+                                float precio = saldoactualalma1/almacen1actual;
+                                float saldototal = menorNecesario*precio ;
+                                alma1.setSaldo(saldototal);
+
+                                balDAO.insertCuentaBalance(alma1);
+
+                                alma2.setIdEmpresa(idEmpresa);
+                                alma2.setIdCuenta(2);
+                                try {
+                                    Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
+                                    alma2.setFecBalance(date);
+                                } catch (ParseException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                } catch (java.text.ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                float saldoactualalma2 = balDAO.getSaldo(idEmpresa,2);
+                                float precio2 = saldoactualalma2/almacen2actual;
+                                float saldototal2 = mayorNecesario*precio2 ;
+                                alma2.setSaldo(saldototal2);
+
+                                balDAO.insertCuentaBalance(alma2);
+
+                                merca.setIdEmpresa(idEmpresa);
+                                merca.setIdCuenta(4);
+                                try {
+                                    Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
+                                    merca.setFecBalance(date);
+                                } catch (ParseException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                } catch (java.text.ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                float saldoactualmerca = balDAO.getSaldo(idEmpresa,4);
+                                float preciomerca = saldoactualmerca/mercanciasactual;
+                                float aumentomercancia =  producirDeseado*preciomerca;
+                                float saldototalmerca =saldoactualmerca + aumentomercancia;
+                                merca.setSaldo(saldototal2);
+
+                                balDAO.insertCuentaBalance(merca);
+
+                                nivelesVariablesModel nivalma1 = new nivelesVariablesModel();
+                                nivalma1.setIdAlmacen(almaDAO.getIdAlmacen(idEmpresa, 1));
+                                nivalma1.setIdEmpresa(idEmpresa);
+                                nivalma1.setActual(almacen1actual - menorNecesario);
+                                nivalma1.setDeseado(almacen1Deseado);
+                                nivalma1.setMinimoDeseado(almacen1minimo);
+
+                                nivelesVariablesModel nivalma2 = new nivelesVariablesModel();
+                                nivalma2.setIdAlmacen(almaDAO.getIdAlmacen(idEmpresa, 2));
+                                nivalma2.setIdEmpresa(idEmpresa);
+                                nivalma2.setActual(almacen2actual - mayorNecesario);
+                                nivalma2.setDeseado(almacen2Deseado);
+                                nivalma2.setMinimoDeseado(almacen2minimo);
+
+                                nivelesVariablesModel nivmerca= new nivelesVariablesModel();
+                                nivmerca.setIdAlmacen(almaDAO.getIdAlmacen(idEmpresa, 4));
+                                nivmerca.setIdEmpresa(idEmpresa);
+                                nivmerca.setActual(mercanciasactual + produciraux);
+                                nivmerca.setDeseado(mercanciasDeseado);
+                                nivmerca.setMinimoDeseado(mercanciasminimo);
+
                                 nivVariableDAO.insertNivel(nivModel);
+                                nivVariableDAO.insertNivel(nivalma2);
+                                nivVariableDAO.insertNivel(nivalma2);
+                                nivVariableDAO.insertNivel(nivmerca);
                                 dialog.dismiss();
                             }else {
                                 Context context = getApplicationContext();

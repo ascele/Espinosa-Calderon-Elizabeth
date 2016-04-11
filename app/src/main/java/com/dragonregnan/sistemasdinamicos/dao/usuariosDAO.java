@@ -52,8 +52,6 @@ public class usuariosDAO {
         cv.put(GRUPO, usuario.getGrupo());
         db.insert(TABLE_UDUARIOS, cv);
 
-        Toast toast = Toast.makeText(context, "Usuario insertado con exito", Toast.LENGTH_LONG);
-        toast.show();
         db.close();
 
     }
@@ -75,7 +73,48 @@ public class usuariosDAO {
             return cursor.getString(row_id_empresa);
         }else{
             db.close();
-            return null;
+            return "vacio";
+        }
+
+    }
+    public int getIdusuario (String boleta){
+        String[] fields = {IDUSUARIO};
+        String condition = NOBOLETA + " = " + boleta ;
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Cursor cursor = db.getData(TABLE_UDUARIOS, fields, condition);
+        if(cursor.getCount() >0){
+            cursor.moveToFirst();
+            int row_id_empresa = cursor.getColumnIndex(IDUSUARIO);
+            db.close();
+            return cursor.getInt(row_id_empresa);
+        }else{
+            db.close();
+            return 0;
+        }
+
+    }
+    public String getNombre (String boleta){
+        String[] fields = {APEPATERNO};
+        String condition = NOBOLETA + " = " + boleta ;
+        try {
+            db.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Cursor cursor = db.getData(TABLE_UDUARIOS, fields, condition);
+        if(cursor.getCount() >0){
+            cursor.moveToFirst();
+            int row_id_empresa = cursor.getColumnIndex(APEPATERNO);
+            db.close();
+            return cursor.getString(row_id_empresa);
+        }else{
+            db.close();
+            return "vacio";
         }
 
     }

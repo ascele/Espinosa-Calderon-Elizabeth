@@ -30,11 +30,43 @@ import android.widget.Toast;
 
 import com.dragonregnan.sistemasdinamicos.JSON.JSONParser;
 import com.dragonregnan.sistemasdinamicos.R;
+import com.dragonregnan.sistemasdinamicos.dao.almacenesDAO;
+import com.dragonregnan.sistemasdinamicos.dao.balancesDAO;
+import com.dragonregnan.sistemasdinamicos.dao.comprasDAO;
+import com.dragonregnan.sistemasdinamicos.dao.comprasOperacionesDAO;
+import com.dragonregnan.sistemasdinamicos.dao.cotizacionesDAO;
+import com.dragonregnan.sistemasdinamicos.dao.cuentasDAO;
+import com.dragonregnan.sistemasdinamicos.dao.embarquesDAO;
+import com.dragonregnan.sistemasdinamicos.dao.empresasDAO;
+import com.dragonregnan.sistemasdinamicos.dao.encadenamientosDAO;
+import com.dragonregnan.sistemasdinamicos.dao.industriasDAO;
+import com.dragonregnan.sistemasdinamicos.dao.nivelesVariablesDAO;
+import com.dragonregnan.sistemasdinamicos.dao.pagosDAO;
 import com.dragonregnan.sistemasdinamicos.dao.sesionDAO;
+import com.dragonregnan.sistemasdinamicos.dao.solicitudesDAO;
+import com.dragonregnan.sistemasdinamicos.dao.tipoAlmacenDAO;
+import com.dragonregnan.sistemasdinamicos.dao.tipoConfiguracionDAO;
+import com.dragonregnan.sistemasdinamicos.dao.tiposOperacionesDAO;
 import com.dragonregnan.sistemasdinamicos.dao.ultimasincronizacionDAO;
 import com.dragonregnan.sistemasdinamicos.dao.usuariosDAO;
 import com.dragonregnan.sistemasdinamicos.dao.usuariosEmpresasDAO;
+import com.dragonregnan.sistemasdinamicos.model.almacenesModel;
+import com.dragonregnan.sistemasdinamicos.model.balancesModel;
+import com.dragonregnan.sistemasdinamicos.model.comprasModel;
+import com.dragonregnan.sistemasdinamicos.model.comprasOperacionesModel;
+import com.dragonregnan.sistemasdinamicos.model.cotizacionesModel;
+import com.dragonregnan.sistemasdinamicos.model.cuentasModel;
+import com.dragonregnan.sistemasdinamicos.model.embarquesModel;
+import com.dragonregnan.sistemasdinamicos.model.empresasModel;
+import com.dragonregnan.sistemasdinamicos.model.encadenamientosModel;
+import com.dragonregnan.sistemasdinamicos.model.industriasModel;
 import com.dragonregnan.sistemasdinamicos.model.nivelesVariablesModel;
+import com.dragonregnan.sistemasdinamicos.model.pagosModel;
+import com.dragonregnan.sistemasdinamicos.model.sesionModel;
+import com.dragonregnan.sistemasdinamicos.model.solicitudesModel;
+import com.dragonregnan.sistemasdinamicos.model.tipoAlmacenModel;
+import com.dragonregnan.sistemasdinamicos.model.tiposOperacionesModel;
+import com.dragonregnan.sistemasdinamicos.model.usuariosEmpresasModel;
 import com.dragonregnan.sistemasdinamicos.model.usuariosModel;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -46,7 +78,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -82,6 +118,25 @@ public class LoginActivity extends AppCompatActivity {
     private sesionDAO sesDAO;
     private usuariosEmpresasDAO usuEmpDAO;
     private ultimasincronizacionDAO ultimaDAO;
+    private almacenesDAO almaDAO;
+    private balancesDAO balDAO;
+    private comprasDAO comDAO;
+    private comprasOperacionesDAO comOpeDAO;
+    private cotizacionesDAO cotDAO;
+    private cuentasDAO cueDAO;
+    private embarquesDAO embDAO;
+    private empresasDAO empDAO;
+    private encadenamientosDAO encDAO;
+    private industriasDAO indDAO;
+    private nivelesVariablesDAO nivVarDAO;
+    private pagosDAO pagDAO;
+    private solicitudesDAO solDAO;
+    private tipoAlmacenDAO tipAlmDAO;
+    private tiposOperacionesDAO TipOpeDAO;
+
+
+
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -98,38 +153,53 @@ public class LoginActivity extends AppCompatActivity {
         usuDAO = new usuariosDAO(this);
         sesDAO = new sesionDAO(this);
         ultimaDAO =new ultimasincronizacionDAO(this);
+        usuEmpDAO = new usuariosEmpresasDAO(this);
+        almaDAO =  new almacenesDAO(this);
+        balDAO = new balancesDAO(this);
+        comDAO = new comprasDAO(this) ;
+        comOpeDAO = new comprasOperacionesDAO(this);
+        cotDAO = new cotizacionesDAO(this);
+        cueDAO = new cuentasDAO(this);
+        embDAO = new embarquesDAO(this);
+        empDAO = new empresasDAO(this);
+        encDAO = new encadenamientosDAO(this);
+        indDAO = new industriasDAO(this);
+        nivVarDAO = new nivelesVariablesDAO(this);
+        pagDAO = new pagosDAO(this);
+        solDAO = new solicitudesDAO(this);
+        tipAlmDAO = new tipoAlmacenDAO(this);
+        TipOpeDAO= new tiposOperacionesDAO(this);
 
         int id_Logueado = sesDAO.getActiva();
 
-        if(id_Logueado > 0){
+        Log.d("logeado", String.valueOf(id_Logueado));
 
-        mBoletaView = (AutoCompleteTextView) findViewById(R.id.boleta);
+        if(id_Logueado == 0){
 
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
+            mBoletaView = (AutoCompleteTextView) findViewById(R.id.boleta);
+
+            mPasswordView = (EditText) findViewById(R.id.password);
+            mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                    if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                        attemptLogin();
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+            Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
+            mEmailSignInButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    attemptLogin();
+                }
+            });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+            mLoginFormView = findViewById(R.id.login_form);
+            mProgressView = findViewById(R.id.login_progress);
         }else{
             int empresa = usuEmpDAO.getEmpresa(id_Logueado);
             SharedPreferences pref = getApplicationContext().getSharedPreferences("MisPreferencias", MODE_PRIVATE);
@@ -144,6 +214,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public static boolean verificaConexion(Context ctx) {
+        Log.d("verificaConexion", "verificaConexion");
         boolean bConectado = false;
         ConnectivityManager connec = (ConnectivityManager) ctx
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -169,11 +240,11 @@ public class LoginActivity extends AppCompatActivity {
         // GUARDAR VALORES AL MISMO TIEMPO QUE SE TRATA DE LOGUEAR
         String boleta = mBoletaView.getText().toString();
         String password = mPasswordView.getText().toString();
-        boolean cancel = true;
+        boolean cancel = false;
         View focusView = null;
 
         // CHECAR VALIDEZ DE DATOS DE ACCESO
-        if (!TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
@@ -224,42 +295,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Login Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.dragonregnan.sistemasdinamicos.activity/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Login Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.dragonregnan.sistemasdinamicos.activity/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-    }
-
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mBoleta;
@@ -274,10 +309,12 @@ public class LoginActivity extends AppCompatActivity {
 
         private int isPasswordValid(String password, String boleta) {
             String comparacion = usuDAO.getContraseña(boleta);
-            if (comparacion.equals(null)) {
+            Log.d("contraseña:", comparacion);
+            Log.d("contraseña pass:", password);
+            if (comparacion.equals("vacio")) {
                 return 0;
             }
-            if (comparacion == password) {
+            if (comparacion.equals(password)) {
                 return 2;
             } else {
                 return 1;
@@ -290,7 +327,7 @@ public class LoginActivity extends AppCompatActivity {
             boolean ret = false;
 
             int comprobacion = isPasswordValid(mPassword, mBoleta);
-
+            Log.d("comprobacion pass:", String.valueOf(comprobacion));
             if (comprobacion == 0) {
 
                 if (!verificaConexion(LoginActivity.this)) {
@@ -325,64 +362,315 @@ public class LoginActivity extends AppCompatActivity {
                                 usuarios.setApePaterno(c.getString(TAG_APEPATERNO));
                                 usuarios.setApeMaterno(c.getString(TAG_APEMATERNO));
                                 usuarios.setGrupo(c.getString(TAG_GRUPO));
-
                                 usuDAO.insertUsuario(usuarios);
                             }
-
                             if (empresa == 0) {
-                                final Dialog dialog = new Dialog(LoginActivity.this);
-                                dialog.setContentView(R.layout.dialog_nombre);
-                                dialog.setTitle("Mi empresa");
-                                dialog.show();
-                                final EditText nombreEmpresa = (EditText) dialog.findViewById(R.id.edtxtnombre);
-                                Button continuar = (Button) dialog.findViewById(R.id.btncontinuar);
-                                continuar.setOnClickListener(new OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
+                                Log.d("empresa ", String.valueOf(empresa));
 
-                                        List<NameValuePair> params2 = new ArrayList<NameValuePair>();
+                                List<NameValuePair> params2 = new ArrayList<NameValuePair>();
 
-                                        params2.add(new BasicNameValuePair("idUsuario", String.valueOf(id_usuario)));
-                                        params2.add(new BasicNameValuePair("empresa", nombreEmpresa.getText().toString()));
+                                params2.add(new BasicNameValuePair("idUsuario", String.valueOf(id_usuario)));
+                                params2.add(new BasicNameValuePair("empresa", "Corporacion "+usuDAO.getNombre(mBoleta)));
 
-                                        jsonParser.makeHttpRequest(url2, "POST", params2);
-                                        dialog.dismiss();
-                                    }
-                                });
+                                jsonParser.makeHttpRequest(url2, "POST", params2);
+
                             }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     if (ultimaDAO.getSincronizacion()== null){
+                        List<NameValuePair> vacio = new ArrayList<NameValuePair>();
 
-                        JSONObject json3 = jsonParser.makeHttpRequest(url3, "POST", params1);
-                        Log.d("Create Response", json.toString());
+                        JSONObject json3 = jsonParser.makeHttpRequest(url3, "POST", vacio);
+                        Log.d("Create Response", json3.toString());
 
                         try {
-                            int success = json.getInt(TAG_SUCCESS);
+                            int success = json3.getInt(TAG_SUCCESS);
                             if (success == 1) {
 
-                                int empresa = json.getInt(TAG_EMPRESA);
+                                JSONArray almacenes;
+                                almacenes = json3.getJSONArray(almaDAO.TABLE_ALMACENES);
 
-                                JSONArray usuario;
-                                usuario = json.getJSONArray(TAG_USUARIO);
-
-                                usuariosModel usuarios = new usuariosModel();
+                                almacenesModel almacen = new almacenesModel();
                                 // looping through All Products
-                                for (int i = 0; i < usuario.length(); i++) {
-                                    JSONObject c = usuario.getJSONObject(i);
-                                    id_usuario=c.getInt(TAG_IDUSUARIO);
-                                    usuarios.setIdUsuario(c.getInt(TAG_IDUSUARIO));
-                                    usuarios.setNoBoleta(c.getString(TAG_NOBOLETA));
-                                    usuarios.setContrasena(c.getString(TAG_CONTRASENA));
-                                    usuarios.setNombre(c.getString(TAG_NOMBRE));
-                                    usuarios.setApePaterno(c.getString(TAG_APEPATERNO));
-                                    usuarios.setApeMaterno(c.getString(TAG_APEMATERNO));
-                                    usuarios.setGrupo(c.getString(TAG_GRUPO));
-
-                                    usuDAO.insertUsuario(usuarios);
+                                for (int i = 0; i < almacenes.length(); i++) {
+                                    JSONObject c = almacenes.getJSONObject(i);
+                                    almacen.setIdAlmacen(c.getInt(almaDAO.IDALMACEN));
+                                    almacen.setIdEmpresa(c.getInt(almaDAO.IDEMPRESA));
+                                    almacen.setIdTipoAlmacen(c.getInt(almaDAO.IDTIPOALMACEN));
+                                    almacen.setMaxAlmacen(c.getInt(almaDAO.MAXALMACEN));
+                                    almacen.setNbAlmacen(c.getString(almaDAO.NBALMACEN));
+                                    almaDAO.insertAlmacen(almacen);
                                 }
+
+                                JSONArray balances;
+                                balances = json3.getJSONArray(balDAO.TABLE_BALANCES);
+
+                                balancesModel balance = new balancesModel();
+                                // looping through All Products
+                                for (int i = 0; i < balances.length(); i++) {
+                                    JSONObject c = balances.getJSONObject(i);
+                                    balance.setIdEmpresa(c.getInt(balDAO.IDEMPRESA));
+                                    balance.setIdCuenta(c.getInt(balDAO.IDCUENTA));
+                                    balance.setSaldo(c.getInt(balDAO.SALDO));
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date date = null;
+                                    try {
+                                        date = new Date(format.parse(c.getString(balDAO.FECBALANCE)).getDate());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    balance.setFecBalance(date);
+                                    balDAO.insertCuentaBalance(balance);
+                                }
+
+                                JSONArray compras;
+                                compras = json3.getJSONArray(comDAO.TABLE_COMPRAS);
+
+                                comprasModel compra = new comprasModel();
+                                // looping through All Products
+                                for (int i = 0; i < compras.length(); i++) {
+                                    JSONObject c = compras.getJSONObject(i);
+                                    compra.setIdCotizacion(c.getInt(comDAO.IDCOTIZACION));
+                                    compra.setIdCompra(c.getInt(comDAO.IDCOMPRA));
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date date = null;
+                                    try {
+                                        date = new Date(format.parse(c.getString(comDAO.FECCOMPRA)).getDate());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    compra.setFecCompra(date);
+                                    Boolean entregada = true;
+                                    if(c.getInt(comDAO.ENTREGADA)== 1){
+                                        entregada = true;
+                                    }else{
+                                        entregada=false;
+                                    }
+                                    compra.setEntregada(entregada);
+                                    Boolean liquidada = true;
+                                    if(c.getInt(comDAO.LIQUIDADA)== 1){
+                                        liquidada = true;
+                                    }else{
+                                        liquidada=false;
+                                    }
+                                    compra.setLiquidada(liquidada);
+                                    comDAO.insertCompras(compra);
+                                }
+                                JSONArray comprasOperaciones;
+                                comprasOperaciones = json3.getJSONArray(comOpeDAO.TABLE_COMPRASOPERACIONES);
+
+                                comprasOperacionesModel compraOperacion = new comprasOperacionesModel();
+                                // looping through All Products
+                                for (int i = 0; i < comprasOperaciones.length(); i++) {
+                                    JSONObject c = comprasOperaciones.getJSONObject(i);
+                                    compraOperacion.setIdCompra(c.getInt(comOpeDAO.IDCOMPRA));
+                                    compraOperacion.setIdOperacion(c.getInt(comOpeDAO.IDOPERACION));
+                                    compraOperacion.setIdEmpresaVendedora(c.getInt(comOpeDAO.IDEMPRESAVENDEDORA));
+                                    compraOperacion.setIdEmpresaCompradora(c.getInt(comOpeDAO.IDEMPRESACOMPRADORA));
+                                    compraOperacion.setIdTipoOperacion(c.getInt(comOpeDAO.IDTIPOOPERACION));
+                                    comOpeDAO.insertCompraOperacion(compraOperacion);
+                                }
+                                JSONArray cotizaciones;
+                                cotizaciones = json3.getJSONArray(cotDAO.TABLE_COTIZACIONES);
+
+                                cotizacionesModel cotizacion = new cotizacionesModel();
+                                // looping through All Products
+                                for (int i = 0; i < cotizaciones.length(); i++) {
+                                    JSONObject c = cotizaciones.getJSONObject(i);
+                                    cotizacion.setIdCotizacion(c.getInt(cotDAO.IDCOTIZACION));
+                                    cotizacion.setIdSolicitud(c.getInt(cotDAO.IDSOLICITUD));
+                                    cotizacion.setIdEmpresaVendedora(c.getInt(cotDAO.IDEMPRESAVENDEDORA));
+                                    cotizacion.setCantOfrecida(c.getInt(cotDAO.CANTOFRECIDA));
+                                    cotizacion.setPrecio(c.getInt(cotDAO.PRECIO));
+                                    cotizacion.setEstado(c.getInt(cotDAO.ESTADO));
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date date = null;
+                                    try {
+                                        date = new Date(format.parse(c.getString(cotDAO.FECEXPIRACION)).getDate());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    cotizacion.setFecExpiracion(date);
+                                    Date date2 = null;
+                                    try {
+                                        date2 = new Date(format.parse(c.getString(cotDAO.FECENTREGA)).getDate());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    cotizacion.setFecEntrega(date2);
+                                    cotDAO.insertCotizacion(cotizacion);
+                                }
+                                JSONArray cuentas;
+                                cuentas = json3.getJSONArray(cueDAO.TABLE_CUENTAS);
+
+                                cuentasModel cuenta = new cuentasModel();
+                                // looping through All Products
+                                for (int i = 0; i < cuentas.length(); i++) {
+                                    JSONObject c = cuentas.getJSONObject(i);
+                                    cuenta.setIdCuenta(c.getInt(cueDAO.IDCUENTA));
+                                    cuenta.setNbCuenta(c.getString(cueDAO.NBCUENTA));
+                                    Boolean acreedora = true;
+                                    if(c.getInt(cueDAO.ACREEDORA)== 1){
+                                        acreedora = true;
+                                    }else{
+                                        acreedora=false;
+                                    }
+                                    cuenta.setAcreedora(acreedora);
+                                    cueDAO.insertCuenta(cuenta);
+                                }
+                                JSONArray embarques;
+                                embarques = json3.getJSONArray(embDAO.TABLE_EMBARQUES);
+
+                                embarquesModel embarque = new embarquesModel();
+                                // looping through All Products
+                                for (int i = 0; i < embarques.length(); i++) {
+                                    JSONObject c = embarques.getJSONObject(i);
+                                    embarque.setIdEmbarque(c.getInt(embDAO.IDEMBARQUE));
+                                    embarque.setIdOperacion(c.getInt(embDAO.IDOPERACION));
+                                    embarque.setCantidadEmbarcada(c.getInt(embDAO.CANTIDADEMBARCADA));
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date date = null;
+                                    try {
+                                        date = new Date(format.parse(c.getString(embDAO.FECEMBARQUE)).getDate());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    embarque.setFecEmbarque(date);
+                                    embDAO.insertEmbarque(embarque);
+                                }
+                                JSONArray empresas;
+                                empresas = json3.getJSONArray(empDAO.TABLE_EMPRESAS);
+
+                                empresasModel empresa = new empresasModel();
+                                // looping through All Products
+                                for (int i = 0; i < empresas.length(); i++) {
+                                    JSONObject c = empresas.getJSONObject(i);
+                                    empresa.setIdEmpresa(c.getInt(empDAO.IDEMPRESA));
+                                    empresa.setIdIndustria(c.getInt(empDAO.IDINDUSTRIA));
+                                    empresa.setNbEmpresa(c.getString(empDAO.NBEMPRESA));
+                                    empDAO.insertEmpresa(empresa);
+                                }
+                                JSONArray encadenamientos;
+                                encadenamientos = json3.getJSONArray(encDAO.TABLE_ENCADENAMIENTOS);
+
+                                encadenamientosModel encadenamiento = new encadenamientosModel();
+                                // looping through All Products
+                                for (int i = 0; i < encadenamientos.length(); i++) {
+                                    JSONObject c = encadenamientos.getJSONObject(i);
+                                    encadenamiento.setIdIndustriaCompradora(c.getInt(encDAO.IDINDUSTRIACOMPRADORA));
+                                    encadenamiento.setIdIndustriaVendedora(c.getInt(encDAO.IDINDUSTRIAVENDEDORA));
+                                    encadenamiento.setCoeficiente(c.getInt(encDAO.COEFICIENTE));
+                                    encDAO.insertEncadenamiento(encadenamiento);
+                                }
+                                JSONArray industrias;
+                                industrias = json3.getJSONArray(indDAO.TABLE_INDUSTRIAS);
+
+                                industriasModel industria = new industriasModel();
+                                // looping through All Products
+                                for (int i = 0; i < industrias.length(); i++) {
+                                    JSONObject c = industrias.getJSONObject(i);
+                                    industria.setIdIndustria(c.getInt(indDAO.IDINDUSTRIA));
+                                    industria.setNbIndustria(c.getString(indDAO.NBINDUSTRIA));
+                                    indDAO.insertIndustria(industria);
+                                }
+
+                                JSONArray nivelesVariables;
+                                nivelesVariables = json3.getJSONArray(nivVarDAO.TABLE_NIVELESVARIABLES);
+
+                                nivelesVariablesModel niveleVariable = new nivelesVariablesModel();
+                                // looping through All Products
+                                for (int i = 0; i < nivelesVariables.length(); i++) {
+                                    JSONObject c = nivelesVariables.getJSONObject(i);
+                                    niveleVariable.setIdAlmacen(c.getInt(nivVarDAO.IDALMACEN));
+                                    niveleVariable.setIdEmpresa(c.getInt(nivVarDAO.IDEMPRESA));
+                                    niveleVariable.setDeseado(c.getInt(nivVarDAO.DESEADO));
+                                    niveleVariable.setActual(c.getInt(nivVarDAO.ACTUAL));
+                                    niveleVariable.setMinimoDeseado(c.getInt(nivVarDAO.MINIMODESEADO));
+                                    nivVarDAO.insertNivel(niveleVariable);
+                                }
+                                JSONArray pagos;
+                                pagos = json3.getJSONArray(pagDAO.TABLE_PAGOS);
+
+                                pagosModel pago = new pagosModel();
+                                // looping through All Products
+                                for (int i = 0; i < pagos.length(); i++) {
+                                    JSONObject c = pagos.getJSONObject(i);
+                                    pago.setIdPago(c.getInt(pagDAO.IDPAGO));
+                                    pago.setIdOperacion(c.getInt(pagDAO.IDOPERACION));
+                                    pago.setCantidadPagada(c.getInt(pagDAO.CANTIDADPAGADA));
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date date = null;
+                                    try {
+                                        date = new Date(format.parse(c.getString(pagDAO.FECPAGO)).getDate());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    pago.setFecPago(date);
+                                    pagDAO.insertPago(pago);
+                                }
+                                JSONArray solicitudes;
+                                solicitudes = json3.getJSONArray(solDAO.TABLE_SOLICITUDES);
+
+                                solicitudesModel solicitud = new solicitudesModel();
+                                // looping through All Products
+                                for (int i = 0; i < solicitudes.length(); i++) {
+                                    JSONObject c = solicitudes.getJSONObject(i);
+                                    solicitud.setIdSolicitud(c.getInt(solDAO.IDSOLICITUD));
+                                    solicitud.setIdIndustria(c.getInt(solDAO.IDINDUSTRIA));
+                                    solicitud.setIdEmpresaCompradora(c.getInt(solDAO.IDEMPRESACOMPRADORA));
+                                    solicitud.setCantSolicitada(c.getInt(solDAO.CANTSOLICITADA));
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date date = null;
+                                    try {
+                                        date = new Date(format.parse(c.getString(solDAO.FECENTREGASOL)).getDate());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    solicitud.setFecEntregaSol(date);
+                                    solDAO.insertSolicitud(solicitud);
+                                }
+                                JSONArray tipoAlmacenes;
+                                tipoAlmacenes = json3.getJSONArray("tipoalmacenes");
+
+                                tipoAlmacenModel tipoAlmacen = new tipoAlmacenModel();
+                                // looping through All Products
+                                for (int i = 0; i < tipoAlmacenes.length(); i++) {
+                                    JSONObject c = tipoAlmacenes.getJSONObject(i);
+                                    tipoAlmacen.setIdTipoAlmacen(c.getInt(tipAlmDAO.IDTIPOALMACEN));
+                                    tipoAlmacen.setNbTipoAlmacen(c.getString(tipAlmDAO.NBTIPOALMACEN));
+                                    tipAlmDAO.insertTipoAlmacen(tipoAlmacen);
+                                }
+
+                                JSONArray tipoOperaciones;
+                                tipoOperaciones = json3.getJSONArray(TipOpeDAO.TABLE_TIPOOPERACIONES);
+
+                                tiposOperacionesModel tipoOperacion = new tiposOperacionesModel();
+                                // looping through All Products
+                                for (int i = 0; i < tipoOperaciones.length(); i++) {
+                                    JSONObject c = tipoOperaciones.getJSONObject(i);
+                                    tipoOperacion.setIdTipoOperacion(c.getInt(TipOpeDAO.IDTIPOOPERACION));
+                                    tipoOperacion.setNbTipoOperacion(c.getString(TipOpeDAO.NBTIPOOPERACION));
+                                    TipOpeDAO.insertTipoAlmacen(tipoOperacion);
+                                }
+                                JSONArray usuariosEmpresas;
+                                usuariosEmpresas = json3.getJSONArray(usuEmpDAO.TABLE_UDUARIOSEMPRESAS);
+
+                                usuariosEmpresasModel usuarioEmpresa = new usuariosEmpresasModel();
+                                // looping through All Products
+                                for (int i = 0; i < usuariosEmpresas.length(); i++) {
+                                    JSONObject c = usuariosEmpresas.getJSONObject(i);
+                                    usuarioEmpresa.setIdUsuario(c.getInt(usuEmpDAO.IDUSUARIO));
+                                    usuarioEmpresa.setIdEmpresa(c.getInt(usuEmpDAO.IDEMPRESA));
+                                    usuEmpDAO.insertUsuariosEmpresas(usuarioEmpresa);
+                                }
+
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                Calendar cal = Calendar.getInstance();
+                                ultimaDAO.registrarSincronizacion(dateFormat.format(cal.getTime()));
+                                ret= true;
+                                Log.d("sincronizar", "sincronizar");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -392,7 +680,307 @@ public class LoginActivity extends AppCompatActivity {
             } else if (comprobacion == 1) {
                 ret = false;
             } else if (comprobacion == 2) {
-                ret= true;
+                Log.d("comprobacion", "comprobacion");
+
+                if (ultimaDAO.getSincronizacion()== null){
+                    Log.d("getSincronizacion", ultimaDAO.getSincronizacion());
+                    List<NameValuePair> vacio = new ArrayList<NameValuePair>();
+
+                    JSONObject json3 = jsonParser.makeHttpRequest(url3, "POST", vacio);
+                    Log.d("Create Response", json3.toString());
+
+                    try {
+                        int success = json3.getInt(TAG_SUCCESS);
+                        if (success == 1) {
+
+                            JSONArray almacenes;
+                            almacenes = json3.getJSONArray(almaDAO.TABLE_ALMACENES);
+
+                            almacenesModel almacen = new almacenesModel();
+                            // looping through All Products
+                            for (int i = 0; i < almacenes.length(); i++) {
+                                JSONObject c = almacenes.getJSONObject(i);
+                                almacen.setIdAlmacen(c.getInt(almaDAO.IDALMACEN));
+                                almacen.setIdEmpresa(c.getInt(almaDAO.IDEMPRESA));
+                                almacen.setIdTipoAlmacen(c.getInt(almaDAO.IDTIPOALMACEN));
+                                almacen.setMaxAlmacen(c.getInt(almaDAO.MAXALMACEN));
+                                almacen.setNbAlmacen(c.getString(almaDAO.NBALMACEN));
+                                almaDAO.insertAlmacen(almacen);
+                            }
+
+                            JSONArray balances;
+                            balances = json3.getJSONArray(balDAO.TABLE_BALANCES);
+
+                            balancesModel balance = new balancesModel();
+                            // looping through All Products
+                            for (int i = 0; i < balances.length(); i++) {
+                                JSONObject c = balances.getJSONObject(i);
+                                balance.setIdEmpresa(c.getInt(balDAO.IDEMPRESA));
+                                balance.setIdCuenta(c.getInt(balDAO.IDCUENTA));
+                                balance.setSaldo(c.getInt(balDAO.SALDO));
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                Date date = null;
+                                try {
+                                    date = new Date(format.parse(c.getString(balDAO.FECBALANCE)).getDate());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                balance.setFecBalance(date);
+                                balDAO.insertCuentaBalance(balance);
+                            }
+
+                            JSONArray compras;
+                            compras = json3.getJSONArray(comDAO.TABLE_COMPRAS);
+
+                            comprasModel compra = new comprasModel();
+                            // looping through All Products
+                            for (int i = 0; i < compras.length(); i++) {
+                                JSONObject c = compras.getJSONObject(i);
+                                compra.setIdCotizacion(c.getInt(comDAO.IDCOTIZACION));
+                                compra.setIdCompra(c.getInt(comDAO.IDCOMPRA));
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                Date date = null;
+                                try {
+                                    date = new Date(format.parse(c.getString(comDAO.FECCOMPRA)).getDate());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                compra.setFecCompra(date);
+                                Boolean entregada = true;
+                                if(c.getInt(comDAO.ENTREGADA)== 1){
+                                    entregada = true;
+                                }else{
+                                    entregada=false;
+                                }
+                                compra.setEntregada(entregada);
+                                Boolean liquidada = true;
+                                if(c.getInt(comDAO.LIQUIDADA)== 1){
+                                    liquidada = true;
+                                }else{
+                                    liquidada=false;
+                                }
+                                compra.setLiquidada(liquidada);
+                                comDAO.insertCompras(compra);
+                            }
+                            JSONArray comprasOperaciones;
+                            comprasOperaciones = json3.getJSONArray(comOpeDAO.TABLE_COMPRASOPERACIONES);
+
+                            comprasOperacionesModel compraOperacion = new comprasOperacionesModel();
+                            // looping through All Products
+                            for (int i = 0; i < comprasOperaciones.length(); i++) {
+                                JSONObject c = comprasOperaciones.getJSONObject(i);
+                                compraOperacion.setIdCompra(c.getInt(comOpeDAO.IDCOMPRA));
+                                compraOperacion.setIdOperacion(c.getInt(comOpeDAO.IDOPERACION));
+                                compraOperacion.setIdEmpresaVendedora(c.getInt(comOpeDAO.IDEMPRESAVENDEDORA));
+                                compraOperacion.setIdEmpresaCompradora(c.getInt(comOpeDAO.IDEMPRESACOMPRADORA));
+                                compraOperacion.setIdTipoOperacion(c.getInt(comOpeDAO.IDTIPOOPERACION));
+                                comOpeDAO.insertCompraOperacion(compraOperacion);
+                            }
+                            JSONArray cotizaciones;
+                            cotizaciones = json3.getJSONArray(cotDAO.TABLE_COTIZACIONES);
+
+                            cotizacionesModel cotizacion = new cotizacionesModel();
+                            // looping through All Products
+                            for (int i = 0; i < cotizaciones.length(); i++) {
+                                JSONObject c = cotizaciones.getJSONObject(i);
+                                cotizacion.setIdCotizacion(c.getInt(cotDAO.IDCOTIZACION));
+                                cotizacion.setIdSolicitud(c.getInt(cotDAO.IDSOLICITUD));
+                                cotizacion.setIdEmpresaVendedora(c.getInt(cotDAO.IDEMPRESAVENDEDORA));
+                                cotizacion.setCantOfrecida(c.getInt(cotDAO.CANTOFRECIDA));
+                                cotizacion.setPrecio(c.getInt(cotDAO.PRECIO));
+                                cotizacion.setEstado(c.getInt(cotDAO.ESTADO));
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                Date date = null;
+                                try {
+                                    date = new Date(format.parse(c.getString(cotDAO.FECEXPIRACION)).getDate());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                cotizacion.setFecExpiracion(date);
+                                Date date2 = null;
+                                try {
+                                    date2 = new Date(format.parse(c.getString(cotDAO.FECENTREGA)).getDate());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                cotizacion.setFecEntrega(date2);
+                                cotDAO.insertCotizacion(cotizacion);
+                            }
+                            JSONArray cuentas;
+                            cuentas = json3.getJSONArray(cueDAO.TABLE_CUENTAS);
+
+                            cuentasModel cuenta = new cuentasModel();
+                            // looping through All Products
+                            for (int i = 0; i < cuentas.length(); i++) {
+                                JSONObject c = cuentas.getJSONObject(i);
+                                cuenta.setIdCuenta(c.getInt(cueDAO.IDCUENTA));
+                                cuenta.setNbCuenta(c.getString(cueDAO.NBCUENTA));
+                                Boolean acreedora = true;
+                                if(c.getInt(cueDAO.ACREEDORA)== 1){
+                                    acreedora = true;
+                                }else{
+                                    acreedora=false;
+                                }
+                                cuenta.setAcreedora(acreedora);
+                                cueDAO.insertCuenta(cuenta);
+                            }
+                            JSONArray embarques;
+                            embarques = json3.getJSONArray(embDAO.TABLE_EMBARQUES);
+
+                            embarquesModel embarque = new embarquesModel();
+                            // looping through All Products
+                            for (int i = 0; i < embarques.length(); i++) {
+                                JSONObject c = embarques.getJSONObject(i);
+                                embarque.setIdEmbarque(c.getInt(embDAO.IDEMBARQUE));
+                                embarque.setIdOperacion(c.getInt(embDAO.IDOPERACION));
+                                embarque.setCantidadEmbarcada(c.getInt(embDAO.CANTIDADEMBARCADA));
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                Date date = null;
+                                try {
+                                    date = new Date(format.parse(c.getString(embDAO.FECEMBARQUE)).getDate());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                embarque.setFecEmbarque(date);
+                                embDAO.insertEmbarque(embarque);
+                            }
+                            JSONArray empresas;
+                            empresas = json3.getJSONArray(empDAO.TABLE_EMPRESAS);
+
+                            empresasModel empresa = new empresasModel();
+                            // looping through All Products
+                            for (int i = 0; i < empresas.length(); i++) {
+                                JSONObject c = empresas.getJSONObject(i);
+                                empresa.setIdEmpresa(c.getInt(empDAO.IDEMPRESA));
+                                empresa.setIdIndustria(c.getInt(empDAO.IDINDUSTRIA));
+                                empresa.setNbEmpresa(c.getString(empDAO.NBEMPRESA));
+                                empDAO.insertEmpresa(empresa);
+                            }
+                            JSONArray encadenamientos;
+                            encadenamientos = json3.getJSONArray(encDAO.TABLE_ENCADENAMIENTOS);
+
+                            encadenamientosModel encadenamiento = new encadenamientosModel();
+                            // looping through All Products
+                            for (int i = 0; i < encadenamientos.length(); i++) {
+                                JSONObject c = encadenamientos.getJSONObject(i);
+                                encadenamiento.setIdIndustriaCompradora(c.getInt(encDAO.IDINDUSTRIACOMPRADORA));
+                                encadenamiento.setIdIndustriaVendedora(c.getInt(encDAO.IDINDUSTRIAVENDEDORA));
+                                encadenamiento.setCoeficiente(c.getInt(encDAO.COEFICIENTE));
+                                encDAO.insertEncadenamiento(encadenamiento);
+                            }
+                            JSONArray industrias;
+                            industrias = json3.getJSONArray(indDAO.TABLE_INDUSTRIAS);
+
+                            industriasModel industria = new industriasModel();
+                            // looping through All Products
+                            for (int i = 0; i < industrias.length(); i++) {
+                                JSONObject c = industrias.getJSONObject(i);
+                                industria.setIdIndustria(c.getInt(indDAO.IDINDUSTRIA));
+                                industria.setNbIndustria(c.getString(indDAO.NBINDUSTRIA));
+                                indDAO.insertIndustria(industria);
+                            }
+
+                            JSONArray nivelesVariables;
+                            nivelesVariables = json3.getJSONArray(nivVarDAO.TABLE_NIVELESVARIABLES);
+
+                            nivelesVariablesModel niveleVariable = new nivelesVariablesModel();
+                            // looping through All Products
+                            for (int i = 0; i < nivelesVariables.length(); i++) {
+                                JSONObject c = nivelesVariables.getJSONObject(i);
+                                niveleVariable.setIdAlmacen(c.getInt(nivVarDAO.IDALMACEN));
+                                niveleVariable.setIdEmpresa(c.getInt(nivVarDAO.IDEMPRESA));
+                                niveleVariable.setDeseado(c.getInt(nivVarDAO.DESEADO));
+                                niveleVariable.setActual(c.getInt(nivVarDAO.ACTUAL));
+                                niveleVariable.setMinimoDeseado(c.getInt(nivVarDAO.MINIMODESEADO));
+                                nivVarDAO.insertNivel(niveleVariable);
+                            }
+                            JSONArray pagos;
+                            pagos = json3.getJSONArray(pagDAO.TABLE_PAGOS);
+
+                            pagosModel pago = new pagosModel();
+                            // looping through All Products
+                            for (int i = 0; i < pagos.length(); i++) {
+                                JSONObject c = pagos.getJSONObject(i);
+                                pago.setIdPago(c.getInt(pagDAO.IDPAGO));
+                                pago.setIdOperacion(c.getInt(pagDAO.IDOPERACION));
+                                pago.setCantidadPagada(c.getInt(pagDAO.CANTIDADPAGADA));
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                Date date = null;
+                                try {
+                                    date = new Date(format.parse(c.getString(pagDAO.FECPAGO)).getDate());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                pago.setFecPago(date);
+                                pagDAO.insertPago(pago);
+                            }
+                            JSONArray solicitudes;
+                            solicitudes = json3.getJSONArray(solDAO.TABLE_SOLICITUDES);
+
+                            solicitudesModel solicitud = new solicitudesModel();
+                            // looping through All Products
+                            for (int i = 0; i < solicitudes.length(); i++) {
+                                JSONObject c = solicitudes.getJSONObject(i);
+                                solicitud.setIdSolicitud(c.getInt(solDAO.IDSOLICITUD));
+                                solicitud.setIdIndustria(c.getInt(solDAO.IDINDUSTRIA));
+                                solicitud.setIdEmpresaCompradora(c.getInt(solDAO.IDEMPRESACOMPRADORA));
+                                solicitud.setCantSolicitada(c.getInt(solDAO.CANTSOLICITADA));
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                Date date = null;
+                                try {
+                                    date = new Date(format.parse(c.getString(solDAO.FECENTREGASOL)).getDate());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                solicitud.setFecEntregaSol(date);
+                                solDAO.insertSolicitud(solicitud);
+                            }
+                            JSONArray tipoAlmacenes;
+                            tipoAlmacenes = json3.getJSONArray("tipoalmacenes");
+
+                            tipoAlmacenModel tipoAlmacen = new tipoAlmacenModel();
+                            // looping through All Products
+                            for (int i = 0; i < tipoAlmacenes.length(); i++) {
+                                JSONObject c = tipoAlmacenes.getJSONObject(i);
+                                tipoAlmacen.setIdTipoAlmacen(c.getInt(tipAlmDAO.IDTIPOALMACEN));
+                                tipoAlmacen.setNbTipoAlmacen(c.getString(tipAlmDAO.NBTIPOALMACEN));
+                                tipAlmDAO.insertTipoAlmacen(tipoAlmacen);
+                            }
+
+                            JSONArray tipoOperaciones;
+                            tipoOperaciones = json3.getJSONArray(TipOpeDAO.TABLE_TIPOOPERACIONES);
+
+                            tiposOperacionesModel tipoOperacion = new tiposOperacionesModel();
+                            // looping through All Products
+                            for (int i = 0; i < tipoOperaciones.length(); i++) {
+                                JSONObject c = tipoOperaciones.getJSONObject(i);
+                                tipoOperacion.setIdTipoOperacion(c.getInt(TipOpeDAO.IDTIPOOPERACION));
+                                tipoOperacion.setNbTipoOperacion(c.getString(TipOpeDAO.NBTIPOOPERACION));
+                                TipOpeDAO.insertTipoAlmacen(tipoOperacion);
+                            }
+                            JSONArray usuariosEmpresas;
+                            usuariosEmpresas = json3.getJSONArray(usuEmpDAO.TABLE_UDUARIOSEMPRESAS);
+
+                            usuariosEmpresasModel usuarioEmpresa = new usuariosEmpresasModel();
+                            // looping through All Products
+                            for (int i = 0; i < usuariosEmpresas.length(); i++) {
+                                JSONObject c = usuariosEmpresas.getJSONObject(i);
+                                usuarioEmpresa.setIdUsuario(c.getInt(usuEmpDAO.IDUSUARIO));
+                                usuarioEmpresa.setIdEmpresa(c.getInt(usuEmpDAO.IDEMPRESA));
+                                usuEmpDAO.insertUsuariosEmpresas(usuarioEmpresa);
+                            }
+
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            Calendar cal = Calendar.getInstance();
+                            ultimaDAO.registrarSincronizacion(dateFormat.format(cal.getTime()));
+                            ret= true;
+                            Log.d("sincronizar", "sincronizar");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
             }
             try {
                 Thread.sleep(2000);
@@ -407,15 +995,24 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
+            Log.d("onPostExecute", "onPostExecute");
             if (success) {
                 //SE CREAN LAS PREFERENCIAS
+                Log.d("success", "success");
+                if(id_usuario == 0){
+                    id_usuario = usuDAO.getIdusuario(mBoleta);
+                }
                 int empresa = usuEmpDAO.getEmpresa(id_usuario);
+                Log.d("id_usuario", String.valueOf(id_usuario));
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("MisPreferencias", MODE_PRIVATE);
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putInt("idEmpresa", empresa);
                 editor.putInt("idUsuario", id_usuario);
                 editor.commit();
+                sesionModel sesion = new sesionModel();
+                sesion.setIdUsuario(id_usuario);
+                sesion.setActiva(1);
+                sesDAO.insertSesion(sesion);
                 Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(i);
                 finish();

@@ -49,16 +49,12 @@ public class nivelesVariablesDAO {
             cv.put(MINIMODESEADO, nivel.getMinimoDeseado());
             db.insert(TABLE_NIVELESVARIABLES, cv);
 
-            Toast toast = Toast.makeText(context, "Nivel actualizado", Toast.LENGTH_LONG);
-            toast.show();
         }else{
             cv.put(DESEADO,nivel.getDeseado());
             cv.put(ACTUAL, nivel.getActual());
             cv.put(MINIMODESEADO, nivel.getMinimoDeseado());
             String condition = IDEMPRESA + " = " + nivel.getIdEmpresa() + " AND " + IDALMACEN + " = " + nivel.getIdAlmacen();
             db.update(TABLE_NIVELESVARIABLES, cv, condition);
-            Toast toast = Toast.makeText(context, "Nivel  creado exitosamente", Toast.LENGTH_LONG);
-            toast.show();
             db.close();
         }
     }

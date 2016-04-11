@@ -11,7 +11,7 @@ public class sesionModel {
 
     private int idUsuario;
 
-    private Boolean activa;
+    private int activa;
 
     public int getIdSesion(){
         return idSesion;
@@ -21,7 +21,7 @@ public class sesionModel {
         return idUsuario;
     }
 
-    public Boolean getActiva(){
+    public int getActiva(){
         return activa;
     }
 
@@ -33,7 +33,7 @@ public class sesionModel {
         idUsuario = idUr;
     }
 
-    public void setActiva( Boolean av){
+    public void setActiva( int av){
         activa = av;
     }
 }

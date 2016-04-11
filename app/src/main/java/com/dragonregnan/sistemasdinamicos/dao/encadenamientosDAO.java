@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.location.Address;
+import android.util.Log;
 
 import com.dragonregnan.sistemasdinamicos.db.DataBaseSource;
 import com.dragonregnan.sistemasdinamicos.model.empresasModel;
@@ -47,7 +48,7 @@ public class encadenamientosDAO {
     }
 
     public static ArrayList<Integer> getIndustriasVenden( int idIndustriaCompradora){
-        String[] fields = {IDINDUSTRIAVENDEDORA};
+        String[] fields = {IDINDUSTRIAVENDEDORA };
         String condition = IDINDUSTRIACOMPRADORA + " = " + idIndustriaCompradora;
 
         try {
@@ -56,16 +57,15 @@ public class encadenamientosDAO {
             e.printStackTrace();
         }
 
-        Cursor cursor = db.getDataRaw(condition, null);
+        Cursor cursor = db.getData(TABLE_ENCADENAMIENTOS, fields, condition);
         ArrayList<Integer> vendedoras = new ArrayList<>();
-        vendedoras.clear();
         if (cursor != null && cursor.getCount() > 0){
             while(cursor.moveToNext()){
-                solicitudesModel solicitud  = new solicitudesModel();
 
                 int row_idsolicitud = cursor.getColumnIndex(IDINDUSTRIAVENDEDORA);
 
                 vendedoras.add(cursor.getInt(row_idsolicitud));
+                Log.d("vendedoras",String.valueOf(cursor.getInt(row_idsolicitud)));
             }
         }
         db.close();
@@ -82,7 +82,7 @@ public class encadenamientosDAO {
             e.printStackTrace();
         }
 
-        Cursor cursor = db.getDataRaw(condition, null);
+        Cursor cursor =  db.getData(TABLE_ENCADENAMIENTOS, fields, condition);
         if (cursor != null && cursor.getCount() > 0){
             while(cursor.moveToNext()){
                 row_idsolicitud = cursor.getColumnIndex(COEFICIENTE);
