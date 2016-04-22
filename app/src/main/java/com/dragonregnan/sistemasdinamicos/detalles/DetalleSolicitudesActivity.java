@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.ParseException;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
@@ -52,6 +53,8 @@ public class DetalleSolicitudesActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detalle_solicitudes);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
     //OBTENER EXTRAS DEL ACTIVITY PADRE
         Bundle extras = getIntent().getExtras();
@@ -103,34 +106,16 @@ public class DetalleSolicitudesActivity extends ActionBarActivity {
                 cotizacion.setPrecio(Float.valueOf(precOfre.getText().toString()));
                 String dia = fechaCaduca.getText().toString();
                 String dia2 = fechaOfre.getText().toString();
-                SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd");
-                Date date =null;
-                try {
-                    date = new Date( format.parse(dia).getDate());
-                    cotizacion.setFecExpiracion(date);
-                } catch (ParseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (java.text.ParseException e) {
-                    e.printStackTrace();
-                }
-                Date date2=null;
-                try {
-                     date2= new Date(format.parse(dia2).getDate());
-                    cotizacion.setFecEntrega(date2);
-                } catch (ParseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (java.text.ParseException e) {
-                    e.printStackTrace();
-                }
+                cotizacion.setFecExpiracion(dia);
+                cotizacion.setFecEntrega(dia2);
                 cotizacion.setEstado(1);
                 cotizacion.setIdEmpresaVendedora(idEmpresa);
                 List<NameValuePair> cotizacionenviar = new ArrayList<NameValuePair>();
                 cotizacionenviar.add(new BasicNameValuePair("idsolicitud",String.valueOf(idSolicitud)));
-                cotizacionenviar.add(new BasicNameValuePair("cantofrecida",String.valueOf(Integer.valueOf(cantOfre.getText().toString()))));
+                cotizacionenviar.add(new BasicNameValuePair("cantofrecida",cantOfre.getText().toString()));
                 cotizacionenviar.add(new BasicNameValuePair("precio",precOfre.getText().toString()));
-                cotizacionenviar.add(new BasicNameValuePair("fecexpiracion",String.valueOf(date)));
+                cotizacionenviar.add(new BasicNameValuePair("fecexpiracion",dia));
+                cotizacionenviar.add(new BasicNameValuePair("fecentrega",dia2));
                 cotizacionenviar.add(new BasicNameValuePair("estado",String.valueOf(1)));
                 cotizacionenviar.add(new BasicNameValuePair("idempresavendedora",String.valueOf(idEmpresa)));
 

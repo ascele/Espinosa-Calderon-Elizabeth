@@ -43,12 +43,12 @@ public class balancesDAO {
         if(!existsCuenta(balance.getIdEmpresa(),balance.getIdCuenta())){
             cv.put(IDEMPRESA, balance.getIdEmpresa());
             cv.put(IDCUENTA, balance.getIdCuenta());
-            cv.put(FECBALANCE,balance.getFecBalance().getTime() );
+            cv.put(FECBALANCE,balance.getFecBalance());
             cv.put(SALDO, balance.getSaldo());
             db.insert(TABLE_BALANCES, cv);
             db.close();
         }else{
-            cv.put(FECBALANCE,balance.getFecBalance().getTime() );
+            cv.put(FECBALANCE,balance.getFecBalance());
             cv.put(SALDO, balance.getSaldo());
             String condition = IDEMPRESA + " = " + balance.getIdEmpresa() + " AND " + IDCUENTA + " = " + balance.getIdCuenta();
             db.update(TABLE_BALANCES, cv, condition);

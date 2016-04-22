@@ -49,8 +49,8 @@ public class cotizacionesDAO {
         cv.put(IDSOLICITUD, cotizacion.getIdSolicitud());
         cv.put(CANTOFRECIDA, cotizacion.getCantOfrecida());
         cv.put(PRECIO, cotizacion.getPrecio());
-        cv.put(FECEXPIRACION, cotizacion.getFecExpiracion().getTime());
-        cv.put(FECENTREGA, cotizacion.getFecEntrega().getTime());
+        cv.put(FECEXPIRACION, cotizacion.getFecExpiracion());
+        cv.put(FECENTREGA, cotizacion.getFecEntrega());
         cv.put(ESTADO, cotizacion.getEstado());
         cv.put(IDEMPRESAVENDEDORA, cotizacion.getIdEmpresaVendedora());
         db.insert(TABLE_COTIZACIONES, cv);
@@ -105,10 +105,8 @@ public class cotizacionesDAO {
                 cot.setIdSolicitud(cursor.getInt(row_idsolicitud));
                 cot.setCantOfrecida(cursor.getInt(row_cantofrecida));
                 cot.setPrecio(cursor.getFloat(row_precio));
-                Date d = new Date(Long.parseLong(cursor.getString(row_fecexpiracion)));
-                cot.setFecExpiracion(d);
-                Date d2 = new Date(Long.parseLong(cursor.getString(row_fecentrega)));
-                cot.setFecEntrega(d2);
+                cot.setFecExpiracion(cursor.getString(row_fecexpiracion));
+                cot.setFecEntrega(cursor.getString(row_fecentrega));
                 cot.setEstado(cursor.getInt(row_estado));
                 cot.setIdEmpresaVendedora(cursor.getInt(row_idempresavendedora));
 
@@ -151,10 +149,8 @@ public class cotizacionesDAO {
                 cot.setIdSolicitud(cursor.getInt(row_idsolicitud));
                 cot.setCantOfrecida(cursor.getInt(row_cantofrecida));
                 cot.setPrecio(cursor.getFloat(row_precio));
-                Date d = new Date(Long.parseLong(cursor.getString(row_fecexpiracion)));
-                cot.setFecExpiracion(d);
-                Date d2 = new Date(Long.parseLong(cursor.getString(row_fecentrega)));
-                cot.setFecEntrega(d2);
+                cot.setFecExpiracion(cursor.getString(row_fecexpiracion));
+                cot.setFecEntrega(cursor.getString(row_fecentrega));
                 cot.setEstado(cursor.getInt(row_estado));
                 cot.setIdEmpresaVendedora(cursor.getInt(row_idempresavendedora));
 
@@ -196,10 +192,8 @@ public class cotizacionesDAO {
                 cot.setIdSolicitud(cursor.getInt(row_idsolicitud));
                 cot.setCantOfrecida(cursor.getInt(row_cantofrecida));
                 cot.setPrecio(cursor.getFloat(row_precio));
-                Date d = new Date(Long.parseLong(cursor.getString(row_fecexpiracion)));
-                cot.setFecExpiracion(d);
-                Date d2 = new Date(Long.parseLong(cursor.getString(row_fecentrega)));
-                cot.setFecEntrega(d2);
+                cot.setFecExpiracion(cursor.getString(row_fecexpiracion));
+                cot.setFecEntrega(cursor.getString(row_fecentrega));
                 cot.setEstado(cursor.getInt(row_estado));
                 cot.setIdEmpresaVendedora(cursor.getInt(row_idempresavendedora));
 

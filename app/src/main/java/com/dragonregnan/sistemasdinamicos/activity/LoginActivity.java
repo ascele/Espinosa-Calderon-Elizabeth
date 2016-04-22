@@ -414,14 +414,7 @@ public class LoginActivity extends AppCompatActivity {
                                     balance.setIdEmpresa(c.getInt(balDAO.IDEMPRESA));
                                     balance.setIdCuenta(c.getInt(balDAO.IDCUENTA));
                                     balance.setSaldo(c.getInt(balDAO.SALDO));
-                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                    Date date = null;
-                                    try {
-                                        date = new Date(format.parse(c.getString(balDAO.FECBALANCE)).getDate());
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                    balance.setFecBalance(date);
+                                    balance.setFecBalance(c.getString(balDAO.FECBALANCE));
                                     balDAO.insertCuentaBalance(balance);
                                 }
 
@@ -434,14 +427,7 @@ public class LoginActivity extends AppCompatActivity {
                                     JSONObject c = compras.getJSONObject(i);
                                     compra.setIdCotizacion(c.getInt(comDAO.IDCOTIZACION));
                                     compra.setIdCompra(c.getInt(comDAO.IDCOMPRA));
-                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                    Date date = null;
-                                    try {
-                                        date = new Date(format.parse(c.getString(comDAO.FECCOMPRA)).getDate());
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                    compra.setFecCompra(date);
+                                    compra.setFecCompra(c.getString(comDAO.FECCOMPRA));
                                     Boolean entregada = true;
                                     if(c.getInt(comDAO.ENTREGADA)== 1){
                                         entregada = true;
@@ -485,21 +471,8 @@ public class LoginActivity extends AppCompatActivity {
                                     cotizacion.setCantOfrecida(c.getInt(cotDAO.CANTOFRECIDA));
                                     cotizacion.setPrecio(c.getInt(cotDAO.PRECIO));
                                     cotizacion.setEstado(c.getInt(cotDAO.ESTADO));
-                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                    Date date = null;
-                                    try {
-                                        date = new Date(format.parse(c.getString(cotDAO.FECEXPIRACION)).getDate());
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                    cotizacion.setFecExpiracion(date);
-                                    Date date2 = null;
-                                    try {
-                                        date2 = new Date(format.parse(c.getString(cotDAO.FECENTREGA)).getDate());
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                    cotizacion.setFecEntrega(date2);
+                                    cotizacion.setFecExpiracion(c.getString(cotDAO.FECEXPIRACION));
+                                    cotizacion.setFecEntrega(c.getString(cotDAO.FECENTREGA));
                                     cotDAO.insertCotizacion(cotizacion);
                                 }
                                 JSONArray cuentas;
@@ -530,14 +503,7 @@ public class LoginActivity extends AppCompatActivity {
                                     embarque.setIdEmbarque(c.getInt(embDAO.IDEMBARQUE));
                                     embarque.setIdOperacion(c.getInt(embDAO.IDOPERACION));
                                     embarque.setCantidadEmbarcada(c.getInt(embDAO.CANTIDADEMBARCADA));
-                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                    Date date = null;
-                                    try {
-                                        date = new Date(format.parse(c.getString(embDAO.FECEMBARQUE)).getDate());
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                    embarque.setFecEmbarque(date);
+                                    embarque.setFecEmbarque(c.getString(embDAO.FECEMBARQUE));
                                     embDAO.insertEmbarque(embarque);
                                 }
                                 JSONArray empresas;
@@ -600,14 +566,7 @@ public class LoginActivity extends AppCompatActivity {
                                     pago.setIdPago(c.getInt(pagDAO.IDPAGO));
                                     pago.setIdOperacion(c.getInt(pagDAO.IDOPERACION));
                                     pago.setCantidadPagada(c.getInt(pagDAO.CANTIDADPAGADA));
-                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                    Date date = null;
-                                    try {
-                                        date = new Date(format.parse(c.getString(pagDAO.FECPAGO)).getDate());
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                    pago.setFecPago(date);
+                                    pago.setFecPago(c.getString(pagDAO.FECPAGO));
                                     pagDAO.insertPago(pago);
                                 }
                                 JSONArray solicitudes;
@@ -621,14 +580,8 @@ public class LoginActivity extends AppCompatActivity {
                                     solicitud.setIdIndustria(c.getInt(solDAO.IDINDUSTRIA));
                                     solicitud.setIdEmpresaCompradora(c.getInt(solDAO.IDEMPRESACOMPRADORA));
                                     solicitud.setCantSolicitada(c.getInt(solDAO.CANTSOLICITADA));
-                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                    Date date = null;
-                                    try {
-                                        date = new Date(format.parse(c.getString(solDAO.FECENTREGASOL)).getDate());
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                    solicitud.setFecEntregaSol(date);
+
+                                    solicitud.setFecEntregaSol(c.getString(solDAO.FECENTREGASOL));
                                     solDAO.insertSolicitud(solicitud);
                                 }
                                 JSONArray tipoAlmacenes;
@@ -718,14 +671,8 @@ public class LoginActivity extends AppCompatActivity {
                                 balance.setIdEmpresa(c.getInt(balDAO.IDEMPRESA));
                                 balance.setIdCuenta(c.getInt(balDAO.IDCUENTA));
                                 balance.setSaldo(c.getInt(balDAO.SALDO));
-                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                Date date = null;
-                                try {
-                                    date = new Date(format.parse(c.getString(balDAO.FECBALANCE)).getDate());
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                balance.setFecBalance(date);
+
+                                balance.setFecBalance(c.getString(balDAO.FECBALANCE));
                                 balDAO.insertCuentaBalance(balance);
                             }
 
@@ -738,14 +685,8 @@ public class LoginActivity extends AppCompatActivity {
                                 JSONObject c = compras.getJSONObject(i);
                                 compra.setIdCotizacion(c.getInt(comDAO.IDCOTIZACION));
                                 compra.setIdCompra(c.getInt(comDAO.IDCOMPRA));
-                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                Date date = null;
-                                try {
-                                    date = new Date(format.parse(c.getString(comDAO.FECCOMPRA)).getDate());
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                compra.setFecCompra(date);
+
+                                compra.setFecCompra(c.getString(comDAO.FECCOMPRA));
                                 Boolean entregada = true;
                                 if(c.getInt(comDAO.ENTREGADA)== 1){
                                     entregada = true;
@@ -789,21 +730,8 @@ public class LoginActivity extends AppCompatActivity {
                                 cotizacion.setCantOfrecida(c.getInt(cotDAO.CANTOFRECIDA));
                                 cotizacion.setPrecio(c.getInt(cotDAO.PRECIO));
                                 cotizacion.setEstado(c.getInt(cotDAO.ESTADO));
-                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                Date date = null;
-                                try {
-                                    date = new Date(format.parse(c.getString(cotDAO.FECEXPIRACION)).getDate());
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                cotizacion.setFecExpiracion(date);
-                                Date date2 = null;
-                                try {
-                                    date2 = new Date(format.parse(c.getString(cotDAO.FECENTREGA)).getDate());
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                cotizacion.setFecEntrega(date2);
+                                cotizacion.setFecExpiracion(c.getString(cotDAO.FECEXPIRACION));
+                                cotizacion.setFecEntrega(c.getString(cotDAO.FECENTREGA));
                                 cotDAO.insertCotizacion(cotizacion);
                             }
                             JSONArray cuentas;
@@ -834,14 +762,7 @@ public class LoginActivity extends AppCompatActivity {
                                 embarque.setIdEmbarque(c.getInt(embDAO.IDEMBARQUE));
                                 embarque.setIdOperacion(c.getInt(embDAO.IDOPERACION));
                                 embarque.setCantidadEmbarcada(c.getInt(embDAO.CANTIDADEMBARCADA));
-                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                Date date = null;
-                                try {
-                                    date = new Date(format.parse(c.getString(embDAO.FECEMBARQUE)).getDate());
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                embarque.setFecEmbarque(date);
+                                embarque.setFecEmbarque(c.getString(embDAO.FECEMBARQUE));
                                 embDAO.insertEmbarque(embarque);
                             }
                             JSONArray empresas;
@@ -905,13 +826,7 @@ public class LoginActivity extends AppCompatActivity {
                                 pago.setIdOperacion(c.getInt(pagDAO.IDOPERACION));
                                 pago.setCantidadPagada(c.getInt(pagDAO.CANTIDADPAGADA));
                                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                Date date = null;
-                                try {
-                                    date = new Date(format.parse(c.getString(pagDAO.FECPAGO)).getDate());
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                pago.setFecPago(date);
+                                pago.setFecPago(c.getString(pagDAO.FECPAGO));
                                 pagDAO.insertPago(pago);
                             }
                             JSONArray solicitudes;
@@ -925,14 +840,7 @@ public class LoginActivity extends AppCompatActivity {
                                 solicitud.setIdIndustria(c.getInt(solDAO.IDINDUSTRIA));
                                 solicitud.setIdEmpresaCompradora(c.getInt(solDAO.IDEMPRESACOMPRADORA));
                                 solicitud.setCantSolicitada(c.getInt(solDAO.CANTSOLICITADA));
-                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                Date date = null;
-                                try {
-                                    date = new Date(format.parse(c.getString(solDAO.FECENTREGASOL)).getDate());
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                solicitud.setFecEntregaSol(date);
+                                solicitud.setFecEntregaSol(c.getString(solDAO.FECENTREGASOL));
                                 solDAO.insertSolicitud(solicitud);
                             }
                             JSONArray tipoAlmacenes;

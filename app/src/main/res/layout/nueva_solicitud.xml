@@ -69,7 +69,8 @@
                     android:paddingRight="10dp"
                     android:textColor="@color/brown"
                     android:layout_weight="1"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="date"
+                    android:hint="2016-01-01"/>
             </LinearLayout>
 
             <TextView
@@ -92,7 +93,7 @@
                     android:text="Material A"
                     android:textSize="20dp"
                     android:id="@+id/mat1"
-                    android:checked="false"
+                    android:checked="true"
                 />
                 <RadioButton
                     android:layout_width="match_parent"

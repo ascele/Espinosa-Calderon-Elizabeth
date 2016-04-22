@@ -11,7 +11,7 @@ public class comprasModel {
 
     private int idCotizacion;
 
-    private Date fecCompra;
+    private String fecCompra;
 
     private Boolean liquidada;
 
@@ -25,7 +25,7 @@ public class comprasModel {
         return idCotizacion;
     }
 
-    public Date getFecCompra(){
+    public String getFecCompra(){
         return fecCompra;
     }
 
@@ -45,7 +45,7 @@ public class comprasModel {
         idCotizacion = idCt;
     }
 
-    public void setFecCompra ( Date fcCm){
+    public void setFecCompra ( String fcCm){
         fecCompra = fcCm;
     }
 

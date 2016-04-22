@@ -97,7 +97,7 @@ public class almacenesDAO {
     public int getMaximo( int idempresa, int idTipoAlmacen ){
         boolean exist = false;
         String[] fields = {MAXALMACEN};
-        String condition = IDEMPRESA + " = " + idempresa + " AND " + IDTIPOALMACEN + " = " + idTipoAlmacen;
+        String condition = IDEMPRESA + " = " + idempresa + " AND " + IDALMACEN + " = " + idTipoAlmacen;
 
         try {
             db.open();

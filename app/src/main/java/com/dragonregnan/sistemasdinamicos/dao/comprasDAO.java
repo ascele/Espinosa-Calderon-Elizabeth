@@ -45,7 +45,7 @@ public class comprasDAO {
 
         cv.put(IDCOMPRA, compra.getIdCompra());
         cv.put(IDCOTIZACION, compra.getIdCotizacion());
-        cv.put(FECCOMPRA, compra.getFecCompra().getTime());
+        cv.put(FECCOMPRA, compra.getFecCompra());
         int liq = 0;
         if(compra.getLiquidada()==true){
             liq = 1;
@@ -89,8 +89,7 @@ public class comprasDAO {
                     liquidada = true;
                 }
                 compra.setLiquidada(liquidada);
-                Date d = new Date(Long.parseLong(cursor.getString(row_feccompra)));
-                compra.setFecCompra(d);
+                compra.setFecCompra(cursor.getString(row_feccompra));
                 boolean entregada = false;
                 if(cursor.getInt(row_entregada)== 1){
                     entregada = true;
@@ -128,9 +127,7 @@ public class comprasDAO {
 
                 solicitud.setIdCompra(cursor.getInt(row_idsolicitud));
                 solicitud.setIdCotizacion(cursor.getInt(row_idindustria));
-                int dateColumn = cursor.getColumnIndex("date");
-                Date d = new Date(Long.parseLong(cursor.getString(row_fecentregasol)));
-                solicitud.setFecCompra(d);
+                solicitud.setFecCompra(cursor.getString(row_fecentregasol));
                 solicitudes.add(solicitud);
             }
         }

@@ -9,7 +9,7 @@ public class balancesModel {
 
     private int idEmpresa;
 
-    private Date fecBalance;
+    private String fecBalance;
 
     private int idCuenta;
 
@@ -19,7 +19,7 @@ public class balancesModel {
         return idEmpresa;
     }
 
-    public Date getFecBalance(){
+    public String getFecBalance(){
         return fecBalance;
     }
 
@@ -39,7 +39,7 @@ public class balancesModel {
         idCuenta = idC;
     }
 
-    public void setFecBalance ( Date fecB){
+    public void setFecBalance ( String fecB){
         fecBalance = fecB;
     }
 

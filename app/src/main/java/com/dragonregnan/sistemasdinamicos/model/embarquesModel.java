@@ -13,7 +13,7 @@ public class embarquesModel {
 
     private int cantidadEmbarcada;
 
-    private Date fecEmbarque;
+    private String fecEmbarque;
 
     public int getIdEmbarque(){
         return idEmbarque;
@@ -27,7 +27,7 @@ public class embarquesModel {
         return cantidadEmbarcada;
     }
 
-    public Date getFecEmbarque(){
+    public String getFecEmbarque(){
         return fecEmbarque;
     }
 
@@ -43,7 +43,7 @@ public class embarquesModel {
         cantidadEmbarcada = caEm;
     }
 
-    public void setFecEmbarque( Date fcEq){
+    public void setFecEmbarque( String fcEq){
         fecEmbarque = fcEq;
     }
 }

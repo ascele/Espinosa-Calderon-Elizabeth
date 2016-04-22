@@ -41,7 +41,7 @@ public class pagosDAO {
 
         cv.put(IDOPERACION, pago.getIdOperacion());
         cv.put(CANTIDADPAGADA, pago.getCantidadPagada());
-        cv.put(FECPAGO,pago.getFecPago().getTime() );
+        cv.put(FECPAGO,pago.getFecPago());
         int id = (int) db.insert(TABLE_PAGOS, cv);
 
 

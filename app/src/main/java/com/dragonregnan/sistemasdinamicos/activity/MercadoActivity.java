@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -124,6 +125,9 @@ public class MercadoActivity extends AppCompatActivity
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MisPreferencias",MODE_PRIVATE);
         idEmpresa = pref.getInt("idEmpresa", 0);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         usuDAO = new usuariosDAO(this);
@@ -152,62 +156,10 @@ public class MercadoActivity extends AppCompatActivity
                     .show();
         }
         else {
-            UserLoginTask user = new UserLoginTask(ultimaDAO.getSincronizacion());
-        }
 
-    // INSTANCIAR EL LAYOUT DE TABS PARA LOS FRAGMENTS
-
-        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-
-    // ASIGNAR UN NOMBRE A CADA TAB E INSERTAR SU FRAGMENT
-
-        mTabHost.addTab(
-                mTabHost.newTabSpec("solicitud").setIndicator(" Solicitudes", null),
-                FragmentSolicitudes.class, null);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("misolicitud").setIndicator("Mis Solicitudes", null),
-                FragmentMisSolicitudes.class, null);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("micotizacion").setIndicator("Mis Cotizaciones", null),
-                FragmentMisCotizaciones.class, null);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("hitorial").setIndicator("Historial", null),
-                FragmentHistorial.class, null);
-
-        }
-    public static boolean verificaConexion(Context ctx) {
-        boolean bConectado = false;
-        ConnectivityManager connec = (ConnectivityManager) ctx
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        // No sólo wifi, también GPRS
-        NetworkInfo[] redes = connec.getAllNetworkInfo();
-        // este bucle debería no ser tan ñapa
-        for (int i = 0; i < 2; i++) {
-            // ¿Tenemos conexión? ponemos a true
-            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
-                bConectado = true;
-            }
-        }
-        return bConectado;
-    }
-
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mFecha;
-
-        UserLoginTask(String fec) {
-            mFecha = fec;
-        }
-
-
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             List<NameValuePair> params1 = new ArrayList<NameValuePair>();
-            params1.add(new BasicNameValuePair("fecha", mFecha));
+            params1.add(new BasicNameValuePair("fecha", ultimaDAO.getSincronizacion()));
 
             JSONObject json = jsonParser.makeHttpRequest(url, "POST", params1);
 
@@ -240,13 +192,7 @@ public class MercadoActivity extends AppCompatActivity
                         balance.setIdEmpresa(c.getInt(balDAO.IDEMPRESA));
                         balance.setIdCuenta(c.getInt(balDAO.IDCUENTA));
                         balance.setSaldo(c.getInt(balDAO.SALDO));
-                        Date date = null;
-                        try {
-                            date = new Date(format.parse(c.getString(balDAO.FECBALANCE)).getDate());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        balance.setFecBalance(date);
+                        balance.setFecBalance(c.getString(balDAO.FECBALANCE));
                         balDAO.insertCuentaBalance(balance);
                     }
 
@@ -259,13 +205,7 @@ public class MercadoActivity extends AppCompatActivity
                         JSONObject c = compras.getJSONObject(i);
                         compra.setIdCotizacion(c.getInt(comDAO.IDCOTIZACION));
                         compra.setIdCompra(c.getInt(comDAO.IDCOMPRA));
-                        Date date = null;
-                        try {
-                            date = new Date(format.parse(c.getString(comDAO.FECCOMPRA)).getDate());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        compra.setFecCompra(date);
+                        compra.setFecCompra(c.getString(comDAO.FECCOMPRA));
                         Boolean entregada = true;
                         if(c.getInt(comDAO.ENTREGADA)== 1){
                             entregada = true;
@@ -309,20 +249,8 @@ public class MercadoActivity extends AppCompatActivity
                         cotizacion.setCantOfrecida(c.getInt(cotDAO.CANTOFRECIDA));
                         cotizacion.setPrecio(c.getInt(cotDAO.PRECIO));
                         cotizacion.setEstado(c.getInt(cotDAO.ESTADO));
-                        Date date = null;
-                        try {
-                            date = new Date(format.parse(c.getString(cotDAO.FECEXPIRACION)).getDate());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        cotizacion.setFecExpiracion(date);
-                        Date date2 = null;
-                        try {
-                            date2 = new Date(format.parse(c.getString(cotDAO.FECENTREGA)).getDate());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        cotizacion.setFecEntrega(date2);
+                        cotizacion.setFecExpiracion(c.getString(cotDAO.FECEXPIRACION));
+                        cotizacion.setFecEntrega(c.getString(cotDAO.FECENTREGA));
                         cotDAO.insertCotizacion(cotizacion);
                     }
                     JSONArray cuentas;
@@ -353,13 +281,7 @@ public class MercadoActivity extends AppCompatActivity
                         embarque.setIdEmbarque(c.getInt(embDAO.IDEMBARQUE));
                         embarque.setIdOperacion(c.getInt(embDAO.IDOPERACION));
                         embarque.setCantidadEmbarcada(c.getInt(embDAO.CANTIDADEMBARCADA));
-                        Date date = null;
-                        try {
-                            date = new Date(format.parse(c.getString(embDAO.FECEMBARQUE)).getDate());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        embarque.setFecEmbarque(date);
+                        embarque.setFecEmbarque(c.getString(embDAO.FECEMBARQUE));
                         embDAO.insertEmbarque(embarque);
                     }
                     JSONArray empresas;
@@ -422,13 +344,7 @@ public class MercadoActivity extends AppCompatActivity
                         pago.setIdPago(c.getInt(pagDAO.IDPAGO));
                         pago.setIdOperacion(c.getInt(pagDAO.IDOPERACION));
                         pago.setCantidadPagada(c.getInt(pagDAO.CANTIDADPAGADA));
-                        Date date = null;
-                        try {
-                            date = new Date(format.parse(c.getString(pagDAO.FECPAGO)).getDate());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        pago.setFecPago(date);
+                        pago.setFecPago(c.getString(pagDAO.FECPAGO));
                         pagDAO.insertPago(pago);
                     }
                     JSONArray solicitudes;
@@ -442,13 +358,7 @@ public class MercadoActivity extends AppCompatActivity
                         solicitud.setIdIndustria(c.getInt(solDAO.IDINDUSTRIA));
                         solicitud.setIdEmpresaCompradora(c.getInt(solDAO.IDEMPRESACOMPRADORA));
                         solicitud.setCantSolicitada(c.getInt(solDAO.CANTSOLICITADA));
-                        Date date = null;
-                        try {
-                            date = new Date(format.parse(c.getString(solDAO.FECENTREGASOL)).getDate());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        solicitud.setFecEntregaSol(date);
+                        solicitud.setFecEntregaSol(c.getString(solDAO.FECENTREGASOL));
                         solDAO.insertSolicitud(solicitud);
                     }
                     JSONArray tipoAlmacenes;
@@ -648,19 +558,46 @@ public class MercadoActivity extends AppCompatActivity
                 int success = json13.getInt(TAG_SUCCESS);} catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            return true;
         }
 
-        @Override
-        protected void onPostExecute(final Boolean success) {
+    // INSTANCIAR EL LAYOUT DE TABS PARA LOS FRAGMENTS
+
+        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+
+    // ASIGNAR UN NOMBRE A CADA TAB E INSERTAR SU FRAGMENT
+
+        mTabHost.addTab(
+                mTabHost.newTabSpec("solicitud").setIndicator(" Solicitudes", null),
+                FragmentSolicitudes.class, null);
+        mTabHost.addTab(
+                mTabHost.newTabSpec("misolicitud").setIndicator("Mis Solicitudes", null),
+                FragmentMisSolicitudes.class, null);
+        mTabHost.addTab(
+                mTabHost.newTabSpec("micotizacion").setIndicator("Mis Cotizaciones", null),
+                FragmentMisCotizaciones.class, null);
+        mTabHost.addTab(
+                mTabHost.newTabSpec("hitorial").setIndicator("Historial", null),
+                FragmentHistorial.class, null);
 
         }
-
-        @Override
-        protected void onCancelled() {
+    public static boolean verificaConexion(Context ctx) {
+        boolean bConectado = false;
+        ConnectivityManager connec = (ConnectivityManager) ctx
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        // No sólo wifi, también GPRS
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+        // este bucle debería no ser tan ñapa
+        for (int i = 0; i < 2; i++) {
+            // ¿Tenemos conexión? ponemos a true
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                bConectado = true;
+            }
         }
+        return bConectado;
     }
+
+
 
     @Override
     public void onBackPressed() {

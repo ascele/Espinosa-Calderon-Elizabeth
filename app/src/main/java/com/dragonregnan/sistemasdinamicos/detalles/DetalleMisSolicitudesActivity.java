@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ParseException;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
@@ -46,6 +47,8 @@ public class DetalleMisSolicitudesActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detalle_misolicitud);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         cotDAO = new cotizacionesDAO(this);
 
     //  OBTENER EXTRAS DEL ACTIVITY PADRE

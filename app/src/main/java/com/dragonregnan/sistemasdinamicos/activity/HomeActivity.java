@@ -118,9 +118,10 @@ public class HomeActivity  extends AppCompatActivity
     //OBTENER LOS ALMACENES
 
         idalmacen1 = almaDAO.getIdAlmacen( idEmpresa,1 );
+        Log.d("idalmacen1",String.valueOf(idalmacen1));
         idalmacen2 = almaDAO.getIdAlmacen( idEmpresa,2 );
         produccion = almaDAO.getIdAlmacen( idEmpresa,3 );
-        mercancias = almaDAO.getIdAlmacen(idEmpresa, 4);
+        mercancias = almaDAO.getIdAlmacen( idEmpresa,4 );
 
         Log.d("idEmpresa",String.valueOf(idEmpresa));
         final int idIndustria = empDAO.getIndustriaEmpresa(idEmpresa);
@@ -203,10 +204,15 @@ public class HomeActivity  extends AppCompatActivity
     //OBTENER NIVELES DE LOS ALMACENES
 
         almacen1minimo = nivVariableDAO.getMinimoDeseado(idEmpresa, idalmacen1);
+        Log.d("almacen1minimo",String.valueOf(almacen1minimo));
         almacen1Deseado = nivVariableDAO.getDeseaso(idEmpresa, idalmacen1);
+        Log.d("almacen1Deseado",String.valueOf(almacen1Deseado));
         almacen1actual = nivVariableDAO.getActual(idEmpresa, idalmacen1);
+        Log.d("almacen1actual",String.valueOf(almacen1actual));
         almacen2minimo = nivVariableDAO.getMinimoDeseado(idEmpresa, idalmacen2);
+        Log.d("almacen2minimo",String.valueOf(almacen2minimo));
         almacen2Deseado = nivVariableDAO.getDeseaso(idEmpresa, idalmacen2);
+        Log.d("almacen2Deseado",String.valueOf(almacen2Deseado));
         almacen2actual = nivVariableDAO.getActual(idEmpresa, idalmacen2);
         mercanciasminimo = nivVariableDAO.getMinimoDeseado(idEmpresa, mercancias);
         mercanciasDeseado = nivVariableDAO.getDeseaso(idEmpresa, mercancias);
@@ -214,6 +220,7 @@ public class HomeActivity  extends AppCompatActivity
         producirDeseado = nivVariableDAO.getDeseaso(idEmpresa, produccion);
 
         almacen1maximo = almaDAO.getMaximo(idEmpresa, idalmacen1);
+        Log.d("almacen1maximo",String.valueOf(almacen1maximo));
         almacen2maximo = almaDAO.getMaximo(idEmpresa, idalmacen2);
         mercanciasmaximo = almaDAO.getMaximo(idEmpresa, mercancias);
         produccionmaximo = almaDAO.getMaximo(idEmpresa, produccion);
@@ -235,6 +242,74 @@ public class HomeActivity  extends AppCompatActivity
         mercanciasviewdeseado = findViewById(R.id.nvl_max_3);
         mercanciasviewminimo = findViewById(R.id.nvl_min_3);
 
+        if(almacen1Deseado>0){
+            int margin = ((almacen1Deseado * 100)/almacen1maximo)-5;
+            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) almacen1viewdeseado.getLayoutParams();
+            relativeParams.setMargins(0, 0 , 0, margin);
+            almacen1viewdeseado.setLayoutParams(relativeParams);
+        }
+        if(almacen1Deseado==0){
+            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) almacen1viewdeseado.getLayoutParams();
+            relativeParams.setMargins(0, 0 , 0, 95);
+            almacen1viewdeseado.setLayoutParams(relativeParams);
+        }
+
+        if(almacen1minimo>0){
+            int margin1 = ((almacen1minimo * 100)/almacen1maximo)-5;
+            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) almacen1viewminimo.getLayoutParams();
+            relativeParams.setMargins(0, 0, 0, margin1);
+            almacen1viewminimo.setLayoutParams(relativeParams);}
+        if(almacen1minimo==0){
+            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) almacen1viewminimo.getLayoutParams();
+            relativeParams.setMargins(0, 0, 0,95);
+            almacen1viewminimo.setLayoutParams(relativeParams);
+        }
+
+        if(almacen2Deseado>0){
+            int margin = ((almacen2Deseado * 100)/almacen2maximo)-5;
+            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) almacen2viewdeseado.getLayoutParams();
+            relativeParams.setMargins(0, 0, 0, margin);
+            almacen2viewdeseado.setLayoutParams(relativeParams);
+        }
+        if(almacen2Deseado==0){
+            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) almacen2viewdeseado.getLayoutParams();
+            relativeParams.setMargins(0, 0, 0, 95);
+            almacen2viewdeseado.setLayoutParams(relativeParams);
+        }
+
+        if(almacen2minimo>0){
+            int margin1 = ((almacen2minimo * 100)/almacen2maximo)-5;
+            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) almacen2viewminimo.getLayoutParams();
+            relativeParams.setMargins(0, 0, 0, margin1);
+            almacen2viewminimo.setLayoutParams(relativeParams);}
+        if(almacen2minimo==0){
+            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) almacen2viewminimo.getLayoutParams();
+            relativeParams.setMargins(0, 0, 0, 95);
+            almacen2viewminimo.setLayoutParams(relativeParams);
+        }
+        if(mercanciasDeseado>0){
+            int margin = ((mercanciasDeseado * 100)/mercanciasmaximo)-5;
+            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) mercanciasviewdeseado.getLayoutParams();
+            relativeParams.setMargins(0, 0, 0, margin);
+            mercanciasviewdeseado.setLayoutParams(relativeParams);
+        }
+        if(mercanciasDeseado==0){
+            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) mercanciasviewdeseado.getLayoutParams();
+            relativeParams.setMargins(0, 0, 0, 95);
+            mercanciasviewdeseado.setLayoutParams(relativeParams);
+        }
+
+        if(mercanciasminimo>0){
+            int margin1 = ((mercanciasminimo * 100)/mercanciasmaximo)-5;
+            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) mercanciasviewminimo.getLayoutParams();
+            relativeParams.setMargins(0, 0, 0, margin1);
+            mercanciasviewminimo.setLayoutParams(relativeParams);}
+        if(mercanciasminimo==0){
+            RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) mercanciasviewminimo.getLayoutParams();
+            relativeParams.setMargins(0, 0, 0, 95);
+            mercanciasviewminimo.setLayoutParams(relativeParams);
+        }
+
     //MODIFICAR NIVELES DEL ALMACEN 1
 
         material1.setOnClickListener(new View.OnClickListener() {
@@ -248,8 +323,11 @@ public class HomeActivity  extends AppCompatActivity
                 info1.setText("La capacidad total de tu alamacen es de: " + almacen1maximo);
                 TextView  info2 = (TextView) dialog.findViewById(R.id.txtvw_inf2);
                 info2.setText("Cantidad almacenada actual: " + almacen1actual);
+                TextView info3 = (TextView) dialog.findViewById(R.id.txtvw_estado);
+                info3.setText(String.valueOf(almacen1maximo));
                 SeekBar seekBar =(SeekBar) dialog.findViewById(R.id.seekBar);
                 seekBar.setProgress(almacen1Deseado);
+                seekBar.setMax(almacen1maximo);
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     int progressChanged = 0;
 
@@ -269,6 +347,7 @@ public class HomeActivity  extends AppCompatActivity
                 });
                 SeekBar seekBar2 =(SeekBar) dialog.findViewById(R.id.seekBar2);
                 seekBar2.setProgress(almacen1minimo);
+                seekBar2.setMax(almacen1maximo);
                 seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     int progressChanged = 0;
 
@@ -293,24 +372,24 @@ public class HomeActivity  extends AppCompatActivity
 
                         if(almacen1Deseado>almacen1minimo){
 
-                            if(almacen1Deseado>5){
+                            if(almacen1Deseado>0){
                                 int margin = ((almacen1Deseado * 100)/almacen1maximo)-5;
                                 RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) almacen1viewdeseado.getLayoutParams();
                                 relativeParams.setMargins(0, 0 , 0, margin);
                                 almacen1viewdeseado.setLayoutParams(relativeParams);
                             }
-                            if(almacen1Deseado==5){
+                            if(almacen1Deseado==0){
                                 RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) almacen1viewdeseado.getLayoutParams();
                                 relativeParams.setMargins(0, 0 , 0, 95);
                                 almacen1viewdeseado.setLayoutParams(relativeParams);
                             }
 
-                            if(almacen1minimo>5){
+                            if(almacen1minimo>0){
                                 int margin1 = ((almacen1minimo * 100)/almacen1maximo)-5;
                                 RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) almacen1viewminimo.getLayoutParams();
                                 relativeParams.setMargins(0, 0, 0, margin1);
                                 almacen1viewminimo.setLayoutParams(relativeParams);}
-                            if(almacen1minimo==5){
+                            if(almacen1minimo==0){
                                 RelativeLayout.LayoutParams relativeParams = (RelativeLayout.LayoutParams) almacen1viewminimo.getLayoutParams();
                                 relativeParams.setMargins(0, 0, 0,95);
                                 almacen1viewminimo.setLayoutParams(relativeParams);
@@ -359,8 +438,11 @@ public class HomeActivity  extends AppCompatActivity
                 info1.setText("La capacidad total de tu almacen es de: " + almacen2maximo);
                 TextView  info2 = (TextView) dialog.findViewById(R.id.txtvw_inf2);
                 info2.setText("Cantidad almacenada actual: " + almacen2actual);
+                TextView info3 = (TextView) dialog.findViewById(R.id.txtvw_estado);
+                info3.setText(String.valueOf(almacen2maximo));
                 SeekBar seekBar =(SeekBar) dialog.findViewById(R.id.seekBar);
                 seekBar.setProgress(almacen2Deseado);
+                seekBar.setMax(almacen2maximo);
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     int progressChanged = 0;
 
@@ -380,6 +462,7 @@ public class HomeActivity  extends AppCompatActivity
                 });
                 SeekBar seekBar2 =(SeekBar) dialog.findViewById(R.id.seekBar2);
                 seekBar2.setProgress(almacen2minimo);
+                seekBar2.setMax(almacen2maximo);
                 seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     int progressChanged = 0;
 
@@ -469,6 +552,8 @@ public class HomeActivity  extends AppCompatActivity
                 info1.setText("La capacidad total de tu alamacen es de: " + mercanciasmaximo);
                 TextView  info2 = (TextView) dialog.findViewById(R.id.txtvw_inf2);
                 info2.setText("Cantidad almacenada actual: " + mercanciasactual);
+                TextView info3 = (TextView) dialog.findViewById(R.id.txtvw_estado);
+                info3.setText(String.valueOf(mercanciasmaximo));
                 SeekBar seekBar =(SeekBar) dialog.findViewById(R.id.seekBar);
                 seekBar.setMax(mercanciasmaximo);
                 seekBar.setProgress(mercanciasDeseado);
@@ -585,18 +670,14 @@ public class HomeActivity  extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         EditText producto = (EditText) dialog.findViewById(R.id.edt_producto);
-                        int  produciraux = Integer.parseInt(producto.getText().toString());
+                        int produciraux = Integer.parseInt(producto.getText().toString());
                         int coeficienteMayor = encDAO.getCoeficiente(idIndustria, mayoralmacen);
-                        int mayorNecesario = coeficienteMayor*produciraux;
-                        int coeficienteMenor = encDAO.getCoeficiente(idIndustria,menoralmacen);
-                        int menorNecesario = coeficienteMenor*produciraux;
-                        if( produciraux < produccionmaximo){
-                            if(menorNecesario<= almacen1actual&&mayorNecesario<=almacen2actual){
+                        int mayorNecesario = coeficienteMayor * produciraux;
+                        int coeficienteMenor = encDAO.getCoeficiente(idIndustria, menoralmacen);
+                        int menorNecesario = coeficienteMenor * produciraux;
+                        if (produciraux < produccionmaximo) {
+                            if (menorNecesario <= almacen1actual && mayorNecesario <= almacen2actual) {
                                 producirDeseado = produciraux;
-
-                                TextView progProd = (TextView) findViewById(R.id.progresoproduccion);
-                                String texto = "0/"+producirDeseado;
-                                progProd.setText(texto);
 
                                 nivelesVariablesModel nivModel = new nivelesVariablesModel();
                                 nivModel.setIdAlmacen(produccion);
@@ -613,55 +694,32 @@ public class HomeActivity  extends AppCompatActivity
 
                                 alma1.setIdEmpresa(idEmpresa);
                                 alma1.setIdCuenta(1);
-                                try {
-                                    Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                                    alma1.setFecBalance(date);
-                                } catch (ParseException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                } catch (java.text.ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                float saldoactualalma1 = balDAO.getSaldo(idEmpresa,1);
-                                float precio = saldoactualalma1/almacen1actual;
-                                float saldototal = menorNecesario*precio ;
+                                alma1.setFecBalance(String.valueOf(cal.getTime()));
+
+                                float saldoactualalma1 = balDAO.getSaldo(idEmpresa, 1);
+                                float precio = saldoactualalma1 / almacen1actual;
+                                float saldototal = menorNecesario * precio;
                                 alma1.setSaldo(saldototal);
 
                                 balDAO.insertCuentaBalance(alma1);
 
                                 alma2.setIdEmpresa(idEmpresa);
                                 alma2.setIdCuenta(2);
-                                try {
-                                    Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                                    alma2.setFecBalance(date);
-                                } catch (ParseException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                } catch (java.text.ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                float saldoactualalma2 = balDAO.getSaldo(idEmpresa,2);
-                                float precio2 = saldoactualalma2/almacen2actual;
-                                float saldototal2 = mayorNecesario*precio2 ;
+                                alma2.setFecBalance(String.valueOf(cal.getTime()));
+                                float saldoactualalma2 = balDAO.getSaldo(idEmpresa, 2);
+                                float precio2 = saldoactualalma2 / almacen2actual;
+                                float saldototal2 = mayorNecesario * precio2;
                                 alma2.setSaldo(saldototal2);
 
                                 balDAO.insertCuentaBalance(alma2);
 
                                 merca.setIdEmpresa(idEmpresa);
                                 merca.setIdCuenta(4);
-                                try {
-                                    Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                                    merca.setFecBalance(date);
-                                } catch (ParseException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                } catch (java.text.ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                float saldoactualmerca = balDAO.getSaldo(idEmpresa,4);
-                                float preciomerca = saldoactualmerca/mercanciasactual;
-                                float aumentomercancia =  producirDeseado*preciomerca;
-                                float saldototalmerca =saldoactualmerca + aumentomercancia;
+                                merca.setFecBalance(String.valueOf(cal.getTime()));
+                                float saldoactualmerca = balDAO.getSaldo(idEmpresa, 4);
+                                float preciomerca = saldoactualmerca / mercanciasactual;
+                                float aumentomercancia = producirDeseado * preciomerca;
+                                float saldototalmerca = saldoactualmerca + aumentomercancia;
                                 merca.setSaldo(saldototal2);
 
                                 balDAO.insertCuentaBalance(merca);
@@ -680,7 +738,7 @@ public class HomeActivity  extends AppCompatActivity
                                 nivalma2.setDeseado(almacen2Deseado);
                                 nivalma2.setMinimoDeseado(almacen2minimo);
 
-                                nivelesVariablesModel nivmerca= new nivelesVariablesModel();
+                                nivelesVariablesModel nivmerca = new nivelesVariablesModel();
                                 nivmerca.setIdAlmacen(almaDAO.getIdAlmacen(idEmpresa, 4));
                                 nivmerca.setIdEmpresa(idEmpresa);
                                 nivmerca.setActual(mercanciasactual + produciraux);
@@ -692,7 +750,7 @@ public class HomeActivity  extends AppCompatActivity
                                 nivVariableDAO.insertNivel(nivalma2);
                                 nivVariableDAO.insertNivel(nivmerca);
                                 dialog.dismiss();
-                            }else {
+                            } else {
                                 Context context = getApplicationContext();
                                 CharSequence text = "No hay material suficiente en los almacenes";
                                 int duration = Toast.LENGTH_SHORT;
@@ -701,8 +759,7 @@ public class HomeActivity  extends AppCompatActivity
                                 toast.show();
                             }
 
-                        }
-                        else {
+                        } else {
                             Context context = getApplicationContext();
                             CharSequence text = "La producion no puede ser mayor a tu capacidad maxima";
                             int duration = Toast.LENGTH_SHORT;

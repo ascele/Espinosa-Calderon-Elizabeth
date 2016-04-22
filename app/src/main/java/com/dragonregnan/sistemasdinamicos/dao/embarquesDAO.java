@@ -41,7 +41,7 @@ public class embarquesDAO {
         cv.put(IDEMBARQUE,emb.getIdEmbarque());
         cv.put(IDOPERACION, emb.getIdOperacion());
         cv.put(CANTIDADEMBARCADA, emb.getCantidadEmbarcada());
-        cv.put(FECEMBARQUE,emb.getFecEmbarque().getTime() );
+        cv.put(FECEMBARQUE,emb.getFecEmbarque());
         db.insert(TABLE_EMBARQUES, cv);
         db.close();
 

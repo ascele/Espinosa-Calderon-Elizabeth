@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.net.ParseException;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,6 +51,8 @@ public class NuevaSolicitudActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nueva_solicitud);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MisPreferencias", MODE_PRIVATE);
         final int idEmpresa = pref.getInt("idEmpresa", 0);
@@ -159,17 +163,8 @@ public class NuevaSolicitudActivity extends Activity {
                 solicitud.setIdEmpresaCompradora(idEmpresa);
                 solicitud.setCantSolicitada(Integer.valueOf(edtnuevacantidad.getText().toString()));
                 String dia = edtnuevafecha.getText().toString();
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                Date date =null;
-                try {
-                   date = new Date( format.parse(dia).getDate());
-                    solicitud.setFecEntregaSol(date);
-                } catch (ParseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (java.text.ParseException e) {
-                    e.printStackTrace();
-                }
+                solicitud.setFecEntregaSol(dia);
+
                 if(menor.isChecked()){
                     solicitud.setIdIndustria(menoralmacen);}
                 else if(mayor.isChecked()){
@@ -180,7 +175,7 @@ public class NuevaSolicitudActivity extends Activity {
                     solienviar.add(new BasicNameValuePair("idindustria", String.valueOf(menoralmacen)));}
                 else if(mayor.isChecked()){
                     solienviar.add(new BasicNameValuePair("idindustria", String.valueOf(mayoralmacen)));}
-                solienviar.add(new BasicNameValuePair("fecentregasol",String.valueOf(date)));
+                solienviar.add(new BasicNameValuePair("fecentregasol",dia));
                 solienviar.add(new BasicNameValuePair("idempresacompradora",String.valueOf(idEmpresa)));
                 solienviar.add(new BasicNameValuePair("cantsolicitada",edtnuevacantidad.getText().toString()));
 

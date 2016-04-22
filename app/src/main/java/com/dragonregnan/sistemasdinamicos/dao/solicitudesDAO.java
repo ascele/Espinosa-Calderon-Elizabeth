@@ -64,8 +64,7 @@ public class solicitudesDAO {
 
                 solicitud.setIdSolicitud(cursor.getInt(row_idsolicitud));
                 solicitud.setIdIndustria(cursor.getInt(row_idindustria));
-                Date d = new Date(Long.parseLong(cursor.getString(row_fecentregasol)));
-                solicitud.setFecEntregaSol(d);
+                solicitud.setFecEntregaSol(cursor.getString(row_fecentregasol));
                 solicitud.setIdEmpresaCompradora(cursor.getInt(row_idempresacompradora));
                 solicitud.setCantSolicitada(cursor.getInt(row_cantsolicitada));
 
@@ -105,8 +104,7 @@ public class solicitudesDAO {
                 solicitud.setIdSolicitud(cursor.getInt(row_idsolicitud));
                 solicitud.setIdIndustria(cursor.getInt(row_idindustria));
                 int dateColumn = cursor.getColumnIndex("date");
-                Date d = new Date(Long.parseLong(cursor.getString(row_fecentregasol)));
-                solicitud.setFecEntregaSol(d);
+                solicitud.setFecEntregaSol(cursor.getString(row_fecentregasol));
                 solicitud.setIdEmpresaCompradora(cursor.getInt(row_idempresacompradora));
                 solicitud.setCantSolicitada(cursor.getInt(row_cantsolicitada));
 
@@ -172,7 +170,7 @@ public class solicitudesDAO {
 
         cv.put(IDSOLICITUD, solicitud.getIdSolicitud());
         cv.put(IDINDUSTRIA, solicitud.getIdIndustria());
-        cv.put(FECENTREGASOL, solicitud.getFecEntregaSol().getTime());
+        cv.put(FECENTREGASOL, solicitud.getFecEntregaSol());
         cv.put(IDEMPRESACOMPRADORA, solicitud.getIdEmpresaCompradora());
         cv.put(CANTSOLICITADA, solicitud.getCantSolicitada());
         db.insert(TABLE_SOLICITUDES, cv);

@@ -67,7 +67,6 @@
             android:layout_below="@+id/txtvw2"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:max="10"
             android:progress="10"/>
 
         <TextView

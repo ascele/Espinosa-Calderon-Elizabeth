@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.net.ParseException;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
@@ -77,6 +78,8 @@ public class DetalleMiCotizacionActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detalle_solicitudes);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         cotDAO = new cotizacionesDAO(this);
         comDAO = new comprasDAO(this);
@@ -166,22 +169,15 @@ public class DetalleMiCotizacionActivity extends ActionBarActivity {
                     embarquesModel embarque = new embarquesModel();
                     embarque.setIdOperacion(idOperacion);
                     embarque.setCantidadEmbarcada(CantidadOfrecida);
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
                     Calendar cal = Calendar.getInstance();
-                    Date date1 = null;
-                    try {
-                        date1 = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                        embarque.setFecEmbarque(date1);
-                    } catch (ParseException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (java.text.ParseException e) {
-                        e.printStackTrace();
-                    }
+                    String date1=String.valueOf(cal.getTime());
+                    embarque.setFecEmbarque(date1);
+
                     List<NameValuePair> embarques = new ArrayList<NameValuePair>();
                     embarques.add(new BasicNameValuePair("idoperacion",String.valueOf(idOperacion)));
                     embarques.add(new BasicNameValuePair("cantidadembarcada",String.valueOf(CantidadOfrecida)));
-                    embarques.add(new BasicNameValuePair("fecembarque",String.valueOf(date1)));
+                    embarques.add(new BasicNameValuePair("fecembarque",date1));
 
                     JSONObject json2 = jsonParser.makeHttpRequest(url2, "POST", embarques);
                     try {
@@ -201,30 +197,16 @@ public class DetalleMiCotizacionActivity extends ActionBarActivity {
                     mercanciasCuenta.setIdCuenta(4);
                     mercanciasCuenta.setIdEmpresa(idEmpresaVendedora);
                     mercanciasCuenta.setSaldo(balDAO.getSaldo(idEmpresaVendedora,4)- (CantidadOfrecida*coeficiente));
-                    try {
-                        Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                        mercanciasCuenta.setFecBalance(date);
-                    } catch (ParseException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (java.text.ParseException e) {
-                        e.printStackTrace();
-                    }
+                    mercanciasCuenta.setFecBalance(String.valueOf(cal.getTime()));
+
                     balDAO.insertCuentaBalance(mercanciasCuenta);
 
                     balancesModel clientesCuenta = new balancesModel();
                     clientesCuenta.setIdCuenta(7);
                     clientesCuenta.setIdEmpresa(idEmpresaVendedora);
                     clientesCuenta.setSaldo(balDAO.getSaldo(idEmpresaVendedora, 7) + (CantidadOfrecida * coeficiente));
-                    try {
-                        Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                        clientesCuenta.setFecBalance(date);
-                    } catch (ParseException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (java.text.ParseException e) {
-                        e.printStackTrace();
-                    }
+                    clientesCuenta.setFecBalance(String.valueOf(cal.getTime()));
+
                     balDAO.insertCuentaBalance(clientesCuenta);
 
                     nivelesVariablesModel nivelcambiar = new nivelesVariablesModel();

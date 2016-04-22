@@ -13,7 +13,7 @@ public class pagosModel {
 
     private float cantidadPagada;
 
-    private Date fecPago;
+    private String fecPago;
 
     public int getIdPago(){
         return idPago;
@@ -27,7 +27,7 @@ public class pagosModel {
         return cantidadPagada;
     }
 
-    public Date getFecPago(){
+    public String getFecPago(){
         return fecPago;
     }
 
@@ -43,7 +43,7 @@ public class pagosModel {
         cantidadPagada = caPa;
     }
 
-    public void setFecPago( Date fcP){
+    public void setFecPago( String fcP){
         fecPago = fcP;
     }
 }

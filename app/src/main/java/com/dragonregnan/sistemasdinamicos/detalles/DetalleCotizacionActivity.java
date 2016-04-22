@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.net.ParseException;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
@@ -78,6 +79,8 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detalle_solicitudes);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
     //INSTANCIAR DAOS
 
@@ -166,32 +169,17 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
                 compra.setIdCotizacion(idCotizacion);
                 compra.setEntregada(false);
                 compra.setLiquidada(false);
-                SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd");
                 Calendar cal = Calendar.getInstance();
-                try {
-                    Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                    compra.setFecCompra(date);
-                } catch (ParseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (java.text.ParseException e) {
-                    e.printStackTrace();
-                }
+                compra.setFecCompra(String.valueOf(cal.getTime()));
+
                 comDAO.insertCompras(compra);
             //ABONAR A CUENTA DE CLIENTES DEL VENDEDOR
                 Float salCli = balDAO.getSaldo(idEmpresaVendedora,7);
                 balancesModel clientes = new balancesModel();
                 clientes.setIdEmpresa(idEmpresaVendedora);
                 clientes.setIdCuenta(7);
-                try {
-                    Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                    clientes.setFecBalance(date);
-                } catch (ParseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (java.text.ParseException e) {
-                    e.printStackTrace();
-                }
+                clientes.setFecBalance(String.valueOf(cal.getTime()));
+
                 float clientesTotal = salCli - Float.valueOf(total.getText().toString());
                 clientes.setSaldo(clientesTotal);
 
@@ -272,18 +260,10 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
                     pagosModel pago = new pagosModel();
                     pago.setIdOperacion(idOperacion);
                     pago.setCantidadPagada(Float.valueOf(total.getText().toString()));
-                    SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd");
                     Calendar cal = Calendar.getInstance();
-                    Date date1= null;
-                    try {
-                         date1= new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                         pago.setFecPago(date1);
-                    } catch (ParseException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (java.text.ParseException e) {
-                        e.printStackTrace();
-                    }
+                    String date1=String.valueOf(cal.getTime());
+                    pago.setFecPago(date1);
+
                     List<NameValuePair> pagos = new ArrayList<NameValuePair>();
                     pagos.add(new BasicNameValuePair("idoperacion",String.valueOf(idOperacion)));
                     pagos.add(new BasicNameValuePair("cantidadpagada", String.valueOf(Float.valueOf(total.getText().toString()))));
@@ -308,15 +288,8 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
                 //Movimiento en cuentas del balance empresa vendedora
                     bancos.setIdEmpresa(idEmpresaVendedora);
                     bancos.setIdCuenta(5);
-                    try {
-                        Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                         bancos.setFecBalance(date);
-                    } catch (ParseException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (java.text.ParseException e) {
-                        e.printStackTrace();
-                    }
+                    bancos.setFecBalance(String.valueOf(cal.getTime()));
+
                     float saldototalban = salBanVen + Float.valueOf(total.getText().toString());
                     bancos.setSaldo(saldototalban);
 
@@ -324,15 +297,8 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
 
                     clientes.setIdEmpresa(idEmpresaVendedora);
                     clientes.setIdCuenta(7);
-                    try {
-                        Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                        clientes.setFecBalance(date);
-                    } catch (ParseException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (java.text.ParseException e) {
-                        e.printStackTrace();
-                    }
+                    clientes.setFecBalance(String.valueOf(cal.getTime()));
+
                     float clientesTotal = salCli - Float.valueOf(total.getText().toString());
                     clientes.setSaldo(clientesTotal);
 
@@ -341,15 +307,8 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
                 //Movimiento en cuentas del balance empresa compradora
                     bancos2.setIdEmpresa(idEmpresaCompradora);
                     bancos2.setIdCuenta(5);
-                    try {
-                        Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                        bancos2.setFecBalance(date);
-                    } catch (ParseException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (java.text.ParseException e) {
-                        e.printStackTrace();
-                    }
+                    bancos2.setFecBalance(String.valueOf(cal.getTime()));
+
                     float saldototalban2 = salBan - Float.valueOf(total.getText().toString());
                     bancos2.setSaldo(saldototalban2);
 
@@ -363,15 +322,8 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
                         if(encadenamiento.get(0).intValue()==idIndustriaSolicitud){
                             proveedores.setIdEmpresa(idEmpresaCompradora);
                             proveedores.setIdCuenta(9);
-                            try {
-                                Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                                proveedores.setFecBalance(date);
-                            } catch (ParseException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            } catch (java.text.ParseException e) {
-                                e.printStackTrace();
-                            }
+                            proveedores.setFecBalance(String.valueOf(cal.getTime()));
+
                             float proveedoresTotal = proveedor2 - Float.valueOf(total.getText().toString());
                             proveedores.setSaldo(proveedoresTotal);
 
@@ -381,15 +333,7 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
                         if(encadenamiento.get(0).intValue()==idIndustriaSolicitud){
                             proveedores.setIdEmpresa(idEmpresaCompradora);
                             proveedores.setIdCuenta(8);
-                            try {
-                                Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                                proveedores.setFecBalance(date);
-                            } catch (ParseException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            } catch (java.text.ParseException e) {
-                                e.printStackTrace();
-                            }
+                            proveedores.setFecBalance(String.valueOf(cal.getTime()));
                             float proveedoresTotal = proveedor1 - Float.valueOf(total.getText().toString());
                             proveedores.setSaldo(proveedoresTotal);
                             balDAO.insertCuentaBalance(proveedores);
@@ -402,15 +346,7 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
 
                             almacencuenta.setIdEmpresa(idEmpresaCompradora);
                             almacencuenta.setIdCuenta(2);
-                            try {
-                                Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                                almacencuenta.setFecBalance(date);
-                            } catch (ParseException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            } catch (java.text.ParseException e) {
-                                e.printStackTrace();
-                            }
+                            almacencuenta.setFecBalance(String.valueOf(cal.getTime()));
                             float almacenesTotal = almacen2 + tot;
                             almacencuenta.setSaldo(almacenesTotal);
 
@@ -420,15 +356,7 @@ public class DetalleCotizacionActivity extends ActionBarActivity {
                         if(encadenamiento.get(0).intValue()==idIndustriaSolicitud){
                             almacencuenta.setIdEmpresa(idEmpresaCompradora);
                             almacencuenta.setIdCuenta(1);
-                            try {
-                                Date date = new Date( format.parse(String.valueOf(cal.getTime())).getDate());
-                                almacencuenta.setFecBalance(date);
-                            } catch (ParseException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            } catch (java.text.ParseException e) {
-                                e.printStackTrace();
-                            }
+                             almacencuenta.setFecBalance(String.valueOf(cal.getTime()));
                             float almacenesTotal = almacen1 + tot;
                             almacencuenta.setSaldo(almacenesTotal);
                             balDAO.insertCuentaBalance(almacencuenta);

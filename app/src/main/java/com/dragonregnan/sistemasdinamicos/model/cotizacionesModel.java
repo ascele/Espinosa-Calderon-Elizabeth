@@ -15,9 +15,9 @@ public class cotizacionesModel {
 
     private float precio;
 
-    private Date fecExpiracion;
+    private String fecExpiracion;
 
-    private Date fecEntrega;
+    private String fecEntrega;
 
     private int estado;
 
@@ -39,11 +39,11 @@ public class cotizacionesModel {
         return precio;
     }
 
-    public Date getFecExpiracion(){
+    public String getFecExpiracion(){
         return fecExpiracion;
     }
 
-    public Date getFecEntrega(){
+    public String getFecEntrega(){
         return fecEntrega;
     }
 
@@ -71,11 +71,11 @@ public class cotizacionesModel {
         precio = prc;
     }
 
-    public void setFecExpiracion( Date fcEx){
+    public void setFecExpiracion( String fcEx){
         fecExpiracion = fcEx;
     }
 
-    public void setFecEntrega( Date fcEn){
+    public void setFecEntrega( String fcEn){
         fecEntrega = fcEn;
     }
 

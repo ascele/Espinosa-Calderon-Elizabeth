@@ -11,7 +11,7 @@ public class solicitudesModel {
 
     private int idIndustria;
 
-    private Date fecEntregaSol;
+    private String fecEntregaSol;
 
     private int idEmpresaCompradora;
 
@@ -25,7 +25,7 @@ public class solicitudesModel {
         return idIndustria;
     }
 
-    public Date getFecEntregaSol(){
+    public String getFecEntregaSol(){
         return fecEntregaSol;
     }
 
@@ -45,7 +45,7 @@ public class solicitudesModel {
         idIndustria= idI;
     }
 
-    public void setFecEntregaSol( Date fecES){
+    public void setFecEntregaSol( String fecES){
         fecEntregaSol = fecES;
     }
 

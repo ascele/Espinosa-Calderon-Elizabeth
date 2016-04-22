@@ -74,7 +74,7 @@ public class encadenamientosDAO {
     public static int getCoeficiente( int idIndustriaCompradora, int idIndustriaVendedora){
         int row_idsolicitud =0;
         String[] fields = {COEFICIENTE};
-        String condition = IDINDUSTRIACOMPRADORA + " = " + idIndustriaCompradora + "AND" + IDINDUSTRIAVENDEDORA + "=" + idIndustriaVendedora;
+        String condition = IDINDUSTRIACOMPRADORA + " = " + idIndustriaCompradora + " AND " + IDINDUSTRIAVENDEDORA + " = " + idIndustriaVendedora;
 
         try {
             db.open();
@@ -84,9 +84,9 @@ public class encadenamientosDAO {
 
         Cursor cursor =  db.getData(TABLE_ENCADENAMIENTOS, fields, condition);
         if (cursor != null && cursor.getCount() > 0){
-            while(cursor.moveToNext()){
+            cursor.moveToNext();
                 row_idsolicitud = cursor.getColumnIndex(COEFICIENTE);
-            }
+
         }
         db.close();
         return cursor.getInt(row_idsolicitud);
